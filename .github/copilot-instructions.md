@@ -1,0 +1,1 @@
+Read and follow the whole AGENTS.md file at the project root (rules, skill table, workflow). Before doing any task that belongs to a topic in the skill table, read the matching SKILL.md file in .agents/skills/ in full.

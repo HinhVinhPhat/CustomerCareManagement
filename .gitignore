@@ -1,0 +1,11 @@
+.env
+node_modules/
+bin/
+obj/
+*.log
+
+# Local machine state - Visual Studio / VS Code and test runs rewrite these while they are open,
+# so they must never reach a commit (and reading them mid-write is what breaks a commit).
+.vs/
+TestResults/
+*.trx

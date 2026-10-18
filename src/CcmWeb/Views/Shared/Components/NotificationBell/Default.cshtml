@@ -1,0 +1,31 @@
+@model NotificationSummaryViewModel
+@* Counts come from vw_ExpiringContract, vw_OpenFeedback and vw_CareSchedule - never hard-coded. *@
+<div class="relative" id="bell">
+    <button type="button" id="bellBtn" class="btn relative" aria-label="@L["Bell_Notifications"]"
+            aria-haspopup="true" aria-expanded="false">
+        <i class="fa-solid fa-bell"></i>
+        @if (Model.Total > 0)
+        {
+            <span class="absolute -top-1 -right-1 bg-danger text-white text-[11px] rounded-full w-5 h-5 grid place-items-center">@Model.Total</span>
+        }
+    </button>
+
+    <div id="bellPanel" class="hidden absolute right-0 mt-2 w-72 card p-3 text-sm shadow-lg">
+        <div class="font-semibold mb-2">@L["Bell_NeedsAttention"]</div>
+        <ul class="space-y-2">
+            <li class="flex items-center justify-between gap-2">
+                <span><i class="fa-solid fa-file-contract text-muted mr-2"></i>@L["Bell_ExpiringContracts"]</span>
+                <span class="badge b-warning">@Model.ExpiringContracts</span>
+            </li>
+            <li class="flex items-center justify-between gap-2">
+                <span><i class="fa-solid fa-comment-dots text-muted mr-2"></i>@L["Bell_OverdueFeedback"]</span>
+                <span class="badge b-danger">@Model.OverdueFeedback</span>
+            </li>
+            <li class="flex items-center justify-between gap-2">
+                <span><i class="fa-solid fa-heart text-muted mr-2"></i>@L["Bell_CareDue"]</span>
+                <span class="badge b-info">@Model.CareDueTodayOrOverdue</span>
+            </li>
+        </ul>
+        <p class="mt-3 text-xs text-muted">@L["Bell_DetailNote"]</p>
+    </div>
+</div>

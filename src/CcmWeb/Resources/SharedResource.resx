@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    SharedResource.resx - the NEUTRAL (default) file, written in Vietnamese.
+    The English text of the same keys lives in SharedResource.en.resx; both files must always
+    carry exactly the same key set (a unit test enforces it). See the `ccm-language` skill.
+  -->
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Application shell -->
+  <data name="App_Name" xml:space="preserve">
+    <value>Hệ thống chăm sóc khách hàng</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Lưu</value>
+  </data>
+  <data name="Common_BackToDashboard" xml:space="preserve">
+    <value>Về trang tổng quan</value>
+  </data>
+
+  <!-- Sidebar -->
+  <data name="Nav_Dashboard" xml:space="preserve">
+    <value>Tổng quan</value>
+  </data>
+  <data name="Nav_Customers" xml:space="preserve">
+    <value>Khách hàng</value>
+  </data>
+  <data name="Nav_Contracts" xml:space="preserve">
+    <value>Hợp đồng</value>
+  </data>
+  <data name="Nav_Contacts" xml:space="preserve">
+    <value>Liên hệ</value>
+  </data>
+  <data name="Nav_Care" xml:space="preserve">
+    <value>Chăm sóc</value>
+  </data>
+  <data name="Nav_Feedback" xml:space="preserve">
+    <value>Phản hồi</value>
+  </data>
+  <data name="Nav_Reports" xml:space="preserve">
+    <value>Báo cáo</value>
+  </data>
+  <data name="Nav_Administration" xml:space="preserve">
+    <value>Quản trị</value>
+  </data>
+  <data name="Nav_Settings" xml:space="preserve">
+    <value>Cài đặt</value>
+  </data>
+  <data name="Nav_ComingSoon" xml:space="preserve">
+    <value>sẽ có ở module sau</value>
+  </data>
+
+  <!-- Topbar -->
+  <data name="Topbar_OpenMenu" xml:space="preserve">
+    <value>Mở menu</value>
+  </data>
+  <data name="Topbar_SearchPlaceholder" xml:space="preserve">
+    <value>Tìm khách hàng theo tên, email hoặc số điện thoại</value>
+  </data>
+  <data name="Topbar_SearchLabel" xml:space="preserve">
+    <value>Tìm khách hàng</value>
+  </data>
+  <data name="Topbar_SignOut" xml:space="preserve">
+    <value>Đăng xuất</value>
+  </data>
+  <data name="Topbar_Language" xml:space="preserve">
+    <value>Ngôn ngữ</value>
+  </data>
+  <data name="Topbar_Theme" xml:space="preserve">
+    <value>Chế độ hiển thị</value>
+  </data>
+
+  <!-- Labels of coded values (see ccm-language section 4) -->
+  <data name="Setting_Language" xml:space="preserve">
+    <value>Ngôn ngữ hiển thị</value>
+  </data>
+  <data name="Setting_Theme" xml:space="preserve">
+    <value>Chế độ hiển thị</value>
+  </data>
+  <data name="Language_vi" xml:space="preserve">
+    <value>Tiếng Việt</value>
+  </data>
+  <data name="Language_en" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Theme_light" xml:space="preserve">
+    <value>Sáng</value>
+  </data>
+  <data name="Theme_dark" xml:space="preserve">
+    <value>Tối</value>
+  </data>
+  <data name="Role_Manager" xml:space="preserve">
+    <value>Quản lý</value>
+  </data>
+  <data name="Role_Sales" xml:space="preserve">
+    <value>Kinh doanh</value>
+  </data>
+  <data name="Role_Support" xml:space="preserve">
+    <value>Hỗ trợ</value>
+  </data>
+
+  <!-- Sign-in page -->
+  <data name="Login_Title" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="Login_Subtitle" xml:space="preserve">
+    <value>Dùng tài khoản nhân viên của bạn.</value>
+  </data>
+  <data name="Login_Username" xml:space="preserve">
+    <value>Tên đăng nhập</value>
+  </data>
+  <data name="Login_Password" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="Login_ShowPassword" xml:space="preserve">
+    <value>Hiện mật khẩu</value>
+  </data>
+  <data name="Login_Tagline" xml:space="preserve">
+    <value>Biết khách hàng cần gì, trước khi họ phải hỏi.</value>
+  </data>
+  <data name="Login_TaglineDetail" xml:space="preserve">
+    <value>Hợp đồng sắp hết hạn, lịch chăm sóc và phản hồi đang chờ xử lý — tất cả trong một nơi.</value>
+  </data>
+  <data name="Login_ProjectNote" xml:space="preserve">
+    <value>Đồ án môn Cơ sở dữ liệu</value>
+  </data>
+  <data name="Login_DemoAccounts" xml:space="preserve">
+    <value>Tài khoản demo (mật khẩu 123456):</value>
+  </data>
+  <data name="Validation_UsernameRequired" xml:space="preserve">
+    <value>Nhập tên đăng nhập.</value>
+  </data>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>Nhập mật khẩu.</value>
+  </data>
+  <data name="Error_InvalidCredentials" xml:space="preserve">
+    <value>Sai tên đăng nhập hoặc mật khẩu.</value>
+  </data>
+  <data name="Error_AccountLocked" xml:space="preserve">
+    <value>Tài khoản đã bị khoá. Vui lòng liên hệ quản trị viên.</value>
+  </data>
+
+  <!-- Notification bell -->
+  <data name="Bell_Notifications" xml:space="preserve">
+    <value>Thông báo</value>
+  </data>
+  <data name="Bell_NeedsAttention" xml:space="preserve">
+    <value>Cần chú ý</value>
+  </data>
+  <data name="Bell_ExpiringContracts" xml:space="preserve">
+    <value>Hợp đồng sắp hết hạn</value>
+  </data>
+  <data name="Bell_OverdueFeedback" xml:space="preserve">
+    <value>Phản hồi quá hạn</value>
+  </data>
+  <data name="Bell_CareDue" xml:space="preserve">
+    <value>Chăm sóc đến hạn hôm nay hoặc quá hạn</value>
+  </data>
+  <data name="Bell_DetailNote" xml:space="preserve">
+    <value>Danh sách chi tiết sẽ có ở module tương ứng.</value>
+  </data>
+
+  <!-- Landing page (replaced by the real dashboard in M05) -->
+  <data name="Dashboard_SignedInAs" xml:space="preserve">
+    <value>Đăng nhập với {0} · {1}</value>
+  </data>
+  <data name="Dashboard_FrameTitle" xml:space="preserve">
+    <value>Khung ứng dụng đã sẵn sàng</value>
+  </data>
+  <data name="Dashboard_FrameBody" xml:space="preserve">
+    <value>Bố cục, kết nối cơ sở dữ liệu, móc ghi nhật ký và đăng nhập theo quyền đã hoạt động. Số liệu, biểu đồ và ba danh sách lấy từ sp_DashboardSummary và được làm ở module M05 cùng các trang báo cáo.</value>
+  </data>
+
+  <!-- Error pages -->
+  <data name="Error_AccessDeniedTitle" xml:space="preserve">
+    <value>Không có quyền truy cập</value>
+  </data>
+  <data name="Error_AccessDeniedBody" xml:space="preserve">
+    <value>Vai trò {0} của bạn không được phép mở trang này. Nếu bạn cho rằng đây là nhầm lẫn, hãy đề nghị quản lý kiểm tra lại tài khoản.</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>Đã xảy ra lỗi</value>
+  </data>
+  <data name="Error_Body" xml:space="preserve">
+    <value>Thao tác không thực hiện được, dữ liệu chưa được lưu. Vui lòng thử lại và báo cho quản trị viên nếu tình trạng này lặp lại.</value>
+  </data>
+  <data name="Error_Reference" xml:space="preserve">
+    <value>Mã tham chiếu</value>
+  </data>
+
+  <!-- Settings page -->
+  <data name="Settings_SystemTitle" xml:space="preserve">
+    <value>Mặc định của hệ thống</value>
+  </data>
+  <data name="Settings_SystemHint" xml:space="preserve">
+    <value>Áp dụng cho mọi nhân viên chưa tự chọn giá trị riêng.</value>
+  </data>
+  <data name="Settings_Column_Setting" xml:space="preserve">
+    <value>Cài đặt</value>
+  </data>
+  <data name="Settings_Column_Value" xml:space="preserve">
+    <value>Giá trị</value>
+  </data>
+  <data name="Settings_Column_Updated" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="Settings_Saved" xml:space="preserve">
+    <value>Đã lưu cài đặt.</value>
+  </data>
+
+  <!-- Business messages (SQL errors and rules); never the raw text from SQL Server -->
+  <data name="Error_UnknownSetting" xml:space="preserve">
+    <value>Cài đặt không tồn tại.</value>
+  </data>
+  <data name="Error_SettingValueInvalid" xml:space="preserve">
+    <value>Giá trị không hợp lệ cho cài đặt này.</value>
+  </data>
+  <data name="Error_SettingAlreadyExists" xml:space="preserve">
+    <value>Cài đặt này đã tồn tại.</value>
+  </data>
+  <data name="Error_ContractHasNoLines" xml:space="preserve">
+    <value>Hợp đồng phải có ít nhất một dòng chi tiết.</value>
+  </data>
+  <data name="Error_FeedbackNotFound" xml:space="preserve">
+    <value>Không tìm thấy phản hồi.</value>
+  </data>
+  <data name="Error_EmployeeNotFound" xml:space="preserve">
+    <value>Không tìm thấy nhân viên.</value>
+  </data>
+  <data name="Error_FeedbackNeedsAssignee" xml:space="preserve">
+    <value>Hãy phân công nhân viên trước khi chuyển phản hồi sang trạng thái đang xử lý.</value>
+  </data>
+  <data name="Error_CustomerHasContracts" xml:space="preserve">
+    <value>Khách hàng còn hợp đồng nên không thể xoá.</value>
+  </data>
+  <data name="Error_CustomerNotActive" xml:space="preserve">
+    <value>Khách hàng không tồn tại hoặc đã ngừng hoạt động.</value>
+  </data>
+  <data name="Error_EmployeeInvalid" xml:space="preserve">
+    <value>Nhân viên không hợp lệ.</value>
+  </data>
+  <data name="Error_ContractDetailInvalid" xml:space="preserve">
+    <value>Dữ liệu chi tiết hợp đồng không hợp lệ.</value>
+  </data>
+  <data name="Error_ProductDuplicated" xml:space="preserve">
+    <value>Sản phẩm bị lặp trong cùng một hợp đồng.</value>
+  </data>
+  <data name="Error_ProductNotFound" xml:space="preserve">
+    <value>Không tìm thấy sản phẩm.</value>
+  </data>
+  <data name="Error_QuantityInvalid" xml:space="preserve">
+    <value>Số lượng không hợp lệ.</value>
+  </data>
+  <data name="Error_FeedbackStatusInvalid" xml:space="preserve">
+    <value>Trạng thái phản hồi không hợp lệ.</value>
+  </data>
+  <data name="Error_ContractNotFound" xml:space="preserve">
+    <value>Không tìm thấy hợp đồng.</value>
+  </data>
+  <data name="Error_ContractStatusForbids" xml:space="preserve">
+    <value>Trạng thái hợp đồng không cho phép thao tác này.</value>
+  </data>
+  <data name="Error_DateInvalid" xml:space="preserve">
+    <value>Ngày không hợp lệ.</value>
+  </data>
+  <data name="Error_BusinessCustomerNoGender" xml:space="preserve">
+    <value>Khách hàng doanh nghiệp không có giới tính và ngày sinh.</value>
+  </data>
+  <data name="Error_CustomerNeedsContact" xml:space="preserve">
+    <value>Nhập ít nhất email hoặc số điện thoại.</value>
+  </data>
+  <data name="Error_SurveyScoreOnly" xml:space="preserve">
+    <value>Điểm hài lòng 1-5 chỉ dùng cho loại chăm sóc Khảo sát.</value>
+  </data>
+  <data name="Error_NextAppointmentBeforeCare" xml:space="preserve">
+    <value>Ngày hẹn kế tiếp không được trước ngày chăm sóc.</value>
+  </data>
+  <data name="Error_RecordReferenced" xml:space="preserve">
+    <value>Bản ghi này vẫn đang được tham chiếu ở nơi khác.</value>
+  </data>
+  <data name="Error_DatabaseRule" xml:space="preserve">
+    <value>Dữ liệu không thoả một ràng buộc của cơ sở dữ liệu.</value>
+  </data>
+  <data name="Error_CustomerEmailTaken" xml:space="preserve">
+    <value>Email này đã thuộc về một khách hàng khác.</value>
+  </data>
+  <data name="Error_DepartmentHasManager" xml:space="preserve">
+    <value>Phòng ban này đã có trưởng phòng.</value>
+  </data>
+  <data name="Error_DuplicateData" xml:space="preserve">
+    <value>Dữ liệu bị trùng (email, số điện thoại, tên...).</value>
+  </data>
+  <data name="Error_Unexpected" xml:space="preserve">
+    <value>Đã xảy ra lỗi, thao tác chưa hoàn tất.</value>
+  </data>
+</root>

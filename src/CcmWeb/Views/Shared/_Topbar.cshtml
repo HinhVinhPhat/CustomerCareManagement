@@ -1,0 +1,33 @@
+@{
+    var parts = User.GetDisplayName().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    var initials = string.Concat(parts.TakeLast(2).Select(word => char.ToUpperInvariant(word[0])));
+}
+<header class="topbar h-16 flex items-center gap-3 px-4 sticky top-0 z-30">
+    <button id="menuBtn" type="button" class="lg:hidden btn" aria-label="@L["Topbar_OpenMenu"]">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    @* The customer screen and the live suggestions arrive in M02; until then the box says so. *@
+    <form id="quickSearch" class="flex-1 max-w-md relative" data-soon="true"
+          data-soon-message="@L["Nav_ComingSoon"].Value">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-muted"></i>
+        <input id="searchBox" name="q" class="input pl-9" placeholder="@L["Topbar_SearchPlaceholder"]"
+               aria-label="@L["Topbar_SearchLabel"]" autocomplete="off" />
+    </form>
+
+    <div class="ml-auto flex items-center gap-3">
+        @await Component.InvokeAsync("NotificationBell")
+
+        <partial name="_LanguageSwitch" />
+        <partial name="_ThemeSwitch" />
+
+        <div class="w-9 h-9 rounded-full bg-primary text-white grid place-items-center text-sm font-bold"
+             title="@User.GetDisplayName()">@initials</div>
+
+        <form method="post" asp-controller="Account" asp-action="Logout">
+            <button type="submit" class="btn" aria-label="@L["Topbar_SignOut"]" title="@L["Topbar_SignOut"]">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </form>
+    </div>
+</header>

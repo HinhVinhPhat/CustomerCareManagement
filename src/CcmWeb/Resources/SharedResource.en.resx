@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    SharedResource.en.resx - the ENGLISH copy of every key in SharedResource.resx.
+    Both files must always carry exactly the same key set (a unit test enforces it).
+  -->
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Application shell -->
+  <data name="App_Name" xml:space="preserve">
+    <value>Customer Care Management</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Common_BackToDashboard" xml:space="preserve">
+    <value>Back to the dashboard</value>
+  </data>
+
+  <!-- Sidebar -->
+  <data name="Nav_Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Nav_Customers" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="Nav_Contracts" xml:space="preserve">
+    <value>Contracts</value>
+  </data>
+  <data name="Nav_Contacts" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="Nav_Care" xml:space="preserve">
+    <value>Care</value>
+  </data>
+  <data name="Nav_Feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="Nav_Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Nav_Administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="Nav_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Nav_ComingSoon" xml:space="preserve">
+    <value>arrives in a later module</value>
+  </data>
+
+  <!-- Topbar -->
+  <data name="Topbar_OpenMenu" xml:space="preserve">
+    <value>Open menu</value>
+  </data>
+  <data name="Topbar_SearchPlaceholder" xml:space="preserve">
+    <value>Search customers by name, email or phone</value>
+  </data>
+  <data name="Topbar_SearchLabel" xml:space="preserve">
+    <value>Search customers</value>
+  </data>
+  <data name="Topbar_SignOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="Topbar_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Topbar_Theme" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+
+  <!-- Labels of coded values (see ccm-language section 4) -->
+  <data name="Setting_Language" xml:space="preserve">
+    <value>Display language</value>
+  </data>
+  <data name="Setting_Theme" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Language_vi" xml:space="preserve">
+    <value>Vietnamese</value>
+  </data>
+  <data name="Language_en" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Theme_light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Theme_dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Role_Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="Role_Sales" xml:space="preserve">
+    <value>Sales</value>
+  </data>
+  <data name="Role_Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+
+  <!-- Sign-in page -->
+  <data name="Login_Title" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Login_Subtitle" xml:space="preserve">
+    <value>Use your employee account.</value>
+  </data>
+  <data name="Login_Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Login_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Login_ShowPassword" xml:space="preserve">
+    <value>Show password</value>
+  </data>
+  <data name="Login_Tagline" xml:space="preserve">
+    <value>Know what your customers need, before they have to ask.</value>
+  </data>
+  <data name="Login_TaglineDetail" xml:space="preserve">
+    <value>Expiring contracts, care schedules and feedback waiting to be handled — all in one place.</value>
+  </data>
+  <data name="Login_ProjectNote" xml:space="preserve">
+    <value>Database course project</value>
+  </data>
+  <data name="Login_DemoAccounts" xml:space="preserve">
+    <value>Demo accounts (password 123456):</value>
+  </data>
+  <data name="Validation_UsernameRequired" xml:space="preserve">
+    <value>Enter your username.</value>
+  </data>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>Enter your password.</value>
+  </data>
+  <data name="Error_InvalidCredentials" xml:space="preserve">
+    <value>Incorrect username or password.</value>
+  </data>
+  <data name="Error_AccountLocked" xml:space="preserve">
+    <value>This account has been locked. Please contact an administrator.</value>
+  </data>
+
+  <!-- Notification bell -->
+  <data name="Bell_Notifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Bell_NeedsAttention" xml:space="preserve">
+    <value>Needs attention</value>
+  </data>
+  <data name="Bell_ExpiringContracts" xml:space="preserve">
+    <value>Contracts expiring soon</value>
+  </data>
+  <data name="Bell_OverdueFeedback" xml:space="preserve">
+    <value>Overdue feedback</value>
+  </data>
+  <data name="Bell_CareDue" xml:space="preserve">
+    <value>Care due today or overdue</value>
+  </data>
+  <data name="Bell_DetailNote" xml:space="preserve">
+    <value>The detail lists arrive with their own modules.</value>
+  </data>
+
+  <!-- Landing page (replaced by the real dashboard in M05) -->
+  <data name="Dashboard_SignedInAs" xml:space="preserve">
+    <value>Signed in as {0} · {1}</value>
+  </data>
+  <data name="Dashboard_FrameTitle" xml:space="preserve">
+    <value>Application frame in place</value>
+  </data>
+  <data name="Dashboard_FrameBody" xml:space="preserve">
+    <value>The layout, the database connection, the audit-log hook and sign-in with role permissions are working. The figures, the chart and the three lists come from sp_DashboardSummary and are built in M05, together with the report pages.</value>
+  </data>
+
+  <!-- Error pages -->
+  <data name="Error_AccessDeniedTitle" xml:space="preserve">
+    <value>Access denied</value>
+  </data>
+  <data name="Error_AccessDeniedBody" xml:space="preserve">
+    <value>Your role ({0}) is not allowed to open this page. If you believe this is a mistake, ask a manager to check your account.</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
+  <data name="Error_Body" xml:space="preserve">
+    <value>The action could not be completed. Nothing was saved. Please try again, and tell the administrator if it keeps happening.</value>
+  </data>
+  <data name="Error_Reference" xml:space="preserve">
+    <value>Reference</value>
+  </data>
+
+  <!-- Settings page -->
+  <data name="Settings_SystemTitle" xml:space="preserve">
+    <value>System defaults</value>
+  </data>
+  <data name="Settings_SystemHint" xml:space="preserve">
+    <value>Used by every employee who has not chosen a value of their own.</value>
+  </data>
+  <data name="Settings_Column_Setting" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="Settings_Column_Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Settings_Column_Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="Settings_Saved" xml:space="preserve">
+    <value>Settings saved.</value>
+  </data>
+
+  <!-- Business messages (SQL errors and rules); never the raw text from SQL Server -->
+  <data name="Error_UnknownSetting" xml:space="preserve">
+    <value>That setting does not exist.</value>
+  </data>
+  <data name="Error_SettingValueInvalid" xml:space="preserve">
+    <value>That value is not allowed for this setting.</value>
+  </data>
+  <data name="Error_SettingAlreadyExists" xml:space="preserve">
+    <value>That setting already exists.</value>
+  </data>
+  <data name="Error_ContractHasNoLines" xml:space="preserve">
+    <value>A contract needs at least one detail line.</value>
+  </data>
+  <data name="Error_FeedbackNotFound" xml:space="preserve">
+    <value>Feedback not found.</value>
+  </data>
+  <data name="Error_EmployeeNotFound" xml:space="preserve">
+    <value>Employee not found.</value>
+  </data>
+  <data name="Error_FeedbackNeedsAssignee" xml:space="preserve">
+    <value>Assign an employee before moving the feedback to a processing status.</value>
+  </data>
+  <data name="Error_CustomerHasContracts" xml:space="preserve">
+    <value>This customer still has contracts and cannot be deleted.</value>
+  </data>
+  <data name="Error_CustomerNotActive" xml:space="preserve">
+    <value>The customer does not exist or is no longer active.</value>
+  </data>
+  <data name="Error_EmployeeInvalid" xml:space="preserve">
+    <value>Invalid employee.</value>
+  </data>
+  <data name="Error_ContractDetailInvalid" xml:space="preserve">
+    <value>The contract detail data is not valid.</value>
+  </data>
+  <data name="Error_ProductDuplicated" xml:space="preserve">
+    <value>The same product appears twice in one contract.</value>
+  </data>
+  <data name="Error_ProductNotFound" xml:space="preserve">
+    <value>Product not found.</value>
+  </data>
+  <data name="Error_QuantityInvalid" xml:space="preserve">
+    <value>Invalid quantity.</value>
+  </data>
+  <data name="Error_FeedbackStatusInvalid" xml:space="preserve">
+    <value>Invalid feedback status.</value>
+  </data>
+  <data name="Error_ContractNotFound" xml:space="preserve">
+    <value>Contract not found.</value>
+  </data>
+  <data name="Error_ContractStatusForbids" xml:space="preserve">
+    <value>The contract status does not allow this action.</value>
+  </data>
+  <data name="Error_DateInvalid" xml:space="preserve">
+    <value>Invalid date.</value>
+  </data>
+  <data name="Error_BusinessCustomerNoGender" xml:space="preserve">
+    <value>A business customer cannot have a gender or a date of birth.</value>
+  </data>
+  <data name="Error_CustomerNeedsContact" xml:space="preserve">
+    <value>Enter at least an email or a phone number.</value>
+  </data>
+  <data name="Error_SurveyScoreOnly" xml:space="preserve">
+    <value>The 1-5 satisfaction score is only used for the Survey care type.</value>
+  </data>
+  <data name="Error_NextAppointmentBeforeCare" xml:space="preserve">
+    <value>The next appointment date cannot be before the care date.</value>
+  </data>
+  <data name="Error_RecordReferenced" xml:space="preserve">
+    <value>This record is still referenced elsewhere.</value>
+  </data>
+  <data name="Error_DatabaseRule" xml:space="preserve">
+    <value>The data does not satisfy a database rule.</value>
+  </data>
+  <data name="Error_CustomerEmailTaken" xml:space="preserve">
+    <value>This email already belongs to another customer.</value>
+  </data>
+  <data name="Error_DepartmentHasManager" xml:space="preserve">
+    <value>This department already has a manager.</value>
+  </data>
+  <data name="Error_DuplicateData" xml:space="preserve">
+    <value>Duplicate data (email, phone, name...).</value>
+  </data>
+  <data name="Error_Unexpected" xml:space="preserve">
+    <value>Something went wrong; the action was not completed.</value>
+  </data>
+</root>

@@ -1,0 +1,22 @@
+@{
+    // One button per supported language. A plain submit button, so the switch also works with
+    // JavaScript turned off. The button shows a two-letter code; the sentence the user reads
+    // (tooltip, screen reader) comes from the resource files.
+    var returnUrl = Utils.ReturnUrlWithoutCulture(Context.Request);
+    var current = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+<form method="post" asp-controller="Preferences" asp-action="SetLanguage"
+      class="flex items-center gap-1" role="group" aria-label="@L["Topbar_Language"]">
+    <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+    @foreach (var language in WorkConstants.Settings.Languages.All)
+    {
+        var isCurrent = language == current;
+        var label = L.Label("Language", language).Value;
+        <button type="submit" name="value" value="@language"
+                class="btn !px-2.5 !py-1 !text-xs @(isCurrent ? "btn-primary" : null)"
+                title="@label" aria-label="@label" aria-pressed="@(isCurrent ? "true" : "false")">
+            @language.ToUpperInvariant()
+        </button>
+    }
+</form>

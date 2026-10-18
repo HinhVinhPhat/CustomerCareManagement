@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | Customer Care Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="dashboard">
+  <main id="page">
+    <h1 class="text-2xl font-bold mb-5">Dashboard</h1>
+    <section id="kpi" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-6"></section>
+    <section class="grid lg:grid-cols-3 gap-4 mb-4">
+      <div class="card p-5 lg:col-span-2">
+        <h2 class="font-semibold mb-4">Monthly revenue <span class="text-muted font-normal text-sm">(million VND, sample data)</span></h2>
+        <div id="chart" class="flex items-end gap-2 h-48"></div>
+      </div>
+      <div class="card p-5"><h2 class="font-semibold mb-3">Care schedule</h2><ul id="schedule" class="divide-y divide-line"></ul></div>
+    </section>
+    <section class="grid lg:grid-cols-3 gap-4">
+      <div class="card p-5"><h2 class="font-semibold mb-3">Top customers</h2><ul id="top" class="divide-y divide-line"></ul></div>
+      <div class="card p-5"><h2 class="font-semibold mb-3">Contracts expiring soon</h2><ul id="contracts" class="divide-y divide-line"></ul></div>
+      <div class="card p-5"><h2 class="font-semibold mb-3">Feedback to handle</h2><ul id="feedback" class="divide-y divide-line"></ul></div>
+    </section>
+  </main>
+  <script src="js/mock-data.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    const $ = id => document.getElementById(id), t = DASH.summary;
+    const cards = [
+      ['fa-users','Customers',t.customers,'+'+t.newCustomers30Days+' in the last 30 days','var(--primary)'],
+      ['fa-file-signature','Active contracts',t.activeContracts,'','var(--success)'],
+      ['fa-hourglass-half','Expiring contracts',t.expiringContracts,'within 30 days','var(--warning)'],
+      ['fa-comments','Open feedback',t.openFeedback,t.overdueFeedback+' overdue','var(--danger)'],
+      ['fa-sack-dollar','Revenue this year',fmtShort(t.revenueThisYear),'','var(--accent)'],
+      ['fa-face-smile','Satisfaction score',t.avgSatisfaction+'/5','last 180 days','var(--info)']];
+    $('kpi').innerHTML = cards.map(c => `<div class="card p-4"><i class="fa-solid ${c[0]}" style="color:${c[4]}"></i>
+      <div class="text-2xl font-bold mt-2">${c[2]}</div><div class="text-sm text-muted">${c[1]}</div>
+      <div class="text-xs text-muted mt-0.5 min-h-[16px]">${c[3]}</div></div>`).join('');
+
+    const max = Math.max(...DASH.revenueByMonth, 1);
+    $('chart').innerHTML = DASH.revenueByMonth.map((v,i) => `<div class="flex-1 flex flex-col items-center justify-end h-full gap-1">
+      <span class="text-xs text-muted">${v || ''}</span>
+      <div class="w-full rounded-t" style="height:${Math.max(v/max*100, 2)}%;background:${v ? 'var(--primary)' : 'var(--border)'}"></div>
+      <span class="text-xs text-muted">M${i+1}</span></div>`).join('');
+
+    const li = (a, b, right) => `<li class="py-2.5 flex items-center justify-between gap-3"><div class="min-w-0"><div class="font-medium truncate">${a}</div><div class="text-sm text-muted truncate">${b}</div></div><div class="shrink-0 text-right">${right}</div></li>`;
+    $('schedule').innerHTML = DASH.scheduleList.map(x => li(x.customer, x.careType + ' · ' + x.date, scheduleBadge(x.status))).join('');
+    $('top').innerHTML = [...CUSTOMERS].sort((a,b) => b.totalValue - a.totalValue).slice(0,5).map(k => li(k.name, fmtShort(k.totalValue), tierBadge(k.tier))).join('');
+    $('contracts').innerHTML = DASH.expiringList.map(h => li(h.customer, `Contract #${h.contractID} · ${fmtShort(h.totalValue)}`, badge(h.daysLeft <= 15 ? 'b-danger' : 'b-warning', h.daysLeft + ' days left'))).join('');
+    $('feedback').innerHTML = DASH.feedbackList.map(p => li(p.content, p.customer + ' · ' + p.status, priorityBadge(p.priority) + (p.overdue ? '<div class="mt-1">' + badge('b-danger','Overdue') + '</div>' : ''))).join('');
+  </script>
+</body>
+</html>

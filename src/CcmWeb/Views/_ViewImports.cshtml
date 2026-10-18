@@ -1,0 +1,10 @@
+﻿@using System.Globalization
+@using CcmWeb
+@using CcmWeb.Helpers
+@using CcmWeb.Models
+@using CcmWeb.Models.ViewModels
+@using CcmWeb.Services
+@using Microsoft.Extensions.Localization
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@* Every view gets the localizer, so no page ever types a visible string of its own. *@
+@inject IStringLocalizer<SharedResource> L

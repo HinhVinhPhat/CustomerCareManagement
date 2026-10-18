@@ -1,0 +1,13 @@
+@{
+    ViewData["Title"] = L["Error_AccessDeniedTitle"];
+    ViewData["PageKey"] = "access-denied";
+}
+
+<section class="card p-8 max-w-xl mx-auto text-center">
+    <i class="fa-solid fa-lock text-4xl text-danger"></i>
+    <h1 class="text-2xl font-bold mt-4">@L["Error_AccessDeniedTitle"]</h1>
+    <p class="text-muted mt-2">@L["Error_AccessDeniedBody", L.Label("Role", User.GetRole())]</p>
+    <a href="/" class="btn btn-primary mt-6 justify-center">
+        <i class="fa-solid fa-gauge-high"></i> @L["Common_BackToDashboard"]
+    </a>
+</section>

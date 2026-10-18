@@ -1,0 +1,28 @@
+@model SettingsViewModel
+@{
+    ViewData["Title"] = L["Nav_Settings"];
+    ViewData["PageKey"] = "settings";
+
+    // The result of the last save, carried across the redirect: a message KEY, so it is shown in
+    // the language the user is reading right now.
+    var messageKey = TempData["SettingsMessageKey"] as string;
+    var messageOk = TempData["SettingsMessageOk"] as bool? ?? false;
+    var accent = messageOk ? "--success" : "--danger";
+}
+
+<header class="mb-6">
+    <h1 class="text-2xl font-bold">@L["Nav_Settings"]</h1>
+</header>
+
+@if (messageKey is not null)
+{
+    <div class="card p-3 mb-4 text-sm flex items-center gap-2"
+         style="border-left:4px solid var(@accent)">
+        <i class="fa-solid @(messageOk ? "fa-circle-check" : "fa-circle-exclamation")"
+           style="color:var(@accent)"></i>
+        <span>@L[messageKey]</span>
+    </div>
+}
+
+<partial name="_SystemSettings" model="Model.SystemSettings" />
+

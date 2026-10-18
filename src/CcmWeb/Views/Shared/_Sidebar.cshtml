@@ -1,0 +1,36 @@
+@{
+    // Sidebar entries follow the role matrix in design.md section 5.2. The labels come from the
+    // resource files, in the language the user chose.
+    var role = User.GetRole();
+    var currentPath = Context.Request.Path.Value;
+    var soon = L["Nav_ComingSoon"].Value;
+}
+<aside id="side"
+       class="side fixed inset-y-0 left-0 z-40 w-64 flex flex-col -translate-x-full lg:translate-x-0 transition-transform">
+    <div class="h-16 flex items-center gap-3 px-5 font-bold border-b side-brand">
+        <i class="fa-solid fa-handshake-angle text-xl"></i>
+        <span>@L["App_Name"]</span>
+    </div>
+
+    <nav class="flex-1 p-3 space-y-1 overflow-y-auto">
+        @foreach (var item in Navigation.ForRole(role))
+        {
+            var isCurrent = Navigation.IsCurrent(item, currentPath);
+            var label = L[item.TitleKey].Value;
+            var title = item.Built ? label : $"{label} — {soon}";
+            <a href="@(item.Built ? item.Url : "#")"
+               class="nav-link @(isCurrent ? "active" : null) @(item.Built ? null : "opacity-60")"
+               data-soon="@(item.Built ? "false" : "true")"
+               data-soon-message="@soon"
+               title="@title">
+                <i class="fa-solid @item.Icon"></i>
+                <span>@label</span>
+            </a>
+        }
+    </nav>
+
+    <div class="p-4 border-t text-sm side-foot">
+        <div class="font-semibold side-name">@User.GetDisplayName()</div>
+        <div>@L.Label("Role", role)</div>
+    </div>
+</aside>

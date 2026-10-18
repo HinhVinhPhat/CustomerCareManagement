@@ -1,0 +1,29 @@
+@* Shared <head> content for every page, so the CDN list lives in exactly one place. *@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>@ViewData["Title"] | @L["App_Name"]</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    // The palette lives in the CSS variables of site.css (design.md section 2); Tailwind only maps names to them.
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: { sans: ['"Be Vietnam Pro"', 'Inter', 'system-ui', 'sans-serif'] },
+                colors: {
+                    primary: 'var(--primary)', phover: 'var(--primary-hover)', psoft: 'var(--primary-soft)',
+                    page: 'var(--bg-page)', card: 'var(--bg-card)', soft: 'var(--bg-soft)',
+                    side: 'var(--bg-sidebar)', line: 'var(--border)',
+                    ink: 'var(--text)', muted: 'var(--text-muted)',
+                    success: 'var(--success)', info: 'var(--info)', warning: 'var(--warning)', danger: 'var(--danger)'
+                }
+            }
+        }
+    };
+</script>
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />

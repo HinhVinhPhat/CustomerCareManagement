@@ -1,0 +1,91 @@
+@model LoginViewModel
+@inject IWebHostEnvironment Environment
+@inject ISettingService Settings
+@{
+    // The sign-in page is standalone: no sidebar until the user is authenticated.
+    Layout = null;
+    ViewData["Title"] = L["Login_Title"];
+    var theme = await Settings.ResolveThemeAsync();
+
+    var demoAccounts = new (string Username, string Role)[]
+    {
+        ("john", "Manager"), ("susan", "Manager"),
+        ("mary", "Sales"), ("kevin", "Sales"),
+        ("david", "Support"), ("helen", "Support")
+    };
+}
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName" data-theme="@theme">
+<head>
+    <partial name="_HeadAssets" />
+</head>
+<body data-page="login" class="min-h-screen grid lg:grid-cols-2">
+    <section class="brand-panel hidden lg:flex flex-col justify-between text-white p-12">
+        <div class="flex items-center gap-3 text-lg font-bold">
+            <i class="fa-solid fa-handshake-angle text-2xl"></i> @L["App_Name"]
+        </div>
+        <div>
+            <h1 class="text-4xl font-bold leading-tight">@L["Login_Tagline"]</h1>
+            <p class="mt-4 text-lg" style="color:var(--text-on-dark)">
+                @L["Login_TaglineDetail"]
+            </p>
+        </div>
+        <p class="text-sm opacity-70">@L["Login_ProjectNote"]</p>
+    </section>
+
+    <main class="flex items-center justify-center p-6">
+        <div class="w-full max-w-sm">
+            @* The language and the theme can be chosen before signing in: both are display
+               preferences, and the choice is only stored once an account is known. *@
+            <div class="flex items-center justify-end gap-2 mb-4">
+                <partial name="_LanguageSwitch" />
+                <partial name="_ThemeSwitch" />
+            </div>
+
+            <form method="post" asp-controller="Account" asp-action="Login">
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <h2 class="text-2xl font-bold">@L["Login_Title"]</h2>
+                <p class="text-muted mt-1 mb-6">@L["Login_Subtitle"]</p>
+
+                <label class="block text-sm font-semibold mb-1" asp-for="Username"></label>
+                <input asp-for="Username" class="input mb-1" autocomplete="username" autofocus />
+                <span asp-validation-for="Username" class="block text-sm text-danger-ink mb-3 min-h-[20px]"></span>
+
+                <label class="block text-sm font-semibold mb-1" asp-for="Password"></label>
+                <div class="relative mb-1">
+                    <input asp-for="Password" class="input pr-10" autocomplete="current-password" />
+                    <button type="button" id="eye" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted"
+                            aria-label="@L["Login_ShowPassword"]">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="Password" class="block text-sm text-danger-ink mb-2 min-h-[20px]"></span>
+
+                @* "Incorrect username or password." and the locked-account message appear here. *@
+                <div asp-validation-summary="ModelOnly" class="text-sm text-danger-ink min-h-[20px] mb-2"></div>
+
+                <button type="submit" class="btn btn-primary w-full justify-center py-2.5">@L["Login_Title"]</button>
+
+                @if (Environment.IsDevelopment())
+                {
+                    <div class="mt-6 text-sm text-muted">
+                        @L["Login_DemoAccounts"]
+                        <div class="flex flex-wrap gap-2 mt-2" id="demoAccounts">
+                            @foreach (var account in demoAccounts)
+                            {
+                                <button type="button" class="btn !py-1 !px-2.5 !text-xs"
+                                        data-demo-user="@account.Username">
+                                    @account.Username · @L.Label("Role", account.Role)
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+            </form>
+        </div>
+    </main>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in | Customer Care Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="login" class="min-h-screen grid lg:grid-cols-2">
+  <section class="hidden lg:flex flex-col justify-between bg-side text-white p-12">
+    <div class="flex items-center gap-3 text-lg font-bold"><i class="fa-solid fa-handshake-angle text-2xl"></i> Customer Care Management</div>
+    <div>
+      <h1 class="text-4xl font-bold leading-tight">Know what your customers need,<br>before they have to ask.</h1>
+      <p class="mt-4 text-lg" style="color:var(--text-on-dark)">Expiring contracts, care schedules and feedback waiting to be handled, all in one place.</p>
+    </div>
+    <p class="text-sm opacity-70">Database course project</p>
+  </section>
+  <main class="flex items-center justify-center p-6">
+    <form id="f" class="w-full max-w-sm" novalidate>
+      <h2 class="text-2xl font-bold">Sign in</h2>
+      <p class="text-muted mt-1 mb-6">Use your employee account.</p>
+      <label class="block text-sm font-semibold mb-1" for="u">Username</label>
+      <input id="u" class="input mb-4" autocomplete="username" autofocus>
+      <label class="block text-sm font-semibold mb-1" for="p">Password</label>
+      <div class="relative mb-2">
+        <input id="p" type="password" class="input pr-10" autocomplete="current-password">
+        <button type="button" id="eye" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted" aria-label="Show password"><i class="fa-solid fa-eye"></i></button>
+      </div>
+      <p id="err" class="text-sm min-h-[20px] mb-2" style="color:var(--danger)"></p>
+      <button class="btn btn-primary w-full justify-center py-2.5">Sign in</button>
+      <div class="mt-6 text-sm text-muted">Demo accounts (password 123456):
+        <div class="flex flex-wrap gap-2 mt-2" id="demo"></div></div>
+    </form>
+  </main>
+  <script src="js/mock-data.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    if (localStorage.getItem('ccm_user')) location.replace('dashboard.html');
+    $('demo').innerHTML = USERS.map(x => `<button type="button" class="btn !py-1 !px-2.5 !text-xs" data-u="${x.username}">${x.username} · ${x.role}</button>`).join('');
+    $('demo').onclick = e => { if (e.target.dataset.u) { $('u').value = e.target.dataset.u; $('p').value = '123456'; } };
+    $('eye').onclick = () => $('p').type = $('p').type === 'password' ? 'text' : 'password';
+    $('f').onsubmit = e => {
+      e.preventDefault();
+      const acc = USERS.find(x => x.username === $('u').value.trim().toLowerCase());
+      if (!acc || $('p').value !== '123456') { $('err').textContent = 'Incorrect username or password.'; return; }
+      localStorage.setItem('ccm_user', JSON.stringify({username:acc.username, employeeID:acc.employeeID, role:acc.role, name:EMPLOYEE_NAMES[acc.employeeID]}));
+      location.href = 'dashboard.html';
+    };
+  </script>
+</body>
+</html>

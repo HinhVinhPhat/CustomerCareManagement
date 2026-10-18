@@ -1,0 +1,30 @@
+﻿@model ErrorViewModel
+@inject ISettingService Settings
+@{
+    // Standalone on purpose: the shell needs a signed-in user, the error page must not.
+    Layout = null;
+    ViewData["Title"] = L["Error_Title"];
+    var theme = await Settings.ResolveThemeAsync();
+}
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName" data-theme="@theme">
+<head>
+    <partial name="_HeadAssets" />
+</head>
+<body class="min-h-screen grid place-items-center p-6">
+    <section class="card p-8 max-w-xl w-full text-center">
+        <i class="fa-solid fa-triangle-exclamation text-4xl text-warning"></i>
+        <h1 class="text-2xl font-bold mt-4">@L["Error_Title"]</h1>
+        <p class="text-muted mt-2">@L["Error_Body"]</p>
+
+        @if (Model.ShowRequestId)
+        {
+            <p class="text-xs text-muted mt-4">@L["Error_Reference"]: <code>@Model.RequestId</code></p>
+        }
+
+        <a href="/" class="btn btn-primary mt-6 justify-center">
+            <i class="fa-solid fa-gauge-high"></i> @L["Common_BackToDashboard"]
+        </a>
+    </section>
+</body>
+</html>

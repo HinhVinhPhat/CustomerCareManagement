@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = L["Nav_Dashboard"];
+    ViewData["PageKey"] = "dashboard";
+}
+
+<header class="mb-6">
+    <h1 class="text-2xl font-bold">@L["Nav_Dashboard"]</h1>
+    <p class="text-muted mt-1">
+        @L["Dashboard_SignedInAs", User.GetDisplayName(), L.Label("Role", User.GetRole())]
+    </p>
+</header>
+
+<section class="card p-6 max-w-3xl">
+    <h2 class="font-semibold mb-2">
+        <i class="fa-solid fa-circle-info text-primary mr-2"></i>@L["Dashboard_FrameTitle"]
+    </h2>
+    <p class="text-sm text-muted">@L["Dashboard_FrameBody"]</p>
+</section>

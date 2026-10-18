@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customers | Customer Care Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="customers">
+  <main id="page">
+    <div class="flex items-center justify-between mb-5">
+      <h1 class="text-2xl font-bold">Customers</h1>
+      <button id="add" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add customer</button>
+    </div>
+    <div class="card p-4 mb-4 grid gap-3 md:grid-cols-4 items-center">
+      <input id="q" class="input md:col-span-2" placeholder="Search by name, email or phone">
+      <select id="tier" class="input"><option value="">All tiers</option><option>Diamond</option><option>Gold</option><option>Silver</option><option>Standard</option></select>
+      <select id="owner" class="input"><option value="">All owners</option></select>
+      <label class="text-sm flex items-center gap-2 md:col-span-2"><input type="checkbox" id="mine"> Only my customers</label>
+      <div class="md:col-span-2 md:text-right"><button id="clear" class="btn">Clear filters</button></div>
+    </div>
+    <div class="card overflow-hidden">
+      <div class="overflow-x-auto"><table class="tbl">
+        <thead><tr><th>Customer</th><th>Contact</th><th>Tier</th><th>Owner</th><th class="num">Total value</th></tr></thead>
+        <tbody id="rows"></tbody></table></div>
+      <div id="empty" class="hidden p-10 text-center text-muted">
+        <i class="fa-regular fa-folder-open text-3xl mb-2"></i><p>No customers match the filters. Try removing some search conditions.</p></div>
+      <div id="count" class="px-4 py-3 text-sm text-muted border-t border-line"></div>
+    </div>
+  </main>
+  <script src="js/mock-data.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    if (USER.role === 'Support') $('add').classList.add('hidden');   // Support may only view
+    $('add').onclick = () => toast('The add-customer form arrives in a later batch');
+    $('q').value = new URLSearchParams(location.search).get('q') || '';
+    [...new Set(CUSTOMERS.map(k => k.ownerEmployeeID))].forEach(id => $('owner').add(new Option(EMPLOYEE_NAMES[id], id)));
+
+    function render() {
+      const q = $('q').value.trim().toLowerCase();
+      const rows = CUSTOMERS.filter(k =>
+        (!q || [k.name, k.email, k.phone].some(s => s.toLowerCase().includes(q))) &&
+        (!$('tier').value || k.tier === $('tier').value) &&
+        (!$('owner').value || k.ownerEmployeeID == $('owner').value) &&
+        (!$('mine').checked || k.ownerEmployeeID === USER.employeeID));
+      $('rows').innerHTML = rows.map(k => `<tr>
+        <td><div class="flex items-center gap-3"><i class="fa-solid ${k.customerType === 'Business' ? 'fa-building' : 'fa-user'} text-muted w-5 text-center"></i>
+          <div><div class="font-medium">${k.name}</div><div class="text-xs text-muted">${k.customerType}</div></div></div></td>
+        <td><div>${k.email}</div><div class="text-xs text-muted">${k.phone}</div></td>
+        <td>${tierBadge(k.tier)}</td><td>${EMPLOYEE_NAMES[k.ownerEmployeeID]}</td><td class="num">${fmtMoney(k.totalValue)}</td></tr>`).join('');
+      $('empty').classList.toggle('hidden', rows.length > 0);
+      $('count').textContent = `${rows.length} / ${CUSTOMERS.length} customers`;
+    }
+    ['q','tier','owner','mine'].forEach(id => $(id).addEventListener('input', render));
+    $('clear').onclick = () => { $('q').value = ''; $('tier').value = ''; $('owner').value = ''; $('mine').checked = false; render(); };
+    render();
+  </script>
+</body>
+</html>

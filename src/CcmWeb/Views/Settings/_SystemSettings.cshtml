@@ -1,0 +1,53 @@
+@model IReadOnlyList<SystemSettingRow>
+@* The system-wide defaults: one row per key, saved one at a time. *@
+<section class="card overflow-hidden mb-6">
+    <div class="p-4 border-b border-line">
+        <h2 class="font-semibold">@L["Settings_SystemTitle"]</h2>
+        <p class="text-sm text-muted">@L["Settings_SystemHint"]</p>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        @* An empty list means the database could not answer - never a fake row of zeros. *@
+        <p class="p-4 text-sm text-muted">@L["Error_Unexpected"]</p>
+    }
+    else
+    {
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>@L["Settings_Column_Setting"]</th>
+                    <th>@L["Settings_Column_Value"]</th>
+                    <th>@L["Settings_Column_Updated"]</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model)
+                {
+                    <tr>
+                        <td class="font-semibold">@L.Label("Setting", row.Key)</td>
+                        <td>
+                            <form method="post" asp-controller="Settings" asp-action="SaveSystem"
+                                  class="flex items-center gap-2">
+                                <input type="hidden" name="settingKey" value="@row.Key" />
+                                <select name="settingValue" class="input !w-auto"
+                                        aria-label="@(L.Label("Setting", row.Key).Value)">
+                                    @foreach (var value in WorkConstants.Settings.AllowedValues(row.Key))
+                                    {
+                                        <option value="@value" selected="@(value == row.Value)">
+                                            @L.Label(row.Key, value)
+                                        </option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn">@L["Common_Save"]</button>
+                            </form>
+                        </td>
+                        <td class="text-muted">@Utils.FormatDateTime(row.UpdatedDate)</td>
+                        <td class="text-muted text-sm">@row.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

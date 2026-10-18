@@ -1,0 +1,134 @@
+/* ============================================================================
+   Customer Care Management - shared styles (design.md section 2).
+   The palette lives here and nowhere else; pages use classes or the CSS
+   variables, never a raw colour value. The dark palette is the same set of
+   names re-declared under [data-theme="dark"], so switching the theme is one
+   attribute on <html> and no page changes.
+   ============================================================================ */
+:root {
+    --primary: #2563EB; --primary-hover: #1D4ED8; --primary-soft: #EFF6FF; --accent: #0D9488;
+    --bg-page: #F8FAFC; --bg-card: #FFFFFF; --bg-soft: #F8FAFC;
+    /* The frame is three surfaces, each with its own text colour, so the same partial works in both
+       themes: the sidebar, the topbar and the panel of the sign-in page. Both bars are slate tones,
+       one dark and one light, so the frame reads as one family and the page keeps its contrast. */
+    --bg-sidebar: #334155; --sidebar-fg: #E2E8F0; --sidebar-fg-strong: #FFFFFF;
+    --sidebar-hover: rgba(255, 255, 255, .12); --sidebar-line: rgba(255, 255, 255, .16);
+    --bg-topbar: #E2E8F0; --topbar-fg: #0F172A; --topbar-line: #CBD5E1;
+    --bg-brand: #334155;
+    --border: #E2E8F0;
+    --text: #0F172A; --text-muted: #475569; --text-on-dark: #E2E8F0; --text-on-primary: #FFFFFF;
+    --success: #16A34A; --success-soft: #DCFCE7; --success-ink: #166534;
+    --info: #0284C7; --info-soft: #E0F2FE; --info-ink: #075985;
+    --warning: #D97706; --warning-soft: #FEF3C7; --warning-ink: #92400E;
+    --danger: #DC2626; --danger-soft: #FEE2E2; --danger-ink: #991B1B;
+    --neutral: #64748B; --neutral-soft: #F1F5F9; --neutral-ink: #334155;
+    --standard-soft: #F1F5F9; --silver-soft: #E2E8F0; --silver-ink: #475569;
+    --gold-soft: #FEF3C7; --gold-ink: #92400E; --diamond-soft: #EDE9FE; --diamond-ink: #5B21B6;
+}
+
+/* Dark theme. The primary is lightened so that dark text on it stays readable, and every "soft"
+   background becomes a deep tint of its own hue instead of a pale one. */
+[data-theme="dark"] {
+    --primary: #60A5FA; --primary-hover: #93C5FD; --primary-soft: #1E3A5F; --accent: #2DD4BF;
+    --bg-page: #0B1220; --bg-card: #151E31; --bg-soft: #1C2740;
+    --bg-sidebar: #1E293B; --sidebar-fg: #E2E8F0; --sidebar-fg-strong: #FFFFFF;
+    --sidebar-hover: rgba(255, 255, 255, .08); --sidebar-line: rgba(255, 255, 255, .10);
+    --bg-topbar: #151E31; --topbar-fg: #E8EEF8; --topbar-line: #27334D;
+    --bg-brand: #1E293B;
+    --border: #27334D;
+    --text: #E8EEF8; --text-muted: #9FB0CC; --text-on-dark: #E2E8F0; --text-on-primary: #0B1220;
+    --success: #4ADE80; --success-soft: #14351F; --success-ink: #BBF7D0;
+    --info: #38BDF8; --info-soft: #0C2C43; --info-ink: #BAE6FD;
+    --warning: #FBBF24; --warning-soft: #3A2A08; --warning-ink: #FDE68A;
+    --danger: #F87171; --danger-soft: #3D1417; --danger-ink: #FECACA;
+    --neutral: #94A3B8; --neutral-soft: #1C2740; --neutral-ink: #CBD5E1;
+    --standard-soft: #1F2A40; --silver-soft: #27334D; --silver-ink: #D7DEEA;
+    --gold-soft: #3A2A08; --gold-ink: #FDE68A; --diamond-soft: #2E1F4E; --diamond-ink: #DDD6FE;
+}
+
+body {
+    font-family: 'Be Vietnam Pro', Inter, system-ui, sans-serif;
+    background: var(--bg-page);
+    color: var(--text);
+}
+
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------- building blocks */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; }
+
+.btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid var(--border);
+    background: var(--bg-card); color: var(--text);
+}
+.btn:hover { background: var(--bg-soft); }
+.btn-primary { background: var(--primary); border-color: var(--primary); color: var(--text-on-primary); }
+.btn-primary:hover { background: var(--primary-hover); }
+
+.input {
+    width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px;
+    font-size: 14px; background: var(--bg-card); color: var(--text);
+}
+.input:focus { outline: 2px solid var(--primary); border-color: var(--primary); }
+
+/* Badge: soft background, strong text - always with text, never colour alone. */
+.badge {
+    display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px;
+    font-size: 12px; font-weight: 600; white-space: nowrap;
+}
+.b-success { background: var(--success-soft); color: var(--success-ink); }
+.b-info { background: var(--info-soft); color: var(--info-ink); }
+.b-warning { background: var(--warning-soft); color: var(--warning-ink); }
+.b-danger { background: var(--danger-soft); color: var(--danger-ink); }
+.b-neutral { background: var(--neutral-soft); color: var(--neutral-ink); }
+.g-standard { background: var(--standard-soft); color: var(--neutral-ink); }
+.g-silver { background: var(--silver-soft); color: var(--silver-ink); }
+.g-gold { background: var(--gold-soft); color: var(--gold-ink); }
+.g-diamond { background: var(--diamond-soft); color: var(--diamond-ink); }
+
+/* ---------------------------------------------------------------- sidebar and topbar */
+.nav-link {
+    display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px;
+    font-size: 14px; color: var(--sidebar-fg);
+}
+.nav-link:hover { background: var(--sidebar-hover); }
+.nav-link.active { background: var(--primary); color: var(--text-on-primary); }
+.nav-link i { width: 20px; text-align: center; }
+
+.side { background: var(--bg-sidebar); border-right: 1px solid var(--sidebar-line); }
+.side-brand { color: var(--sidebar-fg-strong); border-color: var(--sidebar-line); }
+.side-foot { color: var(--sidebar-fg); border-color: var(--sidebar-line); }
+.side-name { color: var(--sidebar-fg-strong); }
+
+/* The sign-in page has no sidebar, so its left panel carries the same tone on its own. */
+.brand-panel { background: var(--bg-brand); }
+
+/* The topbar carries the controls; on its own surface they need their own edge, or a card-coloured
+   chip on the light theme's grey bar would disappear into it. */
+.topbar { background: var(--bg-topbar); color: var(--topbar-fg); border-bottom: 1px solid var(--topbar-line); }
+.topbar .btn, .topbar .input { border-color: var(--topbar-line); }
+
+/* ---------------------------------------------------------------- table */
+.tbl { width: 100%; font-size: 14px; border-collapse: collapse; }
+.tbl th {
+    text-align: left; font-weight: 600; color: var(--text-muted); padding: 10px 16px;
+    background: var(--bg-soft); border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.tbl td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.tbl tbody tr:hover td { background: var(--bg-soft); }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---------------------------------------------------------------- helpers */
+.text-danger-ink { color: var(--danger); }
+
+.toast {
+    position: fixed; top: 16px; right: 16px; z-index: 60; background: var(--bg-card);
+    border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; font-size: 14px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, .12);
+}
+.toast-info { border-left: 4px solid var(--primary); }
+.toast-ok { border-left: 4px solid var(--success); }
+.toast-err { border-left: 4px solid var(--danger); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

@@ -1,0 +1,45 @@
+# Not yet tested on a real machine. Only db and db-init are enabled for now; once src/CcmWeb exists (with a Dockerfile), uncomment the web service.
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD}
+    ports:
+      - "1433:1433"            # dev only, remove in production
+    volumes:
+      - sqldata:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  db-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      APP_PASSWORD: ${APP_PASSWORD}
+      DB_HOST: db
+    volumes:
+      - ./database:/database:ro
+    entrypoint: ["/bin/bash", "/database/init.sh"]
+    restart: "no"
+
+#  web:
+#    build: ./src/CcmWeb
+#    depends_on:
+#      db-init:
+#        condition: service_completed_successfully
+#    environment:
+#      ConnectionStrings__DefaultConnection: "Server=db,1433;Database=CustomerCareDB;User Id=app_ccm;Password=${APP_PASSWORD};TrustServerCertificate=True"
+#      ASPNETCORE_URLS: http://+:8080
+#    ports:
+#      - "8080:8080"
+
+volumes:
+  sqldata:

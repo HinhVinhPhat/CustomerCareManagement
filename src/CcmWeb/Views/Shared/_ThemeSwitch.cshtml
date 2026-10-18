@@ -1,0 +1,22 @@
+@inject ISettingService Settings
+@{
+    // Light and dark are the only two themes the database accepts (CHK_Settings_Value). The buttons
+    // carry an icon AND a translated title, so the state never depends on colour alone.
+    var returnUrl = Utils.ReturnUrlWithoutCulture(Context.Request);
+    var current = await Settings.ResolveThemeAsync();
+}
+<form method="post" asp-controller="Preferences" asp-action="SetTheme"
+      class="flex items-center gap-1" role="group" aria-label="@L["Topbar_Theme"]">
+    <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+    @foreach (var theme in WorkConstants.Settings.Themes.All)
+    {
+        var isCurrent = theme == current;
+        var label = L.Label("Theme", theme).Value;
+        <button type="submit" name="value" value="@theme"
+                class="btn !px-2.5 !py-1 @(isCurrent ? "btn-primary" : null)"
+                title="@label" aria-label="@label" aria-pressed="@(isCurrent ? "true" : "false")">
+            <i class="fa-solid @(theme == WorkConstants.Settings.Themes.Dark ? "fa-moon" : "fa-sun")"></i>
+        </button>
+    }
+</form>
