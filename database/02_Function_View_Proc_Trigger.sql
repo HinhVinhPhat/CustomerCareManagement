@@ -325,26 +325,59 @@ GO
 
 -- Search customers by keyword (name / email / phone), tier, owning employee; a NULL parameter is ignored
 -- @ActiveOnly = 1 (default): active customers only; 0: include deactivated ones
+-- @PageNumber / @PageSize: the paging is done here rather than in the application, so a page is a
+--     page of the whole result. @SortBy is Name (default) / CreatedDate / TotalValue, and anything
+--     else falls back to Name; the column is read through a CASE, never concatenated into the SQL.
+--     TotalRows carries the number of matching rows before paging - the pager needs it, and it is
+--     missing (no rows at all) exactly when the result is empty.
 CREATE PROCEDURE dbo.sp_SearchCustomer
     @Keyword       NVARCHAR(100) = NULL,
     @Tier       NVARCHAR(50)  = NULL,
     @OwnerEmployeeID INT           = NULL,
-    @ActiveOnly  BIT           = 1
+    @ActiveOnly  BIT           = 1,
+    @PageNumber  INT           = 1,
+    @PageSize    INT           = 20,
+    @SortBy      NVARCHAR(20)  = N'Name',
+    @SortDesc    BIT           = 0
 AS
 BEGIN
     SET NOCOUNT ON;
-    SELECT k.CustomerID, k.CustomerName, k.CustomerType, k.Email, k.Phone, k.Address, k.Tier, k.CreatedDate,
-           k.OwnerEmployeeID, n.FullName AS OwnerName, k.IsActive,
-           dbo.fn_CustomerContractTotal(k.CustomerID) AS TotalValue
-    FROM CUSTOMER k
-    LEFT JOIN EMPLOYEE n ON n.EmployeeID = k.OwnerEmployeeID
-    WHERE (@Keyword IS NULL OR k.CustomerName LIKE N'%' + @Keyword + N'%'
-                           OR k.Email LIKE N'%' + @Keyword + N'%'
-                           OR k.Phone    LIKE N'%' + @Keyword + N'%')
-      AND (@Tier IS NULL OR k.Tier = @Tier)
-      AND (@OwnerEmployeeID IS NULL OR k.OwnerEmployeeID = @OwnerEmployeeID)
-      AND (@ActiveOnly = 0 OR k.IsActive = 1)
-    ORDER BY k.CustomerName;
+
+    -- A hand-written call may pass anything; the procedure clamps instead of failing.
+    IF @PageNumber IS NULL OR @PageNumber < 1 SET @PageNumber = 1;
+    IF @PageSize   IS NULL OR @PageSize   < 1 SET @PageSize   = 20;
+    IF @PageSize   > 100                    SET @PageSize   = 100;
+    IF @SortBy IS NULL OR @SortBy NOT IN (N'Name', N'CreatedDate', N'TotalValue') SET @SortBy = N'Name';
+
+    ;WITH Matched AS (
+        SELECT k.CustomerID, k.CustomerName, k.CustomerType, k.Email, k.Phone, k.Address, k.Tier,
+               k.CreatedDate, k.OwnerEmployeeID, n.FullName AS OwnerName, k.IsActive,
+               dbo.fn_CustomerContractTotal(k.CustomerID) AS TotalValue
+        FROM CUSTOMER k
+        LEFT JOIN EMPLOYEE n ON n.EmployeeID = k.OwnerEmployeeID
+        WHERE (@Keyword IS NULL OR k.CustomerName LIKE N'%' + @Keyword + N'%'
+                               OR k.Email LIKE N'%' + @Keyword + N'%'
+                               OR k.Phone    LIKE N'%' + @Keyword + N'%')
+          AND (@Tier IS NULL OR k.Tier = @Tier)
+          AND (@OwnerEmployeeID IS NULL OR k.OwnerEmployeeID = @OwnerEmployeeID)
+          AND (@ActiveOnly = 0 OR k.IsActive = 1)
+    )
+    SELECT CustomerID, CustomerName, CustomerType, Email, Phone, Address, Tier, CreatedDate,
+           OwnerEmployeeID, OwnerName, IsActive, TotalValue,
+           COUNT(*) OVER () AS TotalRows
+    FROM Matched
+    -- Only one of the six CASE branches is non-NULL for the chosen @SortBy, and the same values are
+    -- used for both paging and ordering. CustomerID is the final tie-breaker so that paging is
+    -- deterministic when several rows share the sort value.
+    ORDER BY
+        CASE WHEN @SortBy = N'CreatedDate' AND @SortDesc = 0 THEN CreatedDate END ASC,
+        CASE WHEN @SortBy = N'CreatedDate' AND @SortDesc = 1 THEN CreatedDate END DESC,
+        CASE WHEN @SortBy = N'TotalValue'  AND @SortDesc = 0 THEN TotalValue  END ASC,
+        CASE WHEN @SortBy = N'TotalValue'  AND @SortDesc = 1 THEN TotalValue  END DESC,
+        CASE WHEN @SortBy = N'Name'        AND @SortDesc = 0 THEN CustomerName END ASC,
+        CASE WHEN @SortBy = N'Name'        AND @SortDesc = 1 THEN CustomerName END DESC,
+        CustomerID
+    OFFSET (@PageNumber - 1) * @PageSize ROWS FETCH NEXT @PageSize ROWS ONLY;
 END;
 GO
 

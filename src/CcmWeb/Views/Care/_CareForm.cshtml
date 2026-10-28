@@ -1,0 +1,90 @@
+@model CareFormViewModel
+@{
+    var back = Model.ReturnUrl is not null && Url.IsLocalUrl(Model.ReturnUrl)
+        ? Model.ReturnUrl
+        : "/care?tab=log";
+}
+<form method="post" action="/care/create" class="space-y-5" data-care-form>
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="ReturnUrl" />
+
+    <section class="card p-5">
+        <h2 class="font-semibold mb-4">@L["Care_GeneralInfo"]</h2>
+
+        <div class="grid gap-4 md:grid-cols-2">
+            <div>
+                <label asp-for="CustomerId" class="block text-sm font-semibold mb-1"></label>
+                <select asp-for="CustomerId" class="input">
+                    <option value="">@L["Care_ChooseCustomer"]</option>
+                    @foreach (var customer in Model.Customers)
+                    {
+                        <option value="@customer.CustomerId">@customer.CustomerName</option>
+                    }
+                </select>
+                <span asp-validation-for="CustomerId" class="block text-sm text-danger-ink min-h-5"></span>
+            </div>
+
+            <div>
+                <label asp-for="CareType" class="block text-sm font-semibold mb-1"></label>
+                <select asp-for="CareType" class="input">
+                    <option value="">@L["Care_ChooseType"]</option>
+                    @foreach (var type in WorkConstants.CareTypes.All)
+                    {
+                        <option value="@type">@L.Label("CareType", type)</option>
+                    }
+                </select>
+                <span asp-validation-for="CareType" class="block text-sm text-danger-ink min-h-5"></span>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold mb-1" for="careDate">@L["Care_Date"]</label>
+                <input id="careDate" class="input bg-soft" value="@Utils.FormatDate(Model.CareDate)" disabled />
+                <p class="text-xs text-muted mt-1">@L["Care_DateHint"]</p>
+            </div>
+
+            <div>
+                <label asp-for="NextAppointmentDate" class="block text-sm font-semibold mb-1"></label>
+                <input asp-for="NextAppointmentDate" type="date" class="input" />
+                <span asp-validation-for="NextAppointmentDate" class="block text-sm text-danger-ink min-h-5"></span>
+            </div>
+
+            <div class="md:col-span-2">
+                <label asp-for="Content" class="block text-sm font-semibold mb-1"></label>
+                <textarea asp-for="Content" class="input" rows="3" maxlength="1000"></textarea>
+                <span asp-validation-for="Content" class="block text-sm text-danger-ink min-h-5"></span>
+            </div>
+
+            <div class="md:col-span-2">
+                <label asp-for="Result" class="block text-sm font-semibold mb-1"></label>
+                <input asp-for="Result" class="input" maxlength="200" />
+                <span asp-validation-for="Result" class="block text-sm text-danger-ink min-h-5"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="card p-5 @(CareRules.IsSurvey(Model.CareType) ? null : "hidden")" data-score-block>
+        <h2 class="font-semibold">@L["Care_Score"]</h2>
+        <p class="text-sm text-muted mt-1 mb-3">@L["Care_ScoreHint"]</p>
+
+        <div class="flex flex-wrap items-center gap-2">
+            @for (byte score = 1; score <= 5; score++)
+            {
+                <label class="score-choice">
+                    <input type="radio" name="SatisfactionScore" value="@score"
+                           checked="@(Model.SatisfactionScore == score)" />
+                    <span>@score <i class="fa-solid fa-star" aria-hidden="true"></i></span>
+                </label>
+            }
+        </div>
+        <span asp-validation-for="SatisfactionScore" class="block text-sm text-danger-ink min-h-5"></span>
+    </section>
+
+    <div asp-validation-summary="ModelOnly" class="text-sm text-danger-ink"></div>
+
+    <div class="flex items-center gap-2">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> @L["Common_Save"]
+        </button>
+        <a href="@back" class="btn">@L["Common_Cancel"]</a>
+    </div>
+</form>

@@ -1,0 +1,23 @@
+@{
+    // The result of the last action, carried across the redirect: TempData holds a message KEY, so the
+    // sentence appears in the language the user is reading right now. Every module uses the same two
+    // keys: MessageKey and MessageOk.
+    //
+    // Feedback follows the convention in AGENTS.md 5: a success is a floating toast (site.js turns
+    // any [data-toast] marker into one), while a failure stays on screen as an alert block so the
+    // user can read it before trying again. A field-level error never reaches here; it is rendered
+    // next to its own input by the form.
+    var messageKey = TempData["MessageKey"] as string;
+    var messageOk = TempData["MessageOk"] as bool? ?? false;
+}
+@if (messageKey is not null && messageOk)
+{
+    <div data-toast data-toast-type="ok" data-toast-message="@L[messageKey]" hidden></div>
+}
+else if (messageKey is not null)
+{
+    <div class="card p-3 mb-4 text-sm alert alert-err" role="alert">
+        <i class="fa-solid fa-circle-exclamation alert-icon" aria-hidden="true"></i>
+        <span>@L[messageKey]</span>
+    </div>
+}

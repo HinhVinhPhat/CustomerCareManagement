@@ -36,8 +36,9 @@ offline, download them into `wwwroot/lib` and point there.
 
 ## Layout and navigation
 
-- `_Layout.cshtml` builds the sidebar and topbar, loads CSS/JS, has the `@RenderBody()` area and a
-  `TempData` notification area.
+- `_Layout.cshtml` builds the sidebar and topbar, loads CSS/JS, has the `@RenderBody()` area and the
+  single host, `Views/Shared/_ActionMessage.cshtml`, that turns the `TempData` message key of the last
+  action into a toast (success) or an alert block (failure).
 - The sidebar shows only items for the current role (`User.IsInRole`); the open item is highlighted
   from `ViewContext.RouteData`. The role matrix is in design.md section 5.
 - The notification bell is a **ViewComponent** `Notifications` that calls a Service (counts
@@ -114,9 +115,15 @@ offline, download them into `wwwroot/lib` and point there.
 - Tables: paging 10/20/50, column sorting, an empty state with a description and an action button,
   and a dimmed grey skeleton while loading. Keep filters in the query string so going back and
   sharing a URL work.
-- On success: redirect to the list and show a green notice via `TempData` (Post-Redirect-Get, so F5
-  does not resubmit). A business error shows red on the form itself with the message from
-  `BusinessException`, in the user's language, **keeping the entered data**.
+- On success: redirect to the list (Post-Redirect-Get, so F5 does not resubmit) and show the result
+  of the action as a **toast** through `window.ccmToast(message, 'ok' | 'err' | 'info')` (the classes
+  `.toast-ok` / `.toast-err` / `.toast-info`), or as an **alert block** at the top of the content when
+  the message must stay readable or points at a next action. The text is always a resource key, and
+  one action shows exactly one message. Do **not** render a success banner inside the page body and do
+  **not** stack a banner and a toast. The browser's native `alert()` / `confirm()` are never used; a
+  confirmation goes through `_ConfirmDialog`. A field-level business error shows red on the form
+  itself with the message from `BusinessException`, in the user's language, **keeping the entered
+  data**.
 - Dangerous actions (cancel a contract, deactivate a customer) need a confirmation dialog.
 - Responsive: tables become card lists below 768px, the sidebar becomes a drawer.
 

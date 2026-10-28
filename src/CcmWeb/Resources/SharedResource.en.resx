@@ -303,4 +303,1015 @@
   <data name="Error_Unexpected" xml:space="preserve">
     <value>Something went wrong; the action was not completed.</value>
   </data>
+
+  <!-- ===== M02: shared by the lists (M03-M06 reuse these) ===== -->
+  <data name="Common_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Common_ClearFilters" xml:space="preserve">
+    <value>Clear filters</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common_Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Common_View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Common_ViewAll" xml:space="preserve">
+    <value>View all</value>
+  </data>
+  <data name="Common_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Common_TryAgain" xml:space="preserve">
+    <value>Please try again, or tell an administrator.</value>
+  </data>
+  <data name="Common_FirstPage" xml:space="preserve">
+    <value>First page</value>
+  </data>
+  <data name="List_ShowingRange" xml:space="preserve">
+    <value>Showing {0}-{1} of {2} results</value>
+  </data>
+  <data name="List_RowsPerPage" xml:space="preserve">
+    <value>Rows per page</value>
+  </data>
+  <data name="List_Pagination" xml:space="preserve">
+    <value>Pagination</value>
+  </data>
+  <data name="List_PreviousPage" xml:space="preserve">
+    <value>Previous page</value>
+  </data>
+  <data name="List_NextPage" xml:space="preserve">
+    <value>Next page</value>
+  </data>
+
+  <!-- ===== M02: customer screens ===== -->
+  <data name="Customer_Add" xml:space="preserve">
+    <value>Add customer</value>
+  </data>
+  <data name="Customer_EditTitle" xml:space="preserve">
+    <value>Edit customer</value>
+  </data>
+  <data name="Customer_BackToList" xml:space="preserve">
+    <value>Customer list</value>
+  </data>
+  <data name="Customer_BackToDetail" xml:space="preserve">
+    <value>Customer detail</value>
+  </data>
+  <data name="Customer_SearchLabel" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Customer_SearchPlaceholder" xml:space="preserve">
+    <value>Name, email or phone</value>
+  </data>
+  <data name="Customer_AllTiers" xml:space="preserve">
+    <value>All tiers</value>
+  </data>
+  <data name="Customer_AllOwners" xml:space="preserve">
+    <value>All employees</value>
+  </data>
+  <data name="Customer_OnlyMine" xml:space="preserve">
+    <value>Only my customers</value>
+  </data>
+  <data name="Customer_IncludeInactive" xml:space="preserve">
+    <value>Include deactivated customers</value>
+  </data>
+  <data name="Customer_Field_Name" xml:space="preserve">
+    <value>Customer name</value>
+  </data>
+  <data name="Customer_Field_Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Customer_Field_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Customer_Field_Phone" xml:space="preserve">
+    <value>Phone number</value>
+  </data>
+  <data name="Customer_Field_Type" xml:space="preserve">
+    <value>Customer type</value>
+  </data>
+  <data name="Customer_Field_Gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="Customer_Field_DateOfBirth" xml:space="preserve">
+    <value>Date of birth</value>
+  </data>
+  <data name="Customer_Field_Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Customer_Field_Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="Customer_Field_Owner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="Customer_Field_Tier" xml:space="preserve">
+    <value>Tier</value>
+  </data>
+  <data name="Customer_Field_CreatedDate" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Customer_Field_TotalValue" xml:space="preserve">
+    <value>Total contract value</value>
+  </data>
+  <data name="Customer_Gender_Unset" xml:space="preserve">
+    <value>Not specified</value>
+  </data>
+  <data name="Customer_Owner_Unset" xml:space="preserve">
+    <value>Unassigned</value>
+  </data>
+  <data name="Customer_YearsOld" xml:space="preserve">
+    <value>{0} years old</value>
+  </data>
+  <data name="Customer_NoMatch" xml:space="preserve">
+    <value>No customer matches these filters</value>
+  </data>
+  <data name="Customer_NoMatchHint" xml:space="preserve">
+    <value>Try another keyword, or clear a filter.</value>
+  </data>
+  <data name="Customer_NoneYet" xml:space="preserve">
+    <value>There are no customers yet</value>
+  </data>
+  <data name="Customer_NoneYetHint" xml:space="preserve">
+    <value>Add the first customer to get started.</value>
+  </data>
+  <data name="Customer_NoPage" xml:space="preserve">
+    <value>This page has no data</value>
+  </data>
+  <data name="Customer_NoPageHint" xml:space="preserve">
+    <value>The list may have changed. Go back to the first page.</value>
+  </data>
+  <data name="Customer_Created" xml:space="preserve">
+    <value>The customer was added.</value>
+  </data>
+  <data name="Customer_Updated" xml:space="preserve">
+    <value>The changes were saved.</value>
+  </data>
+  <data name="Customer_Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="Customer_Reactivate" xml:space="preserve">
+    <value>Reactivate</value>
+  </data>
+  <data name="Customer_DeactivateTitle" xml:space="preserve">
+    <value>Deactivate this customer?</value>
+  </data>
+  <data name="Customer_DeactivateBody" xml:space="preserve">
+    <value>The customer leaves the default list. The data is kept and it can be reactivated.</value>
+  </data>
+  <data name="Customer_ReactivateTitle" xml:space="preserve">
+    <value>Reactivate this customer?</value>
+  </data>
+  <data name="Customer_ReactivateBody" xml:space="preserve">
+    <value>The customer returns to the default list.</value>
+  </data>
+  <data name="Customer_Deactivated" xml:space="preserve">
+    <value>The customer was deactivated.</value>
+  </data>
+  <data name="Customer_Reactivated" xml:space="preserve">
+    <value>The customer was reactivated.</value>
+  </data>
+  <data name="Customer_Tabs" xml:space="preserve">
+    <value>Customer information</value>
+  </data>
+  <data name="Customer_TabOverview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="Customer_TabContracts" xml:space="preserve">
+    <value>Contracts</value>
+  </data>
+  <data name="Customer_TabHistory" xml:space="preserve">
+    <value>Interaction history</value>
+  </data>
+  <data name="Customer_TabFeedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="Customer_ContractCount" xml:space="preserve">
+    <value>Contracts</value>
+  </data>
+  <data name="Customer_AverageSatisfaction" xml:space="preserve">
+    <value>Average satisfaction</value>
+  </data>
+  <data name="Customer_NoScore" xml:space="preserve">
+    <value>No score yet</value>
+  </data>
+  <data name="Customer_OpenFeedback" xml:space="preserve">
+    <value>Open feedback</value>
+  </data>
+  <data name="Customer_NextAppointment" xml:space="preserve">
+    <value>Next appointment</value>
+  </data>
+  <data name="Customer_NoAppointment" xml:space="preserve">
+    <value>No appointment in the next seven days.</value>
+  </data>
+  <data name="Customer_NoContract" xml:space="preserve">
+    <value>This customer has no contract yet.</value>
+  </data>
+  <data name="Customer_NoInteraction" xml:space="preserve">
+    <value>No interaction has been recorded yet.</value>
+  </data>
+  <data name="Customer_NoFeedback" xml:space="preserve">
+    <value>This customer has no feedback yet.</value>
+  </data>
+
+  <!-- ===== Contract and feedback columns (M02 reads them, M03/M04 reuse them) ===== -->
+  <data name="Contract_Code" xml:space="preserve">
+    <value>Contract</value>
+  </data>
+  <data name="Contract_SignDate" xml:space="preserve">
+    <value>Sign date</value>
+  </data>
+  <data name="Contract_EndDate" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="Contract_DaysRemaining" xml:space="preserve">
+    <value>{0} days left</value>
+  </data>
+  <data name="Contract_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Contract_Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Contract_Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+  <data name="Contract_Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Feedback_CreatedTime" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Feedback_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Feedback_Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="Feedback_Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="Feedback_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Feedback_DueDate" xml:space="preserve">
+    <value>Due</value>
+  </data>
+  <data name="Feedback_AssignedTo" xml:space="preserve">
+    <value>Assignee</value>
+  </data>
+  <data name="Feedback_Unassigned" xml:space="preserve">
+    <value>Unassigned</value>
+  </data>
+  <data name="History_Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+
+  <!-- ===== Labels of the coded values (ccm-language section 4) ===== -->
+  <data name="CustomerType_Individual" xml:space="preserve">
+    <value>Individual</value>
+  </data>
+  <data name="CustomerType_Business" xml:space="preserve">
+    <value>Business</value>
+  </data>
+  <data name="Customer_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Customer_Inactive" xml:space="preserve">
+    <value>Deactivated</value>
+  </data>
+  <data name="Tier_Standard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Tier_Silver" xml:space="preserve">
+    <value>Silver</value>
+  </data>
+  <data name="Tier_Gold" xml:space="preserve">
+    <value>Gold</value>
+  </data>
+  <data name="Tier_Diamond" xml:space="preserve">
+    <value>Diamond</value>
+  </data>
+  <data name="Gender_Male" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="Gender_Female" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="Gender_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Contract_Status_Pending" xml:space="preserve">
+    <value>Pending signature</value>
+  </data>
+  <data name="Contract_Status_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Contract_Status_Expired" xml:space="preserve">
+    <value>Expired</value>
+  </data>
+  <data name="Contract_Status_Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="Channel_Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Channel_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Channel_Zalo" xml:space="preserve">
+    <value>Zalo</value>
+  </data>
+  <data name="Channel_InPerson" xml:space="preserve">
+    <value>In person</value>
+  </data>
+  <data name="Channel_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="CareType_Renewal" xml:space="preserve">
+    <value>Renewal</value>
+  </data>
+  <data name="CareType_Upsell" xml:space="preserve">
+    <value>Upsell</value>
+  </data>
+  <data name="CareType_Birthday" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
+  <data name="CareType_Survey" xml:space="preserve">
+    <value>Survey</value>
+  </data>
+  <data name="CareType_RenewalReminder" xml:space="preserve">
+    <value>Renewal reminder</value>
+  </data>
+  <data name="CareType_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="FeedbackType_Complaint" xml:space="preserve">
+    <value>Complaint</value>
+  </data>
+  <data name="FeedbackType_Suggestion" xml:space="preserve">
+    <value>Suggestion</value>
+  </data>
+  <data name="FeedbackType_GeneralFeedback" xml:space="preserve">
+    <value>General feedback</value>
+  </data>
+  <data name="FeedbackType_Compliment" xml:space="preserve">
+    <value>Compliment</value>
+  </data>
+  <data name="FeedbackStatus_New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="FeedbackStatus_InProgress" xml:space="preserve">
+    <value>In progress</value>
+  </data>
+  <data name="FeedbackStatus_Resolved" xml:space="preserve">
+    <value>Resolved</value>
+  </data>
+  <data name="FeedbackStatus_Closed" xml:space="preserve">
+    <value>Closed</value>
+  </data>
+  <data name="Priority_1" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="Priority_2" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="Priority_3" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="ScheduleStatus_Overdue" xml:space="preserve">
+    <value>Overdue</value>
+  </data>
+  <data name="ScheduleStatus_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="ScheduleStatus_Upcoming" xml:space="preserve">
+    <value>Upcoming</value>
+  </data>
+  <data name="HistoryCategory_Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="HistoryCategory_Care" xml:space="preserve">
+    <value>Care</value>
+  </data>
+  <data name="HistoryCategory_Feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="Setting_PageSize" xml:space="preserve">
+    <value>Rows per page</value>
+  </data>
+
+  <!-- ===== M02: input validation and business errors ===== -->
+  <data name="Validation_CustomerNameRequired" xml:space="preserve">
+    <value>Enter the customer name.</value>
+  </data>
+  <data name="Validation_CustomerNameTooLong" xml:space="preserve">
+    <value>The customer name is at most 100 characters.</value>
+  </data>
+  <data name="Validation_CustomerEmailFormat" xml:space="preserve">
+    <value>Enter a valid email address.</value>
+  </data>
+  <data name="Validation_CustomerEmailTooLong" xml:space="preserve">
+    <value>The email is at most 100 characters.</value>
+  </data>
+  <data name="Validation_CustomerPhoneTooLong" xml:space="preserve">
+    <value>The phone number is at most 15 characters.</value>
+  </data>
+  <data name="Validation_CustomerAddressTooLong" xml:space="preserve">
+    <value>The address is at most 255 characters.</value>
+  </data>
+  <data name="Validation_CustomerSourceTooLong" xml:space="preserve">
+    <value>The source is at most 50 characters.</value>
+  </data>
+  <data name="Validation_CustomerTypeInvalid" xml:space="preserve">
+    <value>Unknown customer type.</value>
+  </data>
+  <data name="Validation_CustomerGenderInvalid" xml:space="preserve">
+    <value>Unknown gender.</value>
+  </data>
+  <data name="Validation_CustomerOwnerInvalid" xml:space="preserve">
+    <value>Unknown owner.</value>
+  </data>
+  <data name="Error_CustomerEmailInvalid" xml:space="preserve">
+    <value>Enter a valid email address.</value>
+  </data>
+  <data name="Error_CustomerPhoneInvalid" xml:space="preserve">
+    <value>The phone number must be 9 to 11 digits.</value>
+  </data>
+  <data name="Error_CustomerBirthDateInvalid" xml:space="preserve">
+    <value>The date of birth must be before today.</value>
+  </data>
+  <data name="Error_CustomerNotFound" xml:space="preserve">
+    <value>This customer does not exist.</value>
+  </data>
+
+  <!-- ===== M03: contracts ===== -->
+  <data name="Contract_Add" xml:space="preserve">
+    <value>Add contract</value>
+  </data>
+  <data name="Contract_BackToList" xml:space="preserve">
+    <value>Contract list</value>
+  </data>
+  <data name="Contract_SearchPlaceholder" xml:space="preserve">
+    <value>Customer name</value>
+  </data>
+  <data name="Contract_AllStatuses" xml:space="preserve">
+    <value>All statuses</value>
+  </data>
+  <data name="Contract_AllStaff" xml:space="preserve">
+    <value>All staff</value>
+  </data>
+  <data name="Contract_SignFrom" xml:space="preserve">
+    <value>Signed from</value>
+  </data>
+  <data name="Contract_SignTo" xml:space="preserve">
+    <value>Signed to</value>
+  </data>
+  <data name="Contract_ExpiringSoon" xml:space="preserve">
+    <value>Expiring soon (30 days)</value>
+  </data>
+  <data name="Contract_NoMatch" xml:space="preserve">
+    <value>No contract matches these filters</value>
+  </data>
+  <data name="Contract_NoMatchHint" xml:space="preserve">
+    <value>Try another keyword, or clear a filter.</value>
+  </data>
+  <data name="Contract_NoneYet" xml:space="preserve">
+    <value>There are no contracts yet</value>
+  </data>
+  <data name="Contract_NoneYetHint" xml:space="preserve">
+    <value>Add the first contract to get started.</value>
+  </data>
+  <data name="Contract_Created" xml:space="preserve">
+    <value>The contract was added.</value>
+  </data>
+  <data name="Contract_Signed" xml:space="preserve">
+    <value>The contract was signed.</value>
+  </data>
+  <data name="Contract_Renewed" xml:space="preserve">
+    <value>The contract was renewed.</value>
+  </data>
+  <data name="Contract_Cancelled" xml:space="preserve">
+    <value>The contract was cancelled.</value>
+  </data>
+  <data name="Contract_Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Contract_CustomerUnset" xml:space="preserve">
+    <value>Select a customer</value>
+  </data>
+  <data name="Contract_Staff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+  <data name="Contract_StaffUnset" xml:space="preserve">
+    <value>Select a staff member</value>
+  </data>
+      <data name="Contract_NewEndDate" xml:space="preserve">
+    <value>New end date</value>
+  </data>
+        <data name="Contract_TotalValue" xml:space="preserve">
+    <value>Total value</value>
+  </data>
+  <data name="Contract_Lines" xml:space="preserve">
+    <value>Product / service lines</value>
+  </data>
+  <data name="Contract_Product" xml:space="preserve">
+    <value>Product / service</value>
+  </data>
+  <data name="Contract_Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Contract_UnitPrice" xml:space="preserve">
+    <value>Unit price</value>
+  </data>
+  <data name="Contract_LineTotal" xml:space="preserve">
+    <value>Line total</value>
+  </data>
+  <data name="Contract_AddLine" xml:space="preserve">
+    <value>Add line</value>
+  </data>
+  <data name="Contract_GeneralInfo" xml:space="preserve">
+    <value>General information</value>
+  </data>
+    <data name="Contract_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Contract_ChangeHistory" xml:space="preserve">
+    <value>Change history</value>
+  </data>
+  <data name="Contract_DetailTitle" xml:space="preserve">
+    <value>Contract #{0}</value>
+  </data>
+    <data name="Contract_Sign" xml:space="preserve">
+    <value>Sign contract</value>
+  </data>
+  <data name="Contract_Renew" xml:space="preserve">
+    <value>Renew</value>
+  </data>
+  <data name="Contract_RenewTitle" xml:space="preserve">
+    <value>Renew this contract?</value>
+  </data>
+  <data name="Contract_RenewBody" xml:space="preserve">
+    <value>Choose the new end date. The contract returns to Active.</value>
+  </data>
+  <data name="Contract_Cancel" xml:space="preserve">
+    <value>Cancel contract</value>
+  </data>
+  <data name="Contract_CancelTitle" xml:space="preserve">
+    <value>Cancel this contract?</value>
+  </data>
+  <data name="Contract_CancelBody" xml:space="preserve">
+    <value>The contract becomes Cancelled and cannot be restored.</value>
+  </data>
+  <data name="Contract_CancelReason" xml:space="preserve">
+    <value>Reason for cancelling (optional)</value>
+  </data>
+  <data name="AuditAction_Insert" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="AuditAction_StatusChange" xml:space="preserve">
+    <value>Status change</value>
+  </data>
+  <data name="AuditAction_Delete" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="AuditAction_Assign" xml:space="preserve">
+    <value>Assigned</value>
+  </data>
+  <data name="ProductType_Product" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="ProductType_Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="Validation_ContractCustomerRequired" xml:space="preserve">
+    <value>Select a customer.</value>
+  </data>
+  <data name="Validation_ContractStaffRequired" xml:space="preserve">
+    <value>Select the signing staff.</value>
+  </data>
+  <data name="Validation_ContractEndDateRequired" xml:space="preserve">
+    <value>Enter the end date.</value>
+  </data>
+  <data name="Validation_ContractNoteTooLong" xml:space="preserve">
+    <value>The note is at most 500 characters.</value>
+  </data>
+  <!-- M04: contacts, care, feedback -->
+  <data name="Common_Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Common_Staff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+  <data name="Common_Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="Common_Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="Common_FromDate" xml:space="preserve">
+    <value>From date</value>
+  </data>
+  <data name="Common_ToDate" xml:space="preserve">
+    <value>To date</value>
+  </data>
+  <data name="Contact_Subtitle" xml:space="preserve">
+    <value>Log every call, email and meeting with a customer.</value>
+  </data>
+  <data name="Contact_Add" xml:space="preserve">
+    <value>Record contact</value>
+  </data>
+  <data name="Contact_SearchLabel" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Contact_SearchPlaceholder" xml:space="preserve">
+    <value>Search by customer name</value>
+  </data>
+  <data name="Contact_AllStaff" xml:space="preserve">
+    <value>All staff</value>
+  </data>
+  <data name="Contact_Channel" xml:space="preserve">
+    <value>Channel</value>
+  </data>
+  <data name="Contact_AllChannels" xml:space="preserve">
+    <value>All channels</value>
+  </data>
+  <data name="Contact_Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Contact_NoPage" xml:space="preserve">
+    <value>This page has no contacts</value>
+  </data>
+  <data name="Contact_NoPageHint" xml:space="preserve">
+    <value>The contacts are still on the previous page.</value>
+  </data>
+  <data name="Contact_NoMatch" xml:space="preserve">
+    <value>No contacts match</value>
+  </data>
+  <data name="Contact_NoMatchHint" xml:space="preserve">
+    <value>Try fewer filters or another name.</value>
+  </data>
+  <data name="Contact_NoneYet" xml:space="preserve">
+    <value>No contacts yet</value>
+  </data>
+  <data name="Contact_NoneYetHint" xml:space="preserve">
+    <value>Record the first call, email or meeting with a customer.</value>
+  </data>
+  <data name="Contact_AddHint" xml:space="preserve">
+    <value>The staff member and the time are filled in from the signed-in session.</value>
+  </data>
+  <data name="Contact_ChooseCustomer" xml:space="preserve">
+    <value>Choose a customer</value>
+  </data>
+  <data name="Contact_ChooseChannel" xml:space="preserve">
+    <value>Choose a channel</value>
+  </data>
+  <data name="Contact_Recorded" xml:space="preserve">
+    <value>Contact recorded.</value>
+  </data>
+  <data name="Validation_ContactCustomerRequired" xml:space="preserve">
+    <value>Select a customer.</value>
+  </data>
+  <data name="Validation_ContactChannelRequired" xml:space="preserve">
+    <value>Select a channel.</value>
+  </data>
+  <data name="Validation_ContactChannelInvalid" xml:space="preserve">
+    <value>The channel is not valid.</value>
+  </data>
+  <data name="Validation_ContentTooLong" xml:space="preserve">
+    <value>The content is at most 1000 characters.</value>
+  </data>
+  <data name="Validation_ResultTooLong" xml:space="preserve">
+    <value>The result is at most 200 characters.</value>
+  </data>
+  <data name="Care_Subtitle" xml:space="preserve">
+    <value>The care schedule and the care log.</value>
+  </data>
+  <data name="Care_Add" xml:space="preserve">
+    <value>Add care</value>
+  </data>
+  <data name="Care_Tabs" xml:space="preserve">
+    <value>Customer care</value>
+  </data>
+  <data name="Care_ScheduleTab" xml:space="preserve">
+    <value>Schedule to do</value>
+  </data>
+  <data name="Care_LogTab" xml:space="preserve">
+    <value>Care log</value>
+  </data>
+  <data name="Care_GroupCount" xml:space="preserve">
+    <value>{0} customers</value>
+  </data>
+  <data name="Care_Overdue" xml:space="preserve">
+    <value>Overdue</value>
+  </data>
+  <data name="Care_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Care_Upcoming" xml:space="preserve">
+    <value>Next 7 days</value>
+  </data>
+  <data name="Care_EmptySchedule" xml:space="preserve">
+    <value>No care appointments</value>
+  </data>
+  <data name="Care_EmptyScheduleHint" xml:space="preserve">
+    <value>No customer needs care in the next 7 days.</value>
+  </data>
+  <data name="Care_SearchLabel" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Care_SearchPlaceholder" xml:space="preserve">
+    <value>Search by customer name</value>
+  </data>
+  <data name="Care_AllStaff" xml:space="preserve">
+    <value>All staff</value>
+  </data>
+  <data name="Care_AllTypes" xml:space="preserve">
+    <value>All types</value>
+  </data>
+  <data name="Care_Type" xml:space="preserve">
+    <value>Care type</value>
+  </data>
+  <data name="Care_NextAppointment" xml:space="preserve">
+    <value>Next appointment</value>
+  </data>
+  <data name="Care_MarkCared" xml:space="preserve">
+    <value>Mark as cared for</value>
+  </data>
+  <data name="Care_Date" xml:space="preserve">
+    <value>Care date</value>
+  </data>
+  <data name="Care_DateHint" xml:space="preserve">
+    <value>The care date is today; earlier visits stay in the log.</value>
+  </data>
+  <data name="Care_Score" xml:space="preserve">
+    <value>Satisfaction score</value>
+  </data>
+  <data name="Care_ScoreHint" xml:space="preserve">
+    <value>Survey only, from 1 to 5.</value>
+  </data>
+  <data name="Care_GeneralInfo" xml:space="preserve">
+    <value>Care details</value>
+  </data>
+  <data name="Care_ChooseCustomer" xml:space="preserve">
+    <value>Choose a customer</value>
+  </data>
+  <data name="Care_ChooseType" xml:space="preserve">
+    <value>Choose a care type</value>
+  </data>
+  <data name="Care_Back" xml:space="preserve">
+    <value>Back to care</value>
+  </data>
+  <data name="Care_Created" xml:space="preserve">
+    <value>Care visit recorded.</value>
+  </data>
+  <data name="Care_NoPage" xml:space="preserve">
+    <value>This page has no care visits</value>
+  </data>
+  <data name="Care_NoPageHint" xml:space="preserve">
+    <value>The visits are still on the previous page.</value>
+  </data>
+  <data name="Care_NoMatch" xml:space="preserve">
+    <value>No care visits match</value>
+  </data>
+  <data name="Care_NoMatchHint" xml:space="preserve">
+    <value>Try fewer filters or another name.</value>
+  </data>
+  <data name="Care_NoneYet" xml:space="preserve">
+    <value>No care visits yet</value>
+  </data>
+  <data name="Care_NoneYetHint" xml:space="preserve">
+    <value>Record the first visit to start following a customer.</value>
+  </data>
+  <data name="Validation_CareCustomerRequired" xml:space="preserve">
+    <value>Select a customer.</value>
+  </data>
+  <data name="Validation_CareTypeRequired" xml:space="preserve">
+    <value>Select a care type.</value>
+  </data>
+  <data name="Validation_CareTypeInvalid" xml:space="preserve">
+    <value>The care type is not valid.</value>
+  </data>
+  <data name="Validation_SurveyScoreInvalid" xml:space="preserve">
+    <value>A satisfaction score is 1-5 and only for a Survey.</value>
+  </data>
+  <data name="Feedback_Subtitle" xml:space="preserve">
+    <value>Receive, assign and handle customer feedback.</value>
+  </data>
+  <data name="Feedback_Add" xml:space="preserve">
+    <value>New feedback</value>
+  </data>
+  <data name="Feedback_Back" xml:space="preserve">
+    <value>Back to feedback</value>
+  </data>
+  <data name="Feedback_CountNew" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Feedback_CountInProgress" xml:space="preserve">
+    <value>In progress</value>
+  </data>
+  <data name="Feedback_CountOverdue" xml:space="preserve">
+    <value>Overdue</value>
+  </data>
+  <data name="Feedback_SearchLabel" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Feedback_SearchPlaceholder" xml:space="preserve">
+    <value>Search by customer name</value>
+  </data>
+  <data name="Feedback_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Feedback_AllPriorities" xml:space="preserve">
+    <value>All priorities</value>
+  </data>
+  <data name="Feedback_AllTypes" xml:space="preserve">
+    <value>All types</value>
+  </data>
+  <data name="Feedback_OverdueOnly" xml:space="preserve">
+    <value>Overdue only</value>
+  </data>
+  <data name="Feedback_Assign" xml:space="preserve">
+    <value>Assign</value>
+  </data>
+  <data name="Feedback_Reassign" xml:space="preserve">
+    <value>Reassign</value>
+  </data>
+  <data name="Feedback_AssignTitle" xml:space="preserve">
+    <value>Assign a staff member</value>
+  </data>
+  <data name="Feedback_AssignHint" xml:space="preserve">
+    <value>Choose the staff member who will handle this feedback.</value>
+  </data>
+  <data name="Feedback_Assigned" xml:space="preserve">
+    <value>Feedback assigned.</value>
+  </data>
+  <data name="Feedback_StatusTitle" xml:space="preserve">
+    <value>Change status</value>
+  </data>
+  <data name="Feedback_UpdateStatus" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Feedback_StatusUpdated" xml:space="preserve">
+    <value>Feedback status updated.</value>
+  </data>
+  <data name="Feedback_Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Feedback_NoteOptional" xml:space="preserve">
+    <value>Note (optional)</value>
+  </data>
+  <data name="Feedback_AddNote" xml:space="preserve">
+    <value>Add note</value>
+  </data>
+  <data name="Feedback_NoteAdded" xml:space="preserve">
+    <value>Note added.</value>
+  </data>
+  <data name="Feedback_NoteAppendHint" xml:space="preserve">
+    <value>A new note is appended to the existing one, up to 500 characters.</value>
+  </data>
+  <data name="Feedback_ResolvedDate" xml:space="preserve">
+    <value>Resolved date</value>
+  </data>
+  <data name="Feedback_ChooseAssignee" xml:space="preserve">
+    <value>Choose a staff member</value>
+  </data>
+  <data name="Feedback_ChooseCustomer" xml:space="preserve">
+    <value>Choose a customer</value>
+  </data>
+  <data name="Feedback_ChooseType" xml:space="preserve">
+    <value>Choose a feedback type</value>
+  </data>
+  <data name="Feedback_GeneralInfo" xml:space="preserve">
+    <value>Feedback details</value>
+  </data>
+  <data name="Feedback_DueDateHint" xml:space="preserve">
+    <value>Not before the day the feedback was created.</value>
+  </data>
+  <data name="Feedback_Created" xml:space="preserve">
+    <value>Feedback recorded.</value>
+  </data>
+  <data name="Feedback_DetailTitle" xml:space="preserve">
+    <value>Feedback #{0}</value>
+  </data>
+  <data name="Feedback_NeedsAssigneeHint" xml:space="preserve">
+    <value>Assign a staff member before moving this item out of New.</value>
+  </data>
+  <data name="Feedback_NoPage" xml:space="preserve">
+    <value>This page has no feedback</value>
+  </data>
+  <data name="Feedback_NoPageHint" xml:space="preserve">
+    <value>The feedback is still on the previous page.</value>
+  </data>
+  <data name="Feedback_NoMatch" xml:space="preserve">
+    <value>No feedback matches</value>
+  </data>
+  <data name="Feedback_NoMatchHint" xml:space="preserve">
+    <value>Try fewer filters or another name.</value>
+  </data>
+  <data name="Feedback_NoneYet" xml:space="preserve">
+    <value>No feedback yet</value>
+  </data>
+  <data name="Feedback_NoneYetHint" xml:space="preserve">
+    <value>Record the first feedback item to start following it.</value>
+  </data>
+  <data name="Validation_FeedbackCustomerRequired" xml:space="preserve">
+    <value>Select a customer.</value>
+  </data>
+  <data name="Validation_FeedbackTypeRequired" xml:space="preserve">
+    <value>Select a feedback type.</value>
+  </data>
+  <data name="Validation_FeedbackTypeInvalid" xml:space="preserve">
+    <value>The feedback type is not valid.</value>
+  </data>
+  <data name="Validation_FeedbackPriorityInvalid" xml:space="preserve">
+    <value>The priority is not valid.</value>
+  </data>
+  <data name="Validation_FeedbackContentTooLong" xml:space="preserve">
+    <value>The content is at most 2000 characters.</value>
+  </data>
+  <data name="Validation_FeedbackDueDateInvalid" xml:space="preserve">
+    <value>The due date cannot be before the created date.</value>
+  </data>
+  <data name="Validation_FeedbackNoteRequired" xml:space="preserve">
+    <value>Enter the note.</value>
+  </data>
+  <data name="Error_FeedbackDueDateInvalid" xml:space="preserve">
+    <value>The due date cannot be before the day the feedback was created.</value>
+  </data>
+  <data name="Bell_Empty" xml:space="preserve"><value>Nothing needs attention.</value></data>
+  <data name="Bell_Item_Care" xml:space="preserve"><value>{0} · {1}</value></data>
+  <data name="Bell_Item_Expiring" xml:space="preserve"><value>Expires {0} · {1} days left</value></data>
+  <data name="Bell_Item_FeedbackOverdue" xml:space="preserve"><value>Due {0}</value></data>
+  <data name="Bell_None" xml:space="preserve"><value>No items.</value></data>
+  <data name="Dashboard_CareTitle" xml:space="preserve"><value>Care schedule</value></data>
+  <data name="Dashboard_DueDate" xml:space="preserve"><value>Due: {0}</value></data>
+  <data name="Dashboard_ExpiringTitle" xml:space="preserve"><value>Contracts expiring soon</value></data>
+  <data name="Dashboard_FeedbackTitle" xml:space="preserve"><value>Feedback to handle</value></data>
+  <data name="Dashboard_Kpi_ActiveContracts" xml:space="preserve"><value>Active contracts</value></data>
+  <data name="Dashboard_Kpi_ActiveContractsHint" xml:space="preserve"><value>Currently active</value></data>
+  <data name="Dashboard_Kpi_ExpiringContracts" xml:space="preserve"><value>Expiring contracts</value></data>
+  <data name="Dashboard_Kpi_ExpiringContractsHint" xml:space="preserve"><value>Within the next 30 days</value></data>
+  <data name="Dashboard_Kpi_NewCustomers" xml:space="preserve"><value>New customers</value></data>
+  <data name="Dashboard_Kpi_NewCustomersHint" xml:space="preserve"><value>Last 30 days</value></data>
+  <data name="Dashboard_Kpi_OpenFeedback" xml:space="preserve"><value>Open feedback</value></data>
+  <data name="Dashboard_Kpi_OverdueCount" xml:space="preserve"><value>{0} overdue</value></data>
+  <data name="Dashboard_Kpi_Revenue" xml:space="preserve"><value>Revenue this year</value></data>
+  <data name="Dashboard_Kpi_RevenueHint" xml:space="preserve"><value>Contracts signed this year</value></data>
+  <data name="Dashboard_Kpi_TotalCustomers" xml:space="preserve"><value>Total customers</value></data>
+  <data name="Dashboard_Kpi_TotalCustomersHint" xml:space="preserve"><value>Active</value></data>
+  <data name="Dashboard_NoCare" xml:space="preserve"><value>No care scheduled.</value></data>
+  <data name="Dashboard_NoExpiring" xml:space="preserve"><value>No contracts expiring soon.</value></data>
+  <data name="Dashboard_NoFeedback" xml:space="preserve"><value>No feedback to handle.</value></data>
+  <data name="Dashboard_NoRevenueYear" xml:space="preserve"><value>No revenue in {0}.</value></data>
+  <data name="Dashboard_NoTopCustomers" xml:space="preserve"><value>No customers yet.</value></data>
+  <data name="Dashboard_Overdue" xml:space="preserve"><value>Overdue</value></data>
+  <data name="Dashboard_RevenueChartAria" xml:space="preserve"><value>Monthly revenue for {0}</value></data>
+  <data name="Chart_MoneyUnit" xml:space="preserve"><value>M</value></data>
+  <data name="Dashboard_RevenueSubtitle" xml:space="preserve"><value>Year {0}</value></data>
+  <data name="Dashboard_RevenueTitle" xml:space="preserve"><value>Revenue by month</value></data>
+  <data name="Dashboard_TopCustomers" xml:space="preserve"><value>Top customers</value></data>
+  <data name="Dashboard_TopCustomersHint" xml:space="preserve"><value>Top {0} by contract value</value></data>
+  <data name="Dashboard_ViewYear" xml:space="preserve"><value>View year</value></data>
+  <data name="Dashboard_YearLabel" xml:space="preserve"><value>Year</value></data>
+  <data name="Reports_ApplyFilter" xml:space="preserve"><value>Apply</value></data>
+  <data name="Reports_Care_Chart" xml:space="preserve"><value>Care visits for {0}</value></data>
+  <data name="Reports_Care_Month" xml:space="preserve"><value>Month</value></data>
+  <data name="Reports_Care_NoData" xml:space="preserve"><value>No care visits in {0}.</value></data>
+  <data name="Reports_Care_Subtitle" xml:space="preserve"><value>Care visits by month and type</value></data>
+  <data name="Reports_Care_Survey" xml:space="preserve"><value>Survey score</value></data>
+  <data name="Reports_Care_Total" xml:space="preserve"><value>Total</value></data>
+  <data name="Reports_Care_TotalVisits" xml:space="preserve"><value>Total: {0} visits</value></data>
+  <data name="Reports_Customers_Contracts" xml:space="preserve"><value>Contracts</value></data>
+  <data name="Reports_Customers_Empty" xml:space="preserve"><value>No customers yet.</value></data>
+  <data name="Reports_Customers_Name" xml:space="preserve"><value>Customer name</value></data>
+  <data name="Reports_Customers_NoMatch" xml:space="preserve"><value>No customers match the filter.</value></data>
+  <data name="Reports_Customers_Subtitle" xml:space="preserve"><value>Customer ranking by contract value</value></data>
+  <data name="Reports_Customers_Tier" xml:space="preserve"><value>Tier</value></data>
+  <data name="Reports_Customers_TierChart" xml:space="preserve"><value>Customers by tier</value></data>
+  <data name="Reports_Customers_Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Reports_Customers_Value" xml:space="preserve"><value>Total value</value></data>
+  <data name="Reports_ExportCare" xml:space="preserve"><value>Export CSV</value></data>
+  <data name="Reports_ExportCustomers" xml:space="preserve"><value>Export CSV</value></data>
+  <data name="Reports_ExportRevenue" xml:space="preserve"><value>Export CSV</value></data>
+  <data name="Reports_Revenue_Amount" xml:space="preserve"><value>Revenue</value></data>
+  <data name="Reports_Revenue_Chart" xml:space="preserve"><value>Revenue for {0}</value></data>
+  <data name="Reports_Revenue_Contracts" xml:space="preserve"><value>Contracts</value></data>
+  <data name="Reports_Revenue_Month" xml:space="preserve"><value>Month</value></data>
+  <data name="Reports_Revenue_Subtitle" xml:space="preserve"><value>Monthly revenue for {0}</value></data>
+  <data name="Reports_Revenue_Total" xml:space="preserve"><value>Total</value></data>
+  <data name="Reports_Tab_Care" xml:space="preserve"><value>Care</value></data>
+  <data name="Reports_Tab_Customers" xml:space="preserve"><value>Customers</value></data>
+  <data name="Reports_Tab_Revenue" xml:space="preserve"><value>Revenue</value></data>
+  <data name="Reports_Tabs" xml:space="preserve"><value>Report tabs</value></data>
+  <data name="Reports_ViewYear" xml:space="preserve"><value>View year</value></data>
+  <data name="Reports_YearLabel" xml:space="preserve"><value>Year</value></data>
+  <data name="Search_NoResults" xml:space="preserve"><value>No customers found.</value></data>
 </root>

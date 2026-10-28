@@ -1,0 +1,95 @@
+@model CareScheduleViewModel
+@{
+    var canCreate = User.IsInRole(WorkConstants.Roles.Manager) || User.IsInRole(WorkConstants.Roles.Support);
+
+    // The view decides the group of every row; the page only shows the three groups in this order.
+    var groups = new (string Status, string LabelKey, IReadOnlyList<CareScheduleRow> Rows)[]
+    {
+        (WorkConstants.ScheduleStatus.Overdue, "Care_Overdue", Model.Overdue),
+        (WorkConstants.ScheduleStatus.Today, "Care_Today", Model.Today),
+        (WorkConstants.ScheduleStatus.Upcoming, "Care_Upcoming", Model.Upcoming)
+    };
+}
+@if (Model.Total == 0)
+{
+    <section class="card p-8 text-center">
+        <i class="fa-solid fa-calendar-check text-3xl text-muted" aria-hidden="true"></i>
+        <p class="mt-3 font-semibold">@L["Care_EmptySchedule"]</p>
+        <p class="text-sm text-muted mt-1">@L["Care_EmptyScheduleHint"]</p>
+        @if (canCreate)
+        {
+            <a href="/care/create?returnUrl=@Uri.EscapeDataString("/care?tab=schedule")" class="btn btn-primary mt-4">
+                <i class="fa-solid fa-plus"></i> @L["Care_Add"]
+            </a>
+        }
+    </section>
+}
+else
+{
+    @foreach (var group in groups)
+    {
+        @if (group.Rows.Count > 0)
+        {
+            <section class="card overflow-hidden mb-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 p-4 border-b border-line">
+                    <div class="flex items-center gap-2">
+                        <partial name="_Badge" model="BadgeModel.ScheduleStatus(group.Status)" />
+                        <h2 class="font-semibold">@L[group.LabelKey]</h2>
+                    </div>
+                    <span class="text-sm text-muted">@L["Care_GroupCount", group.Rows.Count]</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="tbl tbl-cards">
+                        <thead>
+                            <tr>
+                                <th>@L["Common_Customer"]</th>
+                                <th>@L["Customer_Field_Phone"]</th>
+                                <th>@L["Care_Type"]</th>
+                                <th>@L["Common_Content"]</th>
+                                <th>@L["Care_NextAppointment"]</th>
+                                @if (canCreate)
+                                {
+                                    <th class="text-right">@L["Common_Actions"]</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in group.Rows)
+                            {
+                                <tr>
+                                    <td data-label="@L["Common_Customer"]">
+                                        <a href="/customers/@row.CustomerId" class="hover:text-primary font-semibold">@row.CustomerName</a>
+                                        <div class="text-xs text-muted">@row.EmployeeName</div>
+                                    </td>
+                                    <td data-label="@L["Customer_Field_Phone"]">
+                                        @if (!string.IsNullOrWhiteSpace(row.Phone))
+                                        {
+                                            <a href="tel:@row.Phone" class="hover:text-primary">@row.Phone</a>
+                                        }
+                                    </td>
+                                    <td data-label="@L["Care_Type"]">@L.Label("CareType", row.CareType)</td>
+                                    <td data-label="@L["Common_Content"]" class="max-w-md break-words">@row.Content</td>
+                                    <td data-label="@L["Care_NextAppointment"]" class="whitespace-nowrap">
+                                        <span class="@(row.ScheduleStatus == WorkConstants.ScheduleStatus.Overdue ? "text-danger-ink font-semibold" : null)">
+                                            @Utils.FormatDate(row.NextAppointmentDate)
+                                        </span>
+                                    </td>
+                                    @if (canCreate)
+                                    {
+                                        <td data-label="@L["Common_Actions"]" class="text-right">
+                                            <a href="@($"/care/create?customerId={row.CustomerId}&returnUrl={Uri.EscapeDataString("/care?tab=schedule")}")"
+                                               class="btn !py-1 !px-2.5 !text-xs">
+                                                <i class="fa-solid fa-check"></i> @L["Care_MarkCared"]
+                                            </a>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        }
+    }
+}

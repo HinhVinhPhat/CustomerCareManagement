@@ -20,7 +20,7 @@
     --success: #16A34A; --success-soft: #DCFCE7; --success-ink: #166534;
     --info: #0284C7; --info-soft: #E0F2FE; --info-ink: #075985;
     --warning: #D97706; --warning-soft: #FEF3C7; --warning-ink: #92400E;
-    --danger: #DC2626; --danger-soft: #FEE2E2; --danger-ink: #991B1B;
+    --danger: #DC2626; --danger-hover: #B91C1C; --danger-soft: #FEE2E2; --danger-ink: #991B1B;
     --neutral: #64748B; --neutral-soft: #F1F5F9; --neutral-ink: #334155;
     --standard-soft: #F1F5F9; --silver-soft: #E2E8F0; --silver-ink: #475569;
     --gold-soft: #FEF3C7; --gold-ink: #92400E; --diamond-soft: #EDE9FE; --diamond-ink: #5B21B6;
@@ -40,7 +40,7 @@
     --success: #4ADE80; --success-soft: #14351F; --success-ink: #BBF7D0;
     --info: #38BDF8; --info-soft: #0C2C43; --info-ink: #BAE6FD;
     --warning: #FBBF24; --warning-soft: #3A2A08; --warning-ink: #FDE68A;
-    --danger: #F87171; --danger-soft: #3D1417; --danger-ink: #FECACA;
+    --danger: #F87171; --danger-hover: #FCA5A5; --danger-soft: #3D1417; --danger-ink: #FECACA;
     --neutral: #94A3B8; --neutral-soft: #1C2740; --neutral-ink: #CBD5E1;
     --standard-soft: #1F2A40; --silver-soft: #27334D; --silver-ink: #D7DEEA;
     --gold-soft: #3A2A08; --gold-ink: #FDE68A; --diamond-soft: #2E1F4E; --diamond-ink: #DDD6FE;
@@ -65,6 +65,10 @@ body {
 .btn:hover { background: var(--bg-soft); }
 .btn-primary { background: var(--primary); border-color: var(--primary); color: var(--text-on-primary); }
 .btn-primary:hover { background: var(--primary-hover); }
+/* A dangerous action (cancelling a contract, deactivating a customer) wears this, and it always asks
+   for confirmation first. */
+.btn-danger { background: var(--danger); border-color: var(--danger); color: var(--text-on-primary); }
+.btn-danger:hover { background: var(--danger-hover); }
 
 .input {
     width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px;
@@ -101,6 +105,11 @@ body {
 .side-foot { color: var(--sidebar-fg); border-color: var(--sidebar-line); }
 .side-name { color: var(--sidebar-fg-strong); }
 
+/* The icon sign-out sits on the sidebar's own surface, so it takes that surface's edge instead of
+   the light card chip a plain .btn would draw on the dark bar. */
+.side-foot .btn { background: transparent; border-color: var(--sidebar-line); color: var(--sidebar-fg); padding: 7px 10px; }
+.side-foot .btn:hover { background: var(--sidebar-hover); color: var(--sidebar-fg-strong); }
+
 /* The sign-in page has no sidebar, so its left panel carries the same tone on its own. */
 .brand-panel { background: var(--bg-brand); }
 
@@ -119,6 +128,64 @@ body {
 .tbl tbody tr:hover td { background: var(--bg-soft); }
 .num { text-align: right; font-variant-numeric: tabular-nums; }
 
+/* On a phone a wide table is unreadable and scrolling it sideways hides the actions. A table marked
+   .tbl-cards turns each row into a card instead: the header row disappears and every cell shows the
+   label it belongs to, which the partial puts in data-label (design.md 3.4, 5.5). */
+@media (max-width: 767px) {
+    .tbl-cards thead { display: none; }
+    .tbl-cards, .tbl-cards tbody { display: block; width: 100%; }
+    .tbl-cards tr { display: block; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .tbl-cards tbody tr:hover td { background: transparent; }
+    .tbl-cards td {
+        display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+        border: 0; padding: 4px 16px; text-align: left;
+    }
+    .tbl-cards td::before {
+        content: attr(data-label); flex: 0 0 45%; font-size: 12px; font-weight: 600;
+        color: var(--text-muted);
+    }
+    .tbl-cards td.num { text-align: left; }
+}
+
+/* ---------------------------------------------------------------- tabs of a detail page */
+.tab-link {
+    display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; font-size: 14px;
+    font-weight: 600; color: var(--text-muted); border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+.tab-link:hover { color: var(--text); }
+.tab-link.active { color: var(--primary); border-bottom-color: var(--primary); }
+.tab-count {
+    background: var(--bg-soft); color: var(--text-muted); border-radius: 999px;
+    padding: 1px 8px; font-size: 12px;
+}
+
+/* ---------------------------------------------------------------- interaction timeline */
+.timeline { position: relative; margin-left: 8px; padding-left: 20px; border-left: 2px solid var(--border); }
+.timeline-item { position: relative; padding: 0 0 20px 4px; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+    position: absolute; left: -27px; top: 6px; width: 10px; height: 10px; border-radius: 999px;
+    background: var(--primary); border: 2px solid var(--bg-card);
+}
+
+/* ---------------------------------------------------------------- confirmation dialog */
+.confirm-dialog { max-width: 26rem; width: calc(100% - 2rem); }
+.confirm-dialog::backdrop { background: rgba(15, 23, 42, .55); }
+/* A dialog that carries a form with a few fields (recording a contact) needs a little more room. */
+.confirm-dialog.dialog-wide { max-width: 34rem; }
+
+/* Satisfaction score: a visible radio plus its number and star, so the control never relies on
+   colour alone and stays usable when :has is not supported. */
+.score-choice {
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; cursor: pointer;
+    border: 1px solid var(--border); border-radius: 8px; font-size: 14px; color: var(--text-muted);
+}
+.score-choice input { accent-color: var(--warning); }
+.score-choice:has(input:checked) {
+    background: var(--warning-soft); border-color: var(--warning); color: var(--warning-ink);
+}
+
 /* ---------------------------------------------------------------- helpers */
 .text-danger-ink { color: var(--danger); }
 
@@ -130,5 +197,70 @@ body {
 .toast-info { border-left: 4px solid var(--primary); }
 .toast-ok { border-left: 4px solid var(--success); }
 .toast-err { border-left: 4px solid var(--danger); }
+
+/* A message that must stay on screen (an action failed): an alert block at the top of the content. */
+.alert { display: flex; align-items: center; gap: .5rem; }
+.alert-err { border-left: 4px solid var(--danger); }
+.alert-err .alert-icon { color: var(--danger); }
+
+/* ---------------------------------------------------------------- KPI cards of the dashboard (M05) */
+.kpi { display: flex; flex-direction: column; gap: 4px; text-decoration: none; color: inherit; }
+/* Icon sits to the left of the number, in a soft square so the two read as one block. */
+.kpi-head { display: flex; align-items: center; gap: 10px; }
+.kpi-icon {
+    flex: 0 0 auto; width: 34px; height: 34px; border-radius: 10px;
+    display: grid; place-items: center; font-size: 17px; background: var(--bg-soft);
+}
+/* A long money string must wrap inside the card instead of pushing past its edge. */
+.kpi-value { min-width: 0; font-size: 22px; font-weight: 700; line-height: 1.15; overflow-wrap: anywhere; }
+.kpi-label { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+.kpi-hint { font-size: 12px; color: var(--text-muted); }
+
+/* The wide card of the second row (revenue): a bigger number in a rectangle that spans several columns. */
+.kpi-wide { padding: 1.25rem 1.5rem; }
+.kpi-wide .kpi-icon { width: 40px; height: 40px; font-size: 20px; }
+.kpi-wide .kpi-value { font-size: 30px; letter-spacing: -.01em; }
+.kpi-wide .kpi-label { font-size: 14px; }
+.kpi-wide .kpi-hint { font-size: 12.5px; }
+
+/* ---------------------------------------------------------------- bar chart (M05) */
+/* Twelve columns need room: below ~680px the chart scrolls sideways instead of squeezing the columns
+   until the value labels overlap (bug-report B05). */
+.chart-scroll { overflow-x: auto; overflow-y: hidden; margin-top: 14px; padding-bottom: 2px; }
+.chart { display: flex; align-items: flex-end; gap: 8px; min-width: 680px; }
+.chart-col { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
+/* Fixed height so every bar starts at the same line, whatever number of lines a value needs. */
+.chart-value {
+    height: 20px; display: flex; align-items: flex-end; justify-content: center;
+    font-size: 10.5px; line-height: 1.1; color: var(--text-muted); text-align: center;
+    max-width: 100%; overflow-wrap: anywhere; white-space: nowrap;
+}
+.chart-track { width: 100%; height: 176px; display: flex; align-items: flex-end; }
+.chart-bar {
+    width: 100%; max-width: 56px; margin: 0 auto; border-radius: 6px 6px 0 0; background: var(--primary);
+    min-height: 0; transition: height .2s ease;
+}
+.chart-label { font-size: 11px; color: var(--text-muted); text-align: center; white-space: nowrap; }
+
+/* ---------------------------------------------------------------- donut chart (M05) */
+.donut-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.donut {
+    width: 160px; height: 160px; border-radius: 50%;
+    background: conic-gradient(var(--border) 0 100%);
+}
+.donut-legend { list-style: none; padding: 0; margin: 0; width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.donut-legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.donut-dot { width: 12px; height: 12px; border-radius: 999px; display: inline-block; }
+
+/* ---------------------------------------------------------------- quick-search suggestions (M05) */
+.suggest-list { list-style: none; padding: 0; margin: 0; }
+.suggest-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 8px 10px; border-radius: 8px; cursor: pointer;
+}
+.suggest-item:hover, .suggest-item.active { background: var(--bg-soft); }
+.suggest-name { font-weight: 600; }
+.suggest-type { font-size: 12px; color: var(--text-muted); }
+.suggest-empty, .suggest-loading { padding: 8px 10px; color: var(--text-muted); font-size: 13px; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

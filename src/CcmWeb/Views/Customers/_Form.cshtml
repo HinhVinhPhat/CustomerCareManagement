@@ -1,0 +1,20 @@
+@model CustomerFormViewModel
+@* The address carries the customer being changed, so a POST can never move the change onto
+   another customer. Adding and editing share these fields. The form tag helper (asp-*) writes the
+   anti-forgery token, which a plain <form> would not. *@
+<form method="post" asp-controller="Customers"
+      asp-action="@(Model.IsEdit ? "Edit" : "Create")"
+      asp-route-id="@(Model.IsEdit ? Model.CustomerId : null)"
+      class="card p-5 max-w-3xl" data-customer-form>
+    @* Every POST carries an anti-forgery token; the form tag helper writes it. *@
+    <partial name="_FormFields" model="Model" />
+
+    <div class="flex items-center gap-2 mt-6 pt-4 border-t border-line">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> @L["Common_Save"]
+        </button>
+        <a href="@(Model.IsEdit ? $"/customers/{Model.CustomerId}" : "/customers")" class="btn">
+            @L["Common_Cancel"]
+        </a>
+    </div>
+</form>

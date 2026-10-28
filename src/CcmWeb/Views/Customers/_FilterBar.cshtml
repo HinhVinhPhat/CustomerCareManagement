@@ -1,0 +1,74 @@
+@model CustomerListViewModel
+@{
+    // A plain GET form: the filters end up in the address, so the list can be bookmarked and shared,
+    // and nothing needs JavaScript to work (design.md 3.4). The sort, the direction and the page
+    // size travel along as hidden fields, so narrowing the search does not lose them - and the page
+    // number does not, because a changed filter starts again on page 1.
+    var filter = Model.Filter;
+}
+<form method="get" action="/customers" class="card p-4 mb-4 grid gap-3 md:grid-cols-12 items-end">
+    <div class="md:col-span-4">
+        <label class="block text-sm font-semibold mb-1" for="q">@L["Customer_SearchLabel"]</label>
+        <input id="q" name="q" value="@filter.Q" class="input"
+               placeholder="@L["Customer_SearchPlaceholder"]" autocomplete="off" />
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="tier">@L["Customer_Field_Tier"]</label>
+        <select id="tier" name="tier" class="input">
+            <option value="">@L["Customer_AllTiers"]</option>
+            @foreach (var tier in WorkConstants.CustomerTiers.All)
+            {
+                <option value="@tier" selected="@(tier == filter.Tier)">@L.Label("Tier", tier)</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-3">
+        <label class="block text-sm font-semibold mb-1" for="owner">@L["Customer_Field_Owner"]</label>
+        <select id="owner" name="owner" class="input">
+            <option value="">@L["Customer_AllOwners"]</option>
+            @foreach (var owner in Model.Owners)
+            {
+                <option value="@owner.EmployeeId" selected="@(owner.EmployeeId == filter.Owner)">@owner.FullName</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-3 space-y-1 text-sm">
+        <label class="flex items-center gap-2" for="mine">
+            <input id="mine" type="checkbox" name="mine" value="true" @(filter.OnlyMine ? "checked" : "") />
+            <span>@L["Customer_OnlyMine"]</span>
+        </label>
+        <label class="flex items-center gap-2" for="inactive">
+            <input id="inactive" type="checkbox" name="inactive" value="true" @(filter.IncludeInactive ? "checked" : "") />
+            <span>@L["Customer_IncludeInactive"]</span>
+        </label>
+    </div>
+
+    @if (filter.Sort != CustomerFilter.SortByName)
+    {
+        <input type="hidden" name="sort" value="@filter.Sort" />
+    }
+    @if (filter.Desc)
+    {
+        <input type="hidden" name="desc" value="true" />
+    }
+    @if (filter.PageSize != WorkConstants.Settings.DefaultPageSize)
+    {
+        <input type="hidden" name="pageSize" value="@filter.PageSize" />
+    }
+
+    <div class="md:col-span-12 flex items-center gap-2">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> @L["Common_Search"]
+        </button>
+
+        @if (Model.Filter.HasFilters)
+        {
+            <a href="/customers" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+        }
+    </div>
+</form>

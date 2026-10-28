@@ -1,0 +1,124 @@
+@model ContractFormViewModel
+@{
+    ViewData["Title"] = L["Contract_Add"];
+    ViewData["PageKey"] = "contracts";
+}
+<header class="mb-5">
+    <a href="/contracts" class="text-sm text-muted">
+        <i class="fa-solid fa-arrow-left"></i> @L["Contract_BackToList"]
+    </a>
+    <h1 class="text-2xl font-bold mt-1">@L["Contract_Add"]</h1>
+</header>
+
+<form method="post" asp-controller="Contracts" asp-action="Create"
+      class="space-y-5" data-contract-form>
+    <section class="card p-5">
+        <h2 class="font-semibold mb-4">@L["Contract_GeneralInfo"]</h2>
+        <div class="grid gap-4 md:grid-cols-2">
+            <div>
+                <label asp-for="CustomerId" class="block text-sm font-semibold mb-1"></label>
+                <select asp-for="CustomerId" class="input">
+                    <option value="">@L["Contract_CustomerUnset"]</option>
+                    @foreach (var c in Model.Customers)
+                    {
+                        <option value="@c.CustomerId">@c.CustomerName</option>
+                    }
+                </select>
+                <span asp-validation-for="CustomerId" class="block text-sm text-danger-ink min-h-5"></span>
+            </div>
+
+            <div>
+                <label asp-for="EmployeeId" class="block text-sm font-semibold mb-1"></label>
+                <select asp-for="EmployeeId" class="input">
+                    <option value="">@L["Contract_StaffUnset"]</option>
+                    @foreach (var s in Model.Staff)
+                    {
+                        <option value="@s.EmployeeId">@s.FullName</option>
+                    }
+                </select>
+                <span asp-validation-for="EmployeeId" class="block text-sm text-danger-ink min-h-5"></span>
+            </div>
+
+            <div>
+                <label asp-for="SignDate" class="block text-sm font-semibold mb-1"></label>
+                <input asp-for="SignDate" type="date" class="input" />
+                <span asp-validation-for="SignDate" class="block text-sm text-danger-ink min-h-5"></span>
+            </div>
+
+            <div>
+                <label asp-for="EndDate" class="block text-sm font-semibold mb-1"></label>
+                <input asp-for="EndDate" type="date" class="input" />
+                <span asp-validation-for="EndDate" class="block text-sm text-danger-ink min-h-5"></span>
+            </div>
+
+            <div>
+                <label asp-for="Status" class="block text-sm font-semibold mb-1"></label>
+                <select asp-for="Status" class="input">
+                    <option value="@WorkConstants.ContractStatus.Active">@L.Label("Contract_Status", WorkConstants.ContractStatus.Active)</option>
+                    <option value="@WorkConstants.ContractStatus.Pending">@L.Label("Contract_Status", WorkConstants.ContractStatus.Pending)</option>
+                </select>
+            </div>
+
+            <div class="md:col-span-2">
+                <label asp-for="Note" class="block text-sm font-semibold mb-1"></label>
+                <textarea asp-for="Note" class="input" rows="2"></textarea>
+                <span asp-validation-for="Note" class="block text-sm text-danger-ink min-h-5"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="card p-5">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="font-semibold">@L["Contract_Lines"]</h2>
+            <button type="button" class="btn" data-add-line>
+                <i class="fa-solid fa-plus"></i> @L["Contract_AddLine"]
+            </button>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="tbl" id="linesTable">
+                <thead>
+                    <tr>
+                        <th>@L["Contract_Product"]</th>
+                        <th class="num">@L["Contract_Quantity"]</th>
+                        <th class="num">@L["Contract_UnitPrice"]</th>
+                        <th class="num">@L["Contract_LineTotal"]</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="linesBody">
+                    @* Lines are rendered by JavaScript; the hidden field keeps them for the POST. *@
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right font-semibold">@L["Contract_TotalValue"]</td>
+                        <td class="num font-semibold" id="totalValue">0</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <p id="linesError" class="text-sm text-danger-ink mt-2 hidden"></p>
+
+        <input type="hidden" asp-for="LinesJson" id="linesJson" />
+    </section>
+
+    <div asp-validation-summary="ModelOnly" class="text-sm text-danger-ink"></div>
+
+    <div class="flex items-center gap-2">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> @L["Common_Save"]
+        </button>
+        <a href="/contracts" class="btn">@L["Common_Cancel"]</a>
+    </div>
+</form>
+
+@* Product catalogue for the line picker, rendered as options so no JSON or Html.Raw is needed. *@
+<select id="productOptions" class="hidden">
+    @foreach (var p in Model.Products)
+    {
+        <option value="@p.ProductId" data-price="@p.UnitPrice.ToString(CultureInfo.InvariantCulture)"
+                data-type="@p.ProductType">@p.ProductName</option>
+    }
+</select>

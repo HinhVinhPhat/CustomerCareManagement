@@ -1,5 +1,6 @@
 @model NotificationSummaryViewModel
-@* Counts come from vw_ExpiringContract, vw_OpenFeedback and vw_CareSchedule - never hard-coded. *@
+@* Counts and items come from vw_ExpiringContract, vw_OpenFeedback and vw_CareSchedule - never
+   hard-coded. A group that the role cannot open is null and is not shown or counted. *@
 <div class="relative" id="bell">
     <button type="button" id="bellBtn" class="btn relative" aria-label="@L["Bell_Notifications"]"
             aria-haspopup="true" aria-expanded="false">
@@ -10,22 +11,61 @@
         }
     </button>
 
-    <div id="bellPanel" class="hidden absolute right-0 mt-2 w-72 card p-3 text-sm shadow-lg">
+    <div id="bellPanel" class="hidden absolute right-0 mt-2 w-80 card p-3 text-sm shadow-lg">
         <div class="font-semibold mb-2">@L["Bell_NeedsAttention"]</div>
-        <ul class="space-y-2">
-            <li class="flex items-center justify-between gap-2">
-                <span><i class="fa-solid fa-file-contract text-muted mr-2"></i>@L["Bell_ExpiringContracts"]</span>
-                <span class="badge b-warning">@Model.ExpiringContracts</span>
-            </li>
-            <li class="flex items-center justify-between gap-2">
-                <span><i class="fa-solid fa-comment-dots text-muted mr-2"></i>@L["Bell_OverdueFeedback"]</span>
-                <span class="badge b-danger">@Model.OverdueFeedback</span>
-            </li>
-            <li class="flex items-center justify-between gap-2">
-                <span><i class="fa-solid fa-heart text-muted mr-2"></i>@L["Bell_CareDue"]</span>
-                <span class="badge b-info">@Model.CareDueTodayOrOverdue</span>
-            </li>
-        </ul>
+
+        @if (Model.Groups.Count == 0 || Model.Total == 0)
+        {
+            <p class="text-sm text-muted py-3">@L["Bell_Empty"]</p>
+        }
+        else
+        {
+            <ul class="space-y-3">
+                @foreach (var group in Model.Groups)
+                {
+                    <li>
+                        <div class="flex items-center justify-between gap-2 mb-1">
+                            <span class="font-medium">
+                                <i class="fa-solid @group.Icon text-muted mr-2"></i>@L[group.TitleKey]
+                            </span>
+                            <span class="badge b-neutral">@group.Count</span>
+                        </div>
+
+                        @if (group.Items.Count == 0)
+                        {
+                            <p class="text-xs text-muted pl-6">@L["Bell_None"]</p>
+                        }
+                        else
+                        {
+                            <ul class="space-y-1 pl-6">
+                                @foreach (var item in group.Items)
+                                {
+                                    <li class="text-xs">
+                                        @if (item.Link is not null)
+                                        {
+                                            <a href="@item.Link" class="font-medium hover:underline">@item.Title</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="font-medium">@item.Title</span>
+                                        }
+                                        <span class="text-muted">· @item.Detail</span>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                        @if (group.Count > group.Items.Count)
+                        {
+                            <a href="@group.Url" class="block text-xs text-primary mt-1 pl-6">
+                                @L["Common_ViewAll"]
+                            </a>
+                        }
+                    </li>
+                }
+            </ul>
+        }
+
         <p class="mt-3 text-xs text-muted">@L["Bell_DetailNote"]</p>
     </div>
 </div>

@@ -1,0 +1,191 @@
+@model ContractDetailViewModel
+@{
+    ViewData["Title"] = L["Contract_DetailTitle", Model.Header.ContractId];
+    ViewData["PageKey"] = "contracts";
+
+    var canEdit = User.IsInRole(WorkConstants.Roles.Manager) || User.IsInRole(WorkConstants.Roles.Sales);
+    var status = Model.Header.Status;
+    var canSign = ContractRules.CanSign(status);
+    var canRenew = ContractRules.CanRenew(status);
+    var canCancel = ContractRules.CanCancel(status);
+}
+<header class="flex flex-wrap items-start justify-between gap-3 mb-5">
+    <div class="min-w-0">
+        <a href="/contracts" class="text-sm text-muted">
+            <i class="fa-solid fa-arrow-left"></i> @L["Contract_BackToList"]
+        </a>
+        <h1 class="text-2xl font-bold mt-1">@L["Contract_Code"] #@Model.Header.ContractId</h1>
+    </div>
+
+    @if (canEdit && ContractRules.HasAnyAction(status))
+    {
+        <div class="flex flex-wrap items-center gap-2">
+            @if (canSign)
+            {
+                <form method="post" asp-controller="Contracts" asp-action="Sign" asp-route-id="@Model.Header.ContractId">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-signature"></i> @L["Contract_Sign"]
+                    </button>
+                </form>
+            }
+            @if (canRenew)
+            {
+                <button type="button" class="btn" data-open-renew>
+                    <i class="fa-solid fa-rotate"></i> @L["Contract_Renew"]
+                </button>
+            }
+            @if (canCancel)
+            {
+                <form method="post" asp-controller="Contracts" asp-action="Cancel" asp-route-id="@Model.Header.ContractId"
+                      data-confirm data-confirm-reason
+                      data-confirm-title="@L["Contract_CancelTitle"]"
+                      data-confirm-body="@L["Contract_CancelBody"]">
+                    <input type="hidden" name="reason" value="" data-confirm-value />
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa-solid fa-ban"></i> @L["Contract_Cancel"]
+                    </button>
+                </form>
+            }
+        </div>
+    }
+</header>
+
+<section class="card p-5 mb-4">
+    <dl class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-sm">
+        <div>
+            <dt class="text-muted">@L["Contract_Customer"]</dt>
+            <dd>
+                <a href="/customers/@Model.Header.CustomerId" class="hover:text-primary font-semibold">
+                    @Model.Header.CustomerName
+                </a>
+            </dd>
+        </div>
+        <div>
+            <dt class="text-muted">@L["Contract_Staff"]</dt>
+            <dd>@Model.Header.EmployeeName</dd>
+        </div>
+        <div>
+            <dt class="text-muted">@L["Contract_SignDate"]</dt>
+            <dd>@Utils.FormatDate(Model.Header.SignDate)</dd>
+        </div>
+        <div>
+            <dt class="text-muted">@L["Contract_EndDate"]</dt>
+            <dd>
+                @Utils.FormatDate(Model.Header.EndDate)
+                @if (Model.Header.DaysRemaining is { } days && days >= 0)
+                {
+                    <span class="@(days < ContractRules.ExpiringSoonDays ? "text-danger-ink" : "text-muted")">
+                        (@L["Contract_DaysRemaining", days])
+                    </span>
+                }
+            </dd>
+        </div>
+        <div>
+            <dt class="text-muted">@L["Contract_Status"]</dt>
+            <dd><partial name="_Badge" model="BadgeModel.ContractStatus(Model.Header.Status)" /></dd>
+        </div>
+        <div>
+            <dt class="text-muted">@L["Contract_Value"]</dt>
+            <dd class="num font-semibold">@Utils.FormatMoney(Model.Header.TotalValue)</dd>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.Header.Note))
+        {
+            <div class="sm:col-span-2 lg:col-span-3">
+                <dt class="text-muted">@L["Contract_Note"]</dt>
+                <dd>@Model.Header.Note</dd>
+            </div>
+        }
+    </dl>
+</section>
+
+<section class="card overflow-hidden mb-4">
+    <div class="overflow-x-auto">
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>@L["Contract_Product"]</th>
+                    <th>@L["Contract_Type"]</th>
+                    <th class="num">@L["Contract_Quantity"]</th>
+                    <th class="num">@L["Contract_UnitPrice"]</th>
+                    <th class="num">@L["Contract_LineTotal"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var line in Model.Lines)
+                {
+                    <tr>
+                        <td>@line.ProductName</td>
+                        <td>@L.Label("ProductType", line.ProductType)</td>
+                        <td class="num">@line.Quantity</td>
+                        <td class="num">@Utils.FormatMoney(line.UnitPrice)</td>
+                        <td class="num">@Utils.FormatMoney(line.LineTotal ?? 0m)</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-right font-semibold">@L["Contract_TotalValue"]</td>
+                    <td class="num font-semibold">@Utils.FormatMoney(Model.Header.TotalValue)</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</section>
+
+@if (Model.Audit.Count > 0)
+{
+    <section class="card p-5">
+        <h2 class="font-semibold mb-3">@L["Contract_ChangeHistory"]</h2>
+        <ol class="timeline">
+            @foreach (var entry in Model.Audit)
+            {
+                <li class="timeline-item">
+                    <span class="timeline-dot" aria-hidden="true"></span>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="font-semibold">@L.Label("AuditAction", entry.Action)</span>
+                        <span class="text-sm text-muted">@Utils.FormatDateTime(entry.LogTime)</span>
+                        @if (entry.EmployeeName is not null)
+                        {
+                            <span class="text-sm text-muted">
+                                <i class="fa-solid fa-user text-xs" aria-hidden="true"></i> @entry.EmployeeName
+                            </span>
+                        }
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(entry.Detail))
+                    {
+                        <p class="text-sm text-muted mt-1">@entry.Detail</p>
+                    }
+                </li>
+            }
+        </ol>
+    </section>
+}
+
+@* Renew dialog *@
+<dialog id="renewDialog" class="confirm-dialog card p-5">
+    <h2 class="font-semibold">@L["Contract_RenewTitle"]</h2>
+    <p class="text-sm text-muted mt-1">@L["Contract_RenewBody"]</p>
+    <form method="post" asp-controller="Contracts" asp-action="Renew" asp-route-id="@Model.Header.ContractId" class="mt-4">
+        <label class="block text-sm font-semibold mb-1" for="newEndDate">@L["Contract_NewEndDate"]</label>
+        <input id="newEndDate" name="newEndDate" type="date" class="input"
+               value="@(Model.SuggestedRenewDate?.ToString("yyyy-MM-dd"))" required />
+        <div class="flex justify-end gap-2 mt-4">
+            <button type="button" class="btn" data-close-renew>@L["Common_Cancel"]</button>
+            <button type="submit" class="btn btn-primary">@L["Common_Confirm"]</button>
+        </div>
+    </form>
+</dialog>
+
+<script>
+    (function () {
+        var renewBtn = document.querySelector('[data-open-renew]');
+        var renewDlg = document.getElementById('renewDialog');
+        if (renewBtn && renewDlg) {
+            renewBtn.addEventListener('click', function () { renewDlg.showModal(); });
+        }
+        var closeBtn = document.querySelector('[data-close-renew]');
+        if (closeBtn && renewDlg) {
+            closeBtn.addEventListener('click', function () { renewDlg.close(); });
+        }
+    })();
+</script>

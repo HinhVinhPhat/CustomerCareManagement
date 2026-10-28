@@ -1,0 +1,29 @@
+@model FeedbackDetailViewModel
+<section class="card p-5">
+    <h2 class="font-semibold">@L["Feedback_StatusTitle"]</h2>
+
+    @if (Model.EmployeeId is null)
+    {
+        @* The rule the database enforces with 50004 is explained before the action. *@
+        <p class="text-sm text-warning mt-1">@L["Feedback_NeedsAssigneeHint"]</p>
+    }
+
+    <form method="post" action="/feedbacks/@Model.FeedbackId/status" class="mt-4">
+        @Html.AntiForgeryToken()
+        <label class="block text-sm font-semibold mb-1" for="status">@L["Feedback_Status"]</label>
+        <select id="status" name="status" class="input" required>
+            @foreach (var status in WorkConstants.FeedbackStatuses.All)
+            {
+                <option value="@status" selected="@(status == Model.FeedbackStatus)">@L.Label("FeedbackStatus", status)</option>
+            }
+        </select>
+
+        <label class="block text-sm font-semibold mb-1 mt-4" for="statusNote">@L["Feedback_NoteOptional"]</label>
+        <textarea id="statusNote" name="note" class="input" rows="2" maxlength="500"></textarea>
+        <p class="text-xs text-muted mt-1">@L["Feedback_NoteAppendHint"]</p>
+
+        <button type="submit" class="btn btn-primary mt-4">
+            <i class="fa-solid fa-arrows-rotate"></i> @L["Feedback_UpdateStatus"]
+        </button>
+    </form>
+</section>

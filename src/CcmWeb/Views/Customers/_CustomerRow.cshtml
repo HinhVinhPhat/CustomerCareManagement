@@ -1,0 +1,44 @@
+@model CustomerListRow
+@{
+    var isBusiness = WorkConstants.CustomerTypes.IsBusiness(Model.CustomerType);
+    var canEdit = User.IsInRole(WorkConstants.Roles.Manager) || User.IsInRole(WorkConstants.Roles.Sales);
+}
+@* One customer. On a phone the same table becomes a card list (see .tbl-cards in site.css), which is
+   why every cell carries the label it is shown under. *@
+<tr>
+    <td data-label="@L["Customer_Field_Name"]">
+        <a href="/customers/@Model.CustomerId" class="font-semibold hover:text-primary">
+            @Model.CustomerName
+        </a>
+        <i class="fa-solid @(isBusiness ? "fa-building" : "fa-user") text-muted ml-1"
+           title="@L.Label("CustomerType", Model.CustomerType)" aria-hidden="true"></i>
+        @if (!Model.IsActive)
+        {
+            @* Colour is never the only signal: the word is there too. *@
+            <partial name="_Badge" model="BadgeModel.Active(false)" />
+        }
+    </td>
+    <td data-label="@L["Customer_Field_Contact"]">
+        <div>@(!string.IsNullOrWhiteSpace(Model.Email) ? Model.Email : "—")</div>
+        <div class="text-muted">@(!string.IsNullOrWhiteSpace(Model.Phone) ? Model.Phone : "—")</div>
+    </td>
+    <td data-label="@L["Customer_Field_Tier"]">
+        <partial name="_Badge" model="BadgeModel.Tier(Model.Tier)" />
+    </td>
+    <td data-label="@L["Customer_Field_Owner"]">@(Model.OwnerName ?? "—")</td>
+    <td class="num" data-label="@L["Customer_Field_TotalValue"]">@Utils.FormatMoney(Model.TotalValue)</td>
+    <td data-label="@L["Customer_Field_CreatedDate"]">@Utils.FormatDate(Model.CreatedDate)</td>
+    <td class="text-right whitespace-nowrap" data-label="@L["Common_Actions"]">
+        <a href="/customers/@Model.CustomerId" class="btn !py-1 !px-2.5 !text-xs"
+           title="@L["Common_View"]" aria-label="@L["Common_View"]">
+            <i class="fa-solid fa-eye"></i>
+        </a>
+        @if (canEdit)
+        {
+            <a href="/customers/@Model.CustomerId/edit" class="btn !py-1 !px-2.5 !text-xs"
+               title="@L["Common_Edit"]" aria-label="@L["Common_Edit"]">
+                <i class="fa-solid fa-pen"></i>
+            </a>
+        }
+    </td>
+</tr>

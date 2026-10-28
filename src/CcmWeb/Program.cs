@@ -40,6 +40,13 @@ builder.Services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<ISettingService, SettingsService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IContractService, ContractService>();
+builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<ICareService, CareService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddHostedService<ContractExpiryService>();
 
 // ---------------------------------------------------------------------- language and appearance
@@ -77,8 +84,14 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 // ---------------------------------------------------------------------- MVC, authentication, authorization
 builder.Services.AddControllersWithViews(options =>
+{
     // Every POST/PUT/DELETE must carry an anti-forgery token (CSRF). Razor forms add it automatically.
-    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+
+    // A business error is carried as a resource KEY; this renders it in the language the user reads
+    // instead of showing the key itself.
+    options.Filters.Add<ModelStateLocalizationFilter>();
+})
     // The DataAnnotations messages in the view models are resource KEYS, so the English text written
     // in the attribute is never what the user reads.
     .AddDataAnnotationsLocalization(options =>

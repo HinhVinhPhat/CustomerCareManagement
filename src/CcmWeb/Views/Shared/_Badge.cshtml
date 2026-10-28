@@ -1,0 +1,4 @@
+@model BadgeModel
+@* A coded database value: the text comes from the resource files, the colour from design.md 2.2.
+   A badge always carries text - colour is never the only signal. *@
+<span class="badge @Model.Style">@L.Label(Model.Group, Model.Code)</span>

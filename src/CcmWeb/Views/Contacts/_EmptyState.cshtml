@@ -1,0 +1,41 @@
+@model ContactListViewModel
+@{
+    // Three empty states. A page past the end is not "no data"; a filtered list that matches nobody
+    // is not an empty log; and the way out of each is different.
+    var pastEnd = Model.Filter.Page > 1;
+    var narrowed = Model.Filter.HasFilters;
+}
+<section class="card p-8 text-center">
+    <i class="fa-solid @(pastEnd ? "fa-file-circle-question" : narrowed ? "fa-magnifying-glass" : "fa-phone") text-3xl text-muted"
+       aria-hidden="true"></i>
+
+    @if (pastEnd)
+    {
+        <p class="mt-3 font-semibold">@L["Contact_NoPage"]</p>
+        <p class="text-sm text-muted mt-1">@L["Contact_NoPageHint"]</p>
+        <a href="/contacts@(Model.Filter.PageQuery(1))" class="btn btn-primary mt-4">
+            <i class="fa-solid fa-arrow-left"></i> @L["Common_FirstPage"]
+        </a>
+    }
+    else if (narrowed)
+    {
+        <p class="mt-3 font-semibold">@L["Contact_NoMatch"]</p>
+        <p class="text-sm text-muted mt-1">@L["Contact_NoMatchHint"]</p>
+        <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <a href="/contacts" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+            <button type="button" class="btn btn-primary" data-open-contact>
+                <i class="fa-solid fa-plus"></i> @L["Contact_Add"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <p class="mt-3 font-semibold">@L["Contact_NoneYet"]</p>
+        <p class="text-sm text-muted mt-1">@L["Contact_NoneYetHint"]</p>
+        <button type="button" class="btn btn-primary mt-4" data-open-contact>
+            <i class="fa-solid fa-plus"></i> @L["Contact_Add"]
+        </button>
+    }
+</section>

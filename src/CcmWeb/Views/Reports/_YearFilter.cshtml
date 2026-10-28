@@ -1,0 +1,16 @@
+@model YearFilterModel
+<form method="get" action="@Model.Action" class="flex flex-wrap items-end gap-2">
+    <div>
+        <label for="year" class="block text-sm font-semibold mb-1">@L["Reports_YearLabel"]</label>
+        <select id="year" name="year" class="input">
+            @foreach (var year in Model.Years)
+            {
+                <option value="@year" selected="@(year == Model.Year)">@year</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn">
+        <i class="fa-solid fa-arrow-right"></i> @L["Reports_ViewYear"]
+    </button>
+</form>

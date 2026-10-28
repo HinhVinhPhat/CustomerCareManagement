@@ -7,15 +7,19 @@
         <i class="fa-solid fa-bars"></i>
     </button>
 
-    @* The customer screen and the live suggestions arrive in M02; until then the box says so. *@
-    <form id="quickSearch" class="flex-1 max-w-md relative" data-soon="true"
-          data-soon-message="@L["Nav_ComingSoon"].Value">
+    @* Quick search: the keyword goes to the customer list, which is where a customer is found. The
+       live suggestions arrive with the dashboard refresh. *@
+    @* Ô tìm nhanh: gõ ít nhất 2 ký tự thì gợi ý khách hàng hiện ra; Enter hoặc bấm một gợi ý thì đi tới danh sách khách hàng. *@
+    <form id="quickSearch" method="get" action="/customers" class="flex-1 max-w-md relative" role="search">
         <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-muted"></i>
         <input id="searchBox" name="q" class="input pl-9" placeholder="@L["Topbar_SearchPlaceholder"]"
-               aria-label="@L["Topbar_SearchLabel"]" autocomplete="off" />
+               aria-label="@L["Topbar_SearchLabel"]" autocomplete="off"
+               data-empty="@L["Search_NoResults"]" data-min="@WorkConstants.Search.MinKeywordLength" />
+        <div id="searchSuggestions" class="hidden absolute left-0 right-0 top-full mt-1 card p-2 text-sm shadow-lg z-40"
+             role="listbox" aria-label="@L["Topbar_SearchLabel"]"></div>
     </form>
 
-    <div class="ml-auto flex items-center gap-3">
+    <div class="ml-auto flex items-center gap-3 shrink-0">
         @await Component.InvokeAsync("NotificationBell")
 
         <partial name="_LanguageSwitch" />
@@ -24,10 +28,9 @@
         <div class="w-9 h-9 rounded-full bg-primary text-white grid place-items-center text-sm font-bold"
              title="@User.GetDisplayName()">@initials</div>
 
-        <form method="post" asp-controller="Account" asp-action="Logout">
-            <button type="submit" class="btn" aria-label="@L["Topbar_SignOut"]" title="@L["Topbar_SignOut"]">
-                <i class="fa-solid fa-right-from-bracket"></i>
-            </button>
+        @* The word, not the icon: the icon sign-out now lives in the sidebar footer. *@
+        <form method="post" asp-controller="Account" asp-action="Logout" class="shrink-0">
+            <button type="submit" class="btn whitespace-nowrap">@L["Topbar_SignOut"]</button>
         </form>
     </div>
 </header>

@@ -51,11 +51,13 @@ names, feedback text. Coded values (statuses, roles, tiers, types, channels) sta
   employee's own choice, which wins over the default.
 - `UQ_Settings_Scope (EmployeeID, SettingKey)`: SQL Server treats NULL as a value here, so at most
   **one** default per key and one personal row per employee and key.
-- `CHK_Settings_Value`: `Language` is `vi`/`en`, `Theme` is `light`/`dark` (extend the CHECK when a
-  new key is added). `DataType` is `String`/`Int`/`Bool`; `Category` is
-  `Localization`/`Appearance`/`General`.
-- Seeded defaults: `Language = vi`, `Theme = light`. Nothing writes here except the application;
-  there is **no trigger**, so a settings change is not audited.
+- `CHK_Settings_Key`: `Language`, `Theme`, `PageSize`. `CHK_Settings_Value` ties the value **and** its
+  declared `DataType` to the key, so not even sqlcmd can store a nonsense row: `Language` is
+  `vi`/`en` with `String`, `Theme` is `light`/`dark` with `String`, `PageSize` is a whole number
+  1-100 with `Int` (extend the CHECK when a new key is added). `DataType` is `String`/`Int`/`Bool`;
+  `Category` is `Localization`/`Appearance`/`General`.
+- Seeded defaults: `Language = vi`, `Theme = light`, `PageSize = 20`. Nothing writes here except the
+  application; there is **no trigger**, so a settings change is not audited.
 
 ## Relationships
 
@@ -85,7 +87,7 @@ AUDIT_LOG, SETTINGS (personal rows); CONTRACT N-N PRODUCT_SERVICE through CONTRA
 | sp_SignContract | @ContractID, @SignDate=NULL | none | 50013, 50014, 50015 |
 | sp_RenewContract | @ContractID, @NewEndDate | none | 50013, 50014, 50015 |
 | sp_CancelContract | @ContractID, @Reason=NULL | none (the reason is appended to Note) | 50013, 50014 |
-| sp_SearchCustomer | @Keyword=NULL, @Tier=NULL, @OwnerEmployeeID=NULL, @ActiveOnly=1 | CustomerID, CustomerName, CustomerType, Email, Phone, Address, Tier, CreatedDate, OwnerEmployeeID, OwnerName, IsActive, TotalValue | none |
+| sp_SearchCustomer | @Keyword=NULL, @Tier=NULL, @OwnerEmployeeID=NULL, @ActiveOnly=1, @PageNumber=1, @PageSize=20, @SortBy=N'Name' (`Name`/`CreatedDate`/`TotalValue`), @SortDesc=0 | CustomerID, CustomerName, CustomerType, Email, Phone, Address, Tier, CreatedDate, OwnerEmployeeID, OwnerName, IsActive, TotalValue, TotalRows | none; paging and ordering happen inside, `@PageSize` is clamped to 1-100, an unknown `@SortBy` falls back to `Name`, and `TotalRows` (`COUNT(*) OVER ()`) counts the matches before paging - an empty result carries no row at all |
 | sp_SetCustomerStatus | @CustomerID, @IsActive | none | 50006 |
 | sp_AssignFeedback | @FeedbackID, @EmployeeID | none (moves New to InProgress) | 50002, 50003 |
 | sp_UpdateFeedbackStatus | @FeedbackID, @Status, @Note=NULL | none | 50012, 50002, 50004 |

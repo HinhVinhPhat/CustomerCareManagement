@@ -1,0 +1,43 @@
+@model DashboardViewModel
+@* Vẽ theo vai trò, không theo danh sách: danh sách là null khi truy vấn hỏng, và khối vẫn phải hiện
+   khóa lỗi của mình (bug-report B02). *@
+@if (Model.ShowRevenue)
+{
+    <section class="card p-5 lg:col-span-2">
+        <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+                <h2 class="font-semibold">@L["Dashboard_RevenueTitle"]</h2>
+                <p class="text-sm text-muted">@L["Dashboard_RevenueSubtitle", Model.Year]</p>
+            </div>
+
+            <a href="/reports/revenue?year=@Model.Year" class="text-sm text-primary whitespace-nowrap">
+                @L["Common_ViewAll"]
+            </a>
+        </div>
+
+        @if (Model.RevenueErrorKey is not null)
+        {
+            <partial name="_BlockError" model="Model.RevenueErrorKey" />
+        }
+        else if (Model.Revenue is null)
+        {
+            <partial name="_BlockError" model="@("Error_Unexpected")" />
+        }
+        else
+        {
+            var labels = Model.Revenue
+                .Select(row => CultureInfo.CurrentUICulture.DateTimeFormat.GetAbbreviatedMonthName(row.Month))
+                .ToList();
+            var values = Model.Revenue.Select(row => row.Revenue).ToList();
+            var chart = new BarChartModel(
+                L["Dashboard_RevenueChartAria", Model.Year].Value, labels, values);
+
+            <partial name="Charts/_BarChart" model="chart" />
+
+            @if (!Model.HasRevenue)
+            {
+                <p class="text-sm text-muted mt-3">@L["Dashboard_NoRevenueYear", Model.Year]</p>
+            }
+        }
+    </section>
+}

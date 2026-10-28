@@ -1,0 +1,55 @@
+@model CustomerDetailViewModel
+@* Read-only in M02: contracts are added, signed, renewed and cancelled in M03, and those go through
+   the procedures of the database. *@
+@if (Model.Contracts.Count == 0)
+{
+    <section class="card p-6 text-center text-sm text-muted">
+        <i class="fa-solid fa-file-signature text-2xl" aria-hidden="true"></i>
+        <p class="mt-2">@L["Customer_NoContract"]</p>
+    </section>
+}
+else
+{
+    <section class="card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="tbl tbl-cards">
+                <thead>
+                    <tr>
+                        <th>@L["Contract_Code"]</th>
+                        <th>@L["Contract_SignDate"]</th>
+                        <th>@L["Contract_EndDate"]</th>
+                        <th>@L["Contract_Status"]</th>
+                        <th class="num">@L["Contract_Value"]</th>
+                        <th>@L["Contract_Employee"]</th>
+                        <th>@L["Contract_Note"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var contract in Model.Contracts)
+                    {
+                        <tr>
+                            <td data-label="@L["Contract_Code"]" class="font-semibold">#@contract.ContractId</td>
+                            <td data-label="@L["Contract_SignDate"]">@Utils.FormatDate(contract.SignDate)</td>
+                            <td data-label="@L["Contract_EndDate"]">
+                                @Utils.FormatDate(contract.EndDate)
+                                @* vw_ContractInfo counts the days from today, so a contract that has
+                                   already ended would read "còn -205 ngày"; the badge already says
+                                   it is expired. *@
+                                @if (contract.DaysRemaining is int days && days >= 0)
+                                {
+                                    <span class="text-muted">(@L["Contract_DaysRemaining", days])</span>
+                                }
+                            </td>
+                            <td data-label="@L["Contract_Status"]">
+                                <partial name="_Badge" model="BadgeModel.ContractStatus(contract.Status)" />
+                            </td>
+                            <td data-label="@L["Contract_Value"]" class="num">@Utils.FormatMoney(contract.TotalValue)</td>
+                            <td data-label="@L["Contract_Employee"]">@contract.OwnerName</td>
+                            <td data-label="@L["Contract_Note"]">@(string.IsNullOrWhiteSpace(contract.Note) ? "—" : contract.Note)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}

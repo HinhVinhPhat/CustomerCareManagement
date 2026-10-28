@@ -1,0 +1,39 @@
+@model FeedbackListViewModel
+@{
+    var pastEnd = Model.Filter.Page > 1;
+    var narrowed = Model.Filter.HasFilters;
+}
+<section class="card p-8 text-center">
+    <i class="fa-solid @(pastEnd ? "fa-file-circle-question" : narrowed ? "fa-magnifying-glass" : "fa-comments") text-3xl text-muted"
+       aria-hidden="true"></i>
+
+    @if (pastEnd)
+    {
+        <p class="mt-3 font-semibold">@L["Feedback_NoPage"]</p>
+        <p class="text-sm text-muted mt-1">@L["Feedback_NoPageHint"]</p>
+        <a href="/feedbacks@(Model.Filter.PageQuery(1))" class="btn btn-primary mt-4">
+            <i class="fa-solid fa-arrow-left"></i> @L["Common_FirstPage"]
+        </a>
+    }
+    else if (narrowed)
+    {
+        <p class="mt-3 font-semibold">@L["Feedback_NoMatch"]</p>
+        <p class="text-sm text-muted mt-1">@L["Feedback_NoMatchHint"]</p>
+        <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <a href="/feedbacks" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+            <a href="/feedbacks/create" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i> @L["Feedback_Add"]
+            </a>
+        </div>
+    }
+    else
+    {
+        <p class="mt-3 font-semibold">@L["Feedback_NoneYet"]</p>
+        <p class="text-sm text-muted mt-1">@L["Feedback_NoneYetHint"]</p>
+        <a href="/feedbacks/create" class="btn btn-primary mt-4">
+            <i class="fa-solid fa-plus"></i> @L["Feedback_Add"]
+        </a>
+    }
+</section>

@@ -19,13 +19,13 @@ public static class Navigation
     public static readonly IReadOnlyList<NavItem> Items =
     [
         new("dashboard", "Nav_Dashboard", "fa-gauge-high", "/", WorkConstants.Roles.All, true),
-        new("customers", "Nav_Customers", "fa-users", "/customers", WorkConstants.Roles.All, false),
-        new("contracts", "Nav_Contracts", "fa-file-contract", "/contracts", WorkConstants.Roles.All, false),
-        new("contacts", "Nav_Contacts", "fa-phone", "/contacts", WorkConstants.Roles.All, false),
-        new("care", "Nav_Care", "fa-heart", "/care", WorkConstants.Roles.All, false),
+        new("customers", "Nav_Customers", "fa-users", "/customers", WorkConstants.Roles.All, true),
+        new("contracts", "Nav_Contracts", "fa-file-contract", "/contracts", WorkConstants.Roles.All, true),
+        new("contacts", "Nav_Contacts", "fa-phone", "/contacts", WorkConstants.Roles.All, true),
+        new("care", "Nav_Care", "fa-heart", "/care", WorkConstants.Roles.All, true),
         new("feedback", "Nav_Feedback", "fa-comments", "/feedbacks",
-            [WorkConstants.Roles.Manager, WorkConstants.Roles.Support], false),
-        new("reports", "Nav_Reports", "fa-chart-column", "/reports", WorkConstants.Roles.All, false),
+            [WorkConstants.Roles.Manager, WorkConstants.Roles.Support], true),
+        new("reports", "Nav_Reports", "fa-chart-column", "/reports", WorkConstants.Roles.All, true),
         new("administration", "Nav_Administration", "fa-gear", "/admin",
             [WorkConstants.Roles.Manager], false),
         new("settings", "Nav_Settings", "fa-sliders", "/settings",
@@ -35,10 +35,24 @@ public static class Navigation
     public static IEnumerable<NavItem> ForRole(string? role) =>
         Items.Where(item => role is not null && item.Roles.Contains(role));
 
-    /// <summary>True when the menu entry points at the page currently being shown.</summary>
-    public static bool IsCurrent(NavItem item, string? currentPath) =>
-        string.Equals(
-            item.Url.TrimEnd('/'),
-            (currentPath ?? "/").TrimEnd('/'),
-            StringComparison.OrdinalIgnoreCase);
+    /// <summary>
+    /// True when the menu entry points at the page being shown. A page inside a module keeps its
+    /// entry highlighted (<c>/customers/5</c> is still the customers screen). The dashboard sits at
+    /// "/" and therefore matches only itself.
+    /// </summary>
+    public static bool IsCurrent(NavItem item, string? currentPath)
+    {
+        var url = Normalise(item.Url);
+        var path = Normalise(currentPath);
+
+        return string.Equals(url, path, StringComparison.OrdinalIgnoreCase)
+            || (url != "/" && path.StartsWith(url + "/", StringComparison.OrdinalIgnoreCase));
+    }
+
+    /// <summary>A path without its trailing slash; "/" stays "/".</summary>
+    private static string Normalise(string? path)
+    {
+        var trimmed = (path ?? string.Empty).TrimEnd('/');
+        return trimmed.Length == 0 ? "/" : trimmed;
+    }
 }

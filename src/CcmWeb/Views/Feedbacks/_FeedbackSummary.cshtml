@@ -1,0 +1,60 @@
+@model FeedbackDetailViewModel
+<section class="card p-5">
+    <dl class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-sm">
+        <div>
+            <dt class="text-muted">@L["Common_Customer"]</dt>
+            <dd>
+                <a href="/customers/@Model.CustomerId" class="hover:text-primary font-semibold">@Model.CustomerName</a>
+                @if (!string.IsNullOrWhiteSpace(Model.CustomerPhone))
+                {
+                    <div class="text-muted text-xs mt-1">
+                        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                        <a href="tel:@Model.CustomerPhone" class="hover:text-primary">@Model.CustomerPhone</a>
+                    </div>
+                }
+            </dd>
+        </div>
+        <div>
+            <dt class="text-muted">@L["Feedback_CreatedTime"]</dt>
+            <dd>@Utils.FormatDateTime(Model.CreatedTime)</dd>
+        </div>
+        <div>
+            <dt class="text-muted">@L["Feedback_Type"]</dt>
+            <dd>@L.Label("FeedbackType", Model.FeedbackType)</dd>
+        </div>
+        <div>
+            <dt class="text-muted">@L["Feedback_AssignedTo"]</dt>
+            <dd>
+                @if (Model.EmployeeName is { } name)
+                {
+                    @name
+                }
+                else
+                {
+                    <span class="text-muted">@L["Feedback_Unassigned"]</span>
+                }
+            </dd>
+        </div>
+        <div>
+            <dt class="text-muted">@L["Feedback_DueDate"]</dt>
+            <dd class="@(Model.IsOverdue ? "text-danger-ink font-semibold" : null)">
+                @Utils.FormatDate(Model.DueDate)
+            </dd>
+        </div>
+        <div>
+            <dt class="text-muted">@L["Feedback_ResolvedDate"]</dt>
+            <dd>@Utils.FormatDate(Model.ResolvedDate)</dd>
+        </div>
+        <div class="sm:col-span-2 lg:col-span-3">
+            <dt class="text-muted">@L["Feedback_Content"]</dt>
+            <dd class="whitespace-pre-line break-words mt-1">@Model.Content</dd>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.Note))
+        {
+            <div class="sm:col-span-2 lg:col-span-3">
+                <dt class="text-muted">@L["Feedback_Note"]</dt>
+                <dd class="whitespace-pre-line break-words mt-1">@Model.Note</dd>
+            </div>
+        }
+    </dl>
+</section>

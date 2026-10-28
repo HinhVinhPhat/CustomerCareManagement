@@ -1,0 +1,38 @@
+@model ContactListViewModel
+@{
+    // A clickable column header; the link keeps every filter and changes only the sort.
+    void SortHeader(string field, string labelKey)
+    {
+        var isCurrent = Model.Filter.Sort == field;
+        var icon = !isCurrent ? "fa-sort" : (Model.Filter.Desc ? "fa-sort-down" : "fa-sort-up");
+
+        <th>
+            <a href="/contacts@(Model.Filter.SortQuery(field))" class="inline-flex items-center gap-1">
+                <span>@L[labelKey]</span>
+                <i class="fa-solid @icon @(isCurrent ? null : "text-muted")" aria-hidden="true"></i>
+            </a>
+        </th>
+    }
+}
+<div class="overflow-x-auto">
+    <table class="tbl tbl-cards">
+        <thead>
+            <tr>
+                @{
+                    SortHeader(ContactFilter.SortByTime, "Contact_Time");
+                    SortHeader(ContactFilter.SortByCustomer, "Common_Customer");
+                    SortHeader(ContactFilter.SortByStaff, "Common_Staff");
+                    SortHeader(ContactFilter.SortByChannel, "Contact_Channel");
+                }
+                <th>@L["Common_Content"]</th>
+                <th>@L["Common_Result"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Rows)
+            {
+                <partial name="_ContactRow" model="row" />
+            }
+        </tbody>
+    </table>
+</div>

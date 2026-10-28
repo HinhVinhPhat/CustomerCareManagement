@@ -16,4 +16,7 @@ public sealed record SystemSettingRow(
 public sealed class SettingsViewModel
 {
     public IReadOnlyList<SystemSettingRow> SystemSettings { get; init; } = [];
+
+    /// <summary>Set when a save was refused; the form keeps the values the Manager typed.</summary>
+    public string? ErrorKey { get; init; }
 }

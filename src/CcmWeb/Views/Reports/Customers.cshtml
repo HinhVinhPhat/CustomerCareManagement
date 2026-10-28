@@ -1,0 +1,64 @@
+@model CustomerReportViewModel
+@{
+    ViewData["Title"] = L["Nav_Reports"];
+    ViewData["PageKey"] = "reports";
+
+    var exportLink = new ExportLinkModel(
+        $"/reports/customers/export{Model.Filter.ExportQuery}", "Reports_ExportCustomers");
+
+    var donutTitle = L["Reports_Customers_TierChart"].Value;
+    var donut = new DonutChartModel(donutTitle, Model.TierShares);
+}
+
+<header class="mb-5">
+    <h1 class="text-2xl font-bold">@L["Nav_Reports"]</h1>
+    <p class="text-sm text-muted mt-1">@L["Reports_Customers_Subtitle"]</p>
+</header>
+
+<partial name="_Tabs" model="WorkConstants.Reports.TabCustomers" />
+
+<div class="flex flex-wrap items-end justify-between gap-3 mb-4">
+    <partial name="_TierFilter" model="Model" />
+    <partial name="_ExportButton" model="exportLink" />
+</div>
+
+@if (Model.ErrorKey is not null)
+{
+    <section class="card">
+        <partial name="_BlockError" model="Model.ErrorKey" />
+    </section>
+}
+else
+{
+    <div class="grid lg:grid-cols-3 gap-4">
+        <section class="card p-5">
+            <h2 class="font-semibold mb-3">@L["Reports_Customers_TierChart"]</h2>
+            <partial name="Charts/_Donut" model="donut" />
+        </section>
+
+        <section class="card overflow-hidden lg:col-span-2">
+            @if (Model.Rows.Count == 0)
+            {
+                <div class="p-8 text-center">
+                    <i class="fa-solid fa-users text-3xl text-muted" aria-hidden="true"></i>
+                    <p class="mt-3 font-semibold">
+                        @(Model.Filter.HasFilters
+                            ? L["Reports_Customers_NoMatch"].Value
+                            : L["Reports_Customers_Empty"].Value)
+                    </p>
+                    @if (Model.Filter.HasFilters)
+                    {
+                        <a href="/reports/customers" class="btn mt-4">
+                            <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+                        </a>
+                    }
+                </div>
+            }
+            else
+            {
+                <partial name="_CustomersTable" model="Model" />
+                <partial name="_Pager" model="Model" />
+            }
+        </section>
+    </div>
+}

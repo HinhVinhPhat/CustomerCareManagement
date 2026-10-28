@@ -1,0 +1,43 @@
+@model DonutChartModel
+@{
+    var total = Model.Shares.Sum(share => share.Count);
+
+    var stops = new List<string>();
+    var cursor = 0d;
+
+    if (total <= 0)
+    {
+        stops.Add("var(--border) 0% 100%");
+    }
+    else
+    {
+        foreach (var share in Model.Shares)
+        {
+            var color = share.Tier switch
+            {
+                WorkConstants.CustomerTiers.Silver => "var(--silver-ink)",
+                WorkConstants.CustomerTiers.Gold => "var(--gold-ink)",
+                WorkConstants.CustomerTiers.Diamond => "var(--diamond-ink)",
+                _ => "var(--neutral)"
+            };
+            var end = cursor + share.Percent;
+            stops.Add($"{color} {cursor.ToString("0.##", CultureInfo.InvariantCulture)}% {end.ToString("0.##", CultureInfo.InvariantCulture)}%");
+            cursor = end;
+        }
+    }
+
+    var gradient = string.Join(", ", stops);
+}
+<figure class="donut-wrap" aria-label="@Model.Title">
+    <div class="donut" style="background: conic-gradient(@gradient)"></div>
+    <ul class="donut-legend">
+        @foreach (var share in Model.Shares)
+        {
+            <li class="donut-legend-item">
+                <span class="donut-dot @Badges.ForTier(share.Tier)"></span>
+                <span>@L.Label("Tier", share.Tier)</span>
+                <span class="text-muted">@share.Count (@share.Percent%)</span>
+            </li>
+        }
+    </ul>
+</figure>

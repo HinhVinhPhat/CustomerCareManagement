@@ -1,53 +1,76 @@
-@model IReadOnlyList<SystemSettingRow>
-@* The system-wide defaults: one row per key, saved one at a time. *@
+@model SettingsViewModel
+@* The system-wide defaults: one form for the whole table, saved once from the button at the bottom, so a
+   Manager changes several values and applies them together instead of saving row by row. *@
 <section class="card overflow-hidden mb-6">
     <div class="p-4 border-b border-line">
         <h2 class="font-semibold">@L["Settings_SystemTitle"]</h2>
         <p class="text-sm text-muted">@L["Settings_SystemHint"]</p>
     </div>
 
-    @if (Model.Count == 0)
+    @if (Model.SystemSettings.Count == 0)
     {
         @* An empty list means the database could not answer - never a fake row of zeros. *@
         <p class="p-4 text-sm text-muted">@L["Error_Unexpected"]</p>
     }
     else
     {
-        <table class="tbl">
-            <thead>
-                <tr>
-                    <th>@L["Settings_Column_Setting"]</th>
-                    <th>@L["Settings_Column_Value"]</th>
-                    <th>@L["Settings_Column_Updated"]</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var row in Model)
-                {
+        <form method="post" asp-controller="Settings" asp-action="SaveSystem">
+            @if (Model.ErrorKey is not null)
+            {
+                @* A refused save keeps what the Manager typed and says why (AGENTS.md 5). *@
+                <div class="alert alert-err p-3 px-4 text-sm text-danger-ink" role="alert">
+                    <i class="fa-solid fa-circle-exclamation alert-icon" aria-hidden="true"></i>
+                    <span>@L[Model.ErrorKey]</span>
+                </div>
+            }
+
+            <table class="tbl">
+                <thead>
                     <tr>
-                        <td class="font-semibold">@L.Label("Setting", row.Key)</td>
-                        <td>
-                            <form method="post" asp-controller="Settings" asp-action="SaveSystem"
-                                  class="flex items-center gap-2">
-                                <input type="hidden" name="settingKey" value="@row.Key" />
-                                <select name="settingValue" class="input !w-auto"
-                                        aria-label="@(L.Label("Setting", row.Key).Value)">
-                                    @foreach (var value in WorkConstants.Settings.AllowedValues(row.Key))
-                                    {
-                                        <option value="@value" selected="@(value == row.Value)">
-                                            @L.Label(row.Key, value)
-                                        </option>
-                                    }
-                                </select>
-                                <button type="submit" class="btn">@L["Common_Save"]</button>
-                            </form>
-                        </td>
-                        <td class="text-muted">@Utils.FormatDateTime(row.UpdatedDate)</td>
-                        <td class="text-muted text-sm">@row.Description</td>
+                        <th>@L["Settings_Column_Setting"]</th>
+                        <th>@L["Settings_Column_Value"]</th>
+                        <th>@L["Settings_Column_Updated"]</th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var row in Model.SystemSettings)
+                    {
+                        <tr>
+                            <td class="font-semibold">
+                                <label for="setting-@row.Key">@L.Label("Setting", row.Key)</label>
+                            </td>
+                            <td>
+                                @if (WorkConstants.Settings.AllowedValues(row.Key).Length > 0)
+                                {
+                                    <select id="setting-@row.Key" name="values[@row.Key]" class="input !w-auto">
+                                        @foreach (var value in WorkConstants.Settings.AllowedValues(row.Key))
+                                        {
+                                            <option value="@value" selected="@(value == row.Value)">
+                                                @L.Label(row.Key, value)
+                                            </option>
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    @* A key whose value is a number (PageSize) has no list to choose from. *@
+                                    <input type="number" id="setting-@row.Key" name="values[@row.Key]"
+                                           value="@row.Value" class="input !w-24"
+                                           min="@WorkConstants.Settings.MinPageSize"
+                                           max="@WorkConstants.Settings.MaxPageSize" step="1" />
+                                }
+                            </td>
+                            <td class="text-muted">@Utils.FormatDateTime(row.UpdatedDate)</td>
+                            <td class="text-muted text-sm">@row.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="p-4 border-t border-line flex items-center justify-end gap-3">
+                <button type="submit" class="btn btn-primary">@L["Common_Save"]</button>
+            </div>
+        </form>
     }
 </section>

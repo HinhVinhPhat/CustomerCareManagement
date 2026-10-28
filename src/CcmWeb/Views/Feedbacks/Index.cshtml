@@ -1,0 +1,40 @@
+@model FeedbackListViewModel
+@{
+    ViewData["Title"] = L["Nav_Feedback"];
+    ViewData["PageKey"] = "feedback";
+}
+<header class="flex flex-wrap items-center justify-between gap-3 mb-5">
+    <div>
+        <h1 class="text-2xl font-bold">@L["Nav_Feedback"]</h1>
+        <p class="text-sm text-muted mt-1">@L["Feedback_Subtitle"]</p>
+    </div>
+
+    <a href="/feedbacks/create" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> @L["Feedback_Add"]
+    </a>
+</header>
+
+<partial name="_Counters" model="Model" />
+<partial name="_FilterBar" model="Model" />
+
+@if (Model.ErrorKey is not null)
+{
+    <section class="card p-8 text-center">
+        <i class="fa-solid fa-triangle-exclamation text-3xl text-danger-ink"></i>
+        <p class="mt-3 font-semibold">@L[Model.ErrorKey]</p>
+        <p class="text-sm text-muted mt-1">@L["Common_TryAgain"]</p>
+    </section>
+}
+else if (Model.Rows.Count == 0)
+{
+    <partial name="_EmptyState" model="Model" />
+}
+else
+{
+    <section class="card overflow-hidden">
+        <partial name="_FeedbackTable" model="Model" />
+        <partial name="_Pager" model="Model" />
+    </section>
+}
+
+<partial name="_AssignDialog" model="Model" />

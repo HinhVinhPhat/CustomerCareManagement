@@ -1,0 +1,50 @@
+@model ContactFormViewModel
+<form method="post" action="/contacts" class="mt-4 space-y-4">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="ReturnUrl" />
+
+    <div>
+        <label asp-for="CustomerId" class="block text-sm font-semibold mb-1"></label>
+        <select asp-for="CustomerId" class="input">
+            <option value="">@L["Contact_ChooseCustomer"]</option>
+            @foreach (var customer in Model.Customers)
+            {
+                <option value="@customer.CustomerId">@customer.CustomerName</option>
+            }
+        </select>
+        <span asp-validation-for="CustomerId" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="Channel" class="block text-sm font-semibold mb-1"></label>
+        <select asp-for="Channel" class="input">
+            <option value="">@L["Contact_ChooseChannel"]</option>
+            @foreach (var channel in WorkConstants.ContactChannels.All)
+            {
+                <option value="@channel">@L.Label("Channel", channel)</option>
+            }
+        </select>
+        <span asp-validation-for="Channel" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="Content" class="block text-sm font-semibold mb-1"></label>
+        <textarea asp-for="Content" class="input" rows="3" maxlength="1000"></textarea>
+        <span asp-validation-for="Content" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="Result" class="block text-sm font-semibold mb-1"></label>
+        <input asp-for="Result" class="input" maxlength="200" />
+        <span asp-validation-for="Result" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="text-sm text-danger-ink"></div>
+
+    <div class="flex justify-end gap-2 pt-2">
+        <button type="button" class="btn" data-close-contact>@L["Common_Cancel"]</button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> @L["Common_Save"]
+        </button>
+    </div>
+</form>

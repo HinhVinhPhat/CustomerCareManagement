@@ -1,0 +1,56 @@
+@model DashboardViewModel
+@* Kinh doanh không có khối này: cờ ShowFeedback là false thì cả thẻ không được vẽ. Vẽ theo cờ chứ
+   không theo danh sách, để khối vẫn hiện khóa lỗi khi truy vấn hỏng (bug-report B02). *@
+@if (Model.ShowFeedback)
+{
+    <section class="card p-5">
+        <div class="flex items-start justify-between gap-3 mb-3">
+            <h2 class="font-semibold">@L["Dashboard_FeedbackTitle"]</h2>
+            <a href="/feedbacks" class="text-sm text-primary whitespace-nowrap">@L["Common_ViewAll"]</a>
+        </div>
+
+        @if (Model.FeedbackErrorKey is not null)
+        {
+            <partial name="_BlockError" model="Model.FeedbackErrorKey" />
+        }
+        else if (Model.Feedback is null || Model.Feedback.Count == 0)
+        {
+            <p class="text-sm text-muted py-4">@L["Dashboard_NoFeedback"]</p>
+        }
+        else
+        {
+            <ul class="divide-y divide-line">
+                @foreach (var item in Model.Feedback)
+                {
+                    <li class="py-2.5">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <a href="/feedbacks/@item.FeedbackId" class="font-medium block truncate">
+                                    @item.CustomerName
+                                </a>
+                                @if (!string.IsNullOrWhiteSpace(item.Content))
+                                {
+                                    <p class="text-sm text-muted truncate">@item.Content</p>
+                                }
+                            </div>
+
+                            <div class="shrink-0 text-right space-y-1">
+                                <partial name="_Badge" model="BadgeModel.Priority(item.Priority)" />
+
+                                @if (item.IsOverdue)
+                                {
+                                    <span class="badge b-danger block">@L["Dashboard_Overdue"]</span>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="text-xs text-muted mt-1 flex flex-wrap gap-x-3">
+                            <span>@L["Dashboard_DueDate", Utils.FormatDate(item.DueDate)]</span>
+                            <span>@(item.Assignee ?? L["Feedback_Unassigned"].Value)</span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </section>
+}

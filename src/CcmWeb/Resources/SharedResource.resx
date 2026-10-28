@@ -304,4 +304,1015 @@
   <data name="Error_Unexpected" xml:space="preserve">
     <value>Đã xảy ra lỗi, thao tác chưa hoàn tất.</value>
   </data>
+
+  <!-- ===== M02: dùng chung cho danh sách (M03-M06 tái sử dụng) ===== -->
+  <data name="Common_Search" xml:space="preserve">
+    <value>Tìm</value>
+  </data>
+  <data name="Common_ClearFilters" xml:space="preserve">
+    <value>Xoá bộ lọc</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Huỷ</value>
+  </data>
+  <data name="Common_Confirm" xml:space="preserve">
+    <value>Xác nhận</value>
+  </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Sửa</value>
+  </data>
+  <data name="Common_View" xml:space="preserve">
+    <value>Xem</value>
+  </data>
+  <data name="Common_ViewAll" xml:space="preserve">
+    <value>Xem tất cả</value>
+  </data>
+  <data name="Common_Actions" xml:space="preserve">
+    <value>Thao tác</value>
+  </data>
+  <data name="Common_TryAgain" xml:space="preserve">
+    <value>Vui lòng thử lại, hoặc báo cho quản trị viên.</value>
+  </data>
+  <data name="Common_FirstPage" xml:space="preserve">
+    <value>Trang đầu</value>
+  </data>
+  <data name="List_ShowingRange" xml:space="preserve">
+    <value>Hiển thị {0}-{1} trong {2} kết quả</value>
+  </data>
+  <data name="List_RowsPerPage" xml:space="preserve">
+    <value>Số dòng mỗi trang</value>
+  </data>
+  <data name="List_Pagination" xml:space="preserve">
+    <value>Phân trang</value>
+  </data>
+  <data name="List_PreviousPage" xml:space="preserve">
+    <value>Trang trước</value>
+  </data>
+  <data name="List_NextPage" xml:space="preserve">
+    <value>Trang sau</value>
+  </data>
+
+  <!-- ===== M02: màn hình khách hàng ===== -->
+  <data name="Customer_Add" xml:space="preserve">
+    <value>Thêm khách hàng</value>
+  </data>
+  <data name="Customer_EditTitle" xml:space="preserve">
+    <value>Sửa khách hàng</value>
+  </data>
+  <data name="Customer_BackToList" xml:space="preserve">
+    <value>Danh sách khách hàng</value>
+  </data>
+  <data name="Customer_BackToDetail" xml:space="preserve">
+    <value>Chi tiết khách hàng</value>
+  </data>
+  <data name="Customer_SearchLabel" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="Customer_SearchPlaceholder" xml:space="preserve">
+    <value>Tên, email hoặc số điện thoại</value>
+  </data>
+  <data name="Customer_AllTiers" xml:space="preserve">
+    <value>Tất cả các hạng</value>
+  </data>
+  <data name="Customer_AllOwners" xml:space="preserve">
+    <value>Tất cả nhân viên</value>
+  </data>
+  <data name="Customer_OnlyMine" xml:space="preserve">
+    <value>Chỉ khách hàng của tôi</value>
+  </data>
+  <data name="Customer_IncludeInactive" xml:space="preserve">
+    <value>Gồm khách hàng đã ngừng hoạt động</value>
+  </data>
+  <data name="Customer_Field_Name" xml:space="preserve">
+    <value>Tên khách hàng</value>
+  </data>
+  <data name="Customer_Field_Contact" xml:space="preserve">
+    <value>Liên hệ</value>
+  </data>
+  <data name="Customer_Field_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Customer_Field_Phone" xml:space="preserve">
+    <value>Số điện thoại</value>
+  </data>
+  <data name="Customer_Field_Type" xml:space="preserve">
+    <value>Loại khách hàng</value>
+  </data>
+  <data name="Customer_Field_Gender" xml:space="preserve">
+    <value>Giới tính</value>
+  </data>
+  <data name="Customer_Field_DateOfBirth" xml:space="preserve">
+    <value>Ngày sinh</value>
+  </data>
+  <data name="Customer_Field_Address" xml:space="preserve">
+    <value>Địa chỉ</value>
+  </data>
+  <data name="Customer_Field_Source" xml:space="preserve">
+    <value>Nguồn khách hàng</value>
+  </data>
+  <data name="Customer_Field_Owner" xml:space="preserve">
+    <value>Nhân viên phụ trách</value>
+  </data>
+  <data name="Customer_Field_Tier" xml:space="preserve">
+    <value>Hạng khách hàng</value>
+  </data>
+  <data name="Customer_Field_CreatedDate" xml:space="preserve">
+    <value>Ngày tạo</value>
+  </data>
+  <data name="Customer_Field_TotalValue" xml:space="preserve">
+    <value>Tổng giá trị hợp đồng</value>
+  </data>
+  <data name="Customer_Gender_Unset" xml:space="preserve">
+    <value>Chưa xác định</value>
+  </data>
+  <data name="Customer_Owner_Unset" xml:space="preserve">
+    <value>Chưa phân công</value>
+  </data>
+  <data name="Customer_YearsOld" xml:space="preserve">
+    <value>{0} tuổi</value>
+  </data>
+  <data name="Customer_NoMatch" xml:space="preserve">
+    <value>Không tìm thấy khách hàng nào phù hợp</value>
+  </data>
+  <data name="Customer_NoMatchHint" xml:space="preserve">
+    <value>Thử từ khoá khác, hoặc xoá bớt bộ lọc.</value>
+  </data>
+  <data name="Customer_NoneYet" xml:space="preserve">
+    <value>Chưa có khách hàng nào</value>
+  </data>
+  <data name="Customer_NoneYetHint" xml:space="preserve">
+    <value>Thêm khách hàng đầu tiên để bắt đầu.</value>
+  </data>
+  <data name="Customer_NoPage" xml:space="preserve">
+    <value>Trang này không còn dữ liệu</value>
+  </data>
+  <data name="Customer_NoPageHint" xml:space="preserve">
+    <value>Danh sách có thể đã thay đổi. Quay lại trang đầu để xem.</value>
+  </data>
+  <data name="Customer_Created" xml:space="preserve">
+    <value>Đã thêm khách hàng mới.</value>
+  </data>
+  <data name="Customer_Updated" xml:space="preserve">
+    <value>Đã lưu thay đổi.</value>
+  </data>
+  <data name="Customer_Deactivate" xml:space="preserve">
+    <value>Ngừng hoạt động</value>
+  </data>
+  <data name="Customer_Reactivate" xml:space="preserve">
+    <value>Kích hoạt lại</value>
+  </data>
+  <data name="Customer_DeactivateTitle" xml:space="preserve">
+    <value>Ngừng hoạt động khách hàng này?</value>
+  </data>
+  <data name="Customer_DeactivateBody" xml:space="preserve">
+    <value>Khách hàng sẽ không còn trong danh sách mặc định. Dữ liệu vẫn được giữ và có thể kích hoạt lại.</value>
+  </data>
+  <data name="Customer_ReactivateTitle" xml:space="preserve">
+    <value>Kích hoạt lại khách hàng này?</value>
+  </data>
+  <data name="Customer_ReactivateBody" xml:space="preserve">
+    <value>Khách hàng sẽ trở lại danh sách mặc định.</value>
+  </data>
+  <data name="Customer_Deactivated" xml:space="preserve">
+    <value>Đã ngừng hoạt động khách hàng.</value>
+  </data>
+  <data name="Customer_Reactivated" xml:space="preserve">
+    <value>Đã kích hoạt lại khách hàng.</value>
+  </data>
+  <data name="Customer_Tabs" xml:space="preserve">
+    <value>Thông tin khách hàng</value>
+  </data>
+  <data name="Customer_TabOverview" xml:space="preserve">
+    <value>Tổng quan</value>
+  </data>
+  <data name="Customer_TabContracts" xml:space="preserve">
+    <value>Hợp đồng</value>
+  </data>
+  <data name="Customer_TabHistory" xml:space="preserve">
+    <value>Lịch sử tương tác</value>
+  </data>
+  <data name="Customer_TabFeedback" xml:space="preserve">
+    <value>Phản hồi</value>
+  </data>
+  <data name="Customer_ContractCount" xml:space="preserve">
+    <value>Số hợp đồng</value>
+  </data>
+  <data name="Customer_AverageSatisfaction" xml:space="preserve">
+    <value>Điểm hài lòng trung bình</value>
+  </data>
+  <data name="Customer_NoScore" xml:space="preserve">
+    <value>Chưa có đánh giá</value>
+  </data>
+  <data name="Customer_OpenFeedback" xml:space="preserve">
+    <value>Phản hồi chưa xử lý</value>
+  </data>
+  <data name="Customer_NextAppointment" xml:space="preserve">
+    <value>Lịch hẹn sắp tới</value>
+  </data>
+  <data name="Customer_NoAppointment" xml:space="preserve">
+    <value>Không có lịch hẹn nào trong 7 ngày tới.</value>
+  </data>
+  <data name="Customer_NoContract" xml:space="preserve">
+    <value>Khách hàng này chưa có hợp đồng nào.</value>
+  </data>
+  <data name="Customer_NoInteraction" xml:space="preserve">
+    <value>Chưa ghi nhận tương tác nào.</value>
+  </data>
+  <data name="Customer_NoFeedback" xml:space="preserve">
+    <value>Khách hàng này chưa có phản hồi nào.</value>
+  </data>
+
+  <!-- ===== Cột của hợp đồng và phản hồi (M02 đọc, M03/M04 dùng lại) ===== -->
+  <data name="Contract_Code" xml:space="preserve">
+    <value>Mã hợp đồng</value>
+  </data>
+  <data name="Contract_SignDate" xml:space="preserve">
+    <value>Ngày ký</value>
+  </data>
+  <data name="Contract_EndDate" xml:space="preserve">
+    <value>Ngày kết thúc</value>
+  </data>
+  <data name="Contract_DaysRemaining" xml:space="preserve">
+    <value>còn {0} ngày</value>
+  </data>
+  <data name="Contract_Status" xml:space="preserve">
+    <value>Trạng thái</value>
+  </data>
+  <data name="Contract_Value" xml:space="preserve">
+    <value>Giá trị</value>
+  </data>
+  <data name="Contract_Employee" xml:space="preserve">
+    <value>Nhân viên</value>
+  </data>
+  <data name="Contract_Note" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="Feedback_CreatedTime" xml:space="preserve">
+    <value>Thời điểm</value>
+  </data>
+  <data name="Feedback_Type" xml:space="preserve">
+    <value>Loại</value>
+  </data>
+  <data name="Feedback_Content" xml:space="preserve">
+    <value>Nội dung</value>
+  </data>
+  <data name="Feedback_Priority" xml:space="preserve">
+    <value>Ưu tiên</value>
+  </data>
+  <data name="Feedback_Status" xml:space="preserve">
+    <value>Trạng thái</value>
+  </data>
+  <data name="Feedback_DueDate" xml:space="preserve">
+    <value>Hạn xử lý</value>
+  </data>
+  <data name="Feedback_AssignedTo" xml:space="preserve">
+    <value>Người xử lý</value>
+  </data>
+  <data name="Feedback_Unassigned" xml:space="preserve">
+    <value>Chưa phân công</value>
+  </data>
+  <data name="History_Result" xml:space="preserve">
+    <value>Kết quả</value>
+  </data>
+
+  <!-- ===== Nhãn của các giá trị mã hoá (ccm-language mục 4) ===== -->
+  <data name="CustomerType_Individual" xml:space="preserve">
+    <value>Cá nhân</value>
+  </data>
+  <data name="CustomerType_Business" xml:space="preserve">
+    <value>Doanh nghiệp</value>
+  </data>
+  <data name="Customer_Active" xml:space="preserve">
+    <value>Đang hoạt động</value>
+  </data>
+  <data name="Customer_Inactive" xml:space="preserve">
+    <value>Đã ngừng hoạt động</value>
+  </data>
+  <data name="Tier_Standard" xml:space="preserve">
+    <value>Tiêu chuẩn</value>
+  </data>
+  <data name="Tier_Silver" xml:space="preserve">
+    <value>Bạc</value>
+  </data>
+  <data name="Tier_Gold" xml:space="preserve">
+    <value>Vàng</value>
+  </data>
+  <data name="Tier_Diamond" xml:space="preserve">
+    <value>Kim cương</value>
+  </data>
+  <data name="Gender_Male" xml:space="preserve">
+    <value>Nam</value>
+  </data>
+  <data name="Gender_Female" xml:space="preserve">
+    <value>Nữ</value>
+  </data>
+  <data name="Gender_Other" xml:space="preserve">
+    <value>Khác</value>
+  </data>
+  <data name="Contract_Status_Pending" xml:space="preserve">
+    <value>Chờ ký</value>
+  </data>
+  <data name="Contract_Status_Active" xml:space="preserve">
+    <value>Đang hiệu lực</value>
+  </data>
+  <data name="Contract_Status_Expired" xml:space="preserve">
+    <value>Hết hạn</value>
+  </data>
+  <data name="Contract_Status_Cancelled" xml:space="preserve">
+    <value>Đã huỷ</value>
+  </data>
+  <data name="Channel_Phone" xml:space="preserve">
+    <value>Điện thoại</value>
+  </data>
+  <data name="Channel_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Channel_Zalo" xml:space="preserve">
+    <value>Zalo</value>
+  </data>
+  <data name="Channel_InPerson" xml:space="preserve">
+    <value>Gặp trực tiếp</value>
+  </data>
+  <data name="Channel_Other" xml:space="preserve">
+    <value>Khác</value>
+  </data>
+  <data name="CareType_Renewal" xml:space="preserve">
+    <value>Tái ký</value>
+  </data>
+  <data name="CareType_Upsell" xml:space="preserve">
+    <value>Bán thêm</value>
+  </data>
+  <data name="CareType_Birthday" xml:space="preserve">
+    <value>Sinh nhật</value>
+  </data>
+  <data name="CareType_Survey" xml:space="preserve">
+    <value>Khảo sát</value>
+  </data>
+  <data name="CareType_RenewalReminder" xml:space="preserve">
+    <value>Nhắc gia hạn</value>
+  </data>
+  <data name="CareType_Other" xml:space="preserve">
+    <value>Khác</value>
+  </data>
+  <data name="FeedbackType_Complaint" xml:space="preserve">
+    <value>Khiếu nại</value>
+  </data>
+  <data name="FeedbackType_Suggestion" xml:space="preserve">
+    <value>Đề xuất</value>
+  </data>
+  <data name="FeedbackType_GeneralFeedback" xml:space="preserve">
+    <value>Phản hồi chung</value>
+  </data>
+  <data name="FeedbackType_Compliment" xml:space="preserve">
+    <value>Khen ngợi</value>
+  </data>
+  <data name="FeedbackStatus_New" xml:space="preserve">
+    <value>Mới</value>
+  </data>
+  <data name="FeedbackStatus_InProgress" xml:space="preserve">
+    <value>Đang xử lý</value>
+  </data>
+  <data name="FeedbackStatus_Resolved" xml:space="preserve">
+    <value>Đã xử lý</value>
+  </data>
+  <data name="FeedbackStatus_Closed" xml:space="preserve">
+    <value>Đã đóng</value>
+  </data>
+  <data name="Priority_1" xml:space="preserve">
+    <value>Cao</value>
+  </data>
+  <data name="Priority_2" xml:space="preserve">
+    <value>Trung bình</value>
+  </data>
+  <data name="Priority_3" xml:space="preserve">
+    <value>Thấp</value>
+  </data>
+  <data name="ScheduleStatus_Overdue" xml:space="preserve">
+    <value>Quá hạn</value>
+  </data>
+  <data name="ScheduleStatus_Today" xml:space="preserve">
+    <value>Hôm nay</value>
+  </data>
+  <data name="ScheduleStatus_Upcoming" xml:space="preserve">
+    <value>Sắp tới</value>
+  </data>
+  <data name="HistoryCategory_Contact" xml:space="preserve">
+    <value>Liên hệ</value>
+  </data>
+  <data name="HistoryCategory_Care" xml:space="preserve">
+    <value>Chăm sóc</value>
+  </data>
+  <data name="HistoryCategory_Feedback" xml:space="preserve">
+    <value>Phản hồi</value>
+  </data>
+  <data name="Setting_PageSize" xml:space="preserve">
+    <value>Số dòng mỗi trang</value>
+  </data>
+
+  <!-- ===== M02: kiểm tra dữ liệu và lỗi nghiệp vụ ===== -->
+  <data name="Validation_CustomerNameRequired" xml:space="preserve">
+    <value>Nhập tên khách hàng.</value>
+  </data>
+  <data name="Validation_CustomerNameTooLong" xml:space="preserve">
+    <value>Tên khách hàng tối đa 100 ký tự.</value>
+  </data>
+  <data name="Validation_CustomerEmailFormat" xml:space="preserve">
+    <value>Email không hợp lệ.</value>
+  </data>
+  <data name="Validation_CustomerEmailTooLong" xml:space="preserve">
+    <value>Email tối đa 100 ký tự.</value>
+  </data>
+  <data name="Validation_CustomerPhoneTooLong" xml:space="preserve">
+    <value>Số điện thoại tối đa 15 ký tự.</value>
+  </data>
+  <data name="Validation_CustomerAddressTooLong" xml:space="preserve">
+    <value>Địa chỉ tối đa 255 ký tự.</value>
+  </data>
+  <data name="Validation_CustomerSourceTooLong" xml:space="preserve">
+    <value>Nguồn khách hàng tối đa 50 ký tự.</value>
+  </data>
+  <data name="Validation_CustomerTypeInvalid" xml:space="preserve">
+    <value>Loại khách hàng không hợp lệ.</value>
+  </data>
+  <data name="Validation_CustomerGenderInvalid" xml:space="preserve">
+    <value>Giới tính không hợp lệ.</value>
+  </data>
+  <data name="Validation_CustomerOwnerInvalid" xml:space="preserve">
+    <value>Nhân viên phụ trách không hợp lệ.</value>
+  </data>
+  <data name="Error_CustomerEmailInvalid" xml:space="preserve">
+    <value>Email không hợp lệ.</value>
+  </data>
+  <data name="Error_CustomerPhoneInvalid" xml:space="preserve">
+    <value>Số điện thoại phải gồm 9-11 chữ số.</value>
+  </data>
+  <data name="Error_CustomerBirthDateInvalid" xml:space="preserve">
+    <value>Ngày sinh phải trước ngày hôm nay.</value>
+  </data>
+  <data name="Error_CustomerNotFound" xml:space="preserve">
+    <value>Không tìm thấy khách hàng này.</value>
+  </data>
+
+  <!-- ===== M03: hợp đồng ===== -->
+  <data name="Contract_Add" xml:space="preserve">
+    <value>Thêm hợp đồng</value>
+  </data>
+  <data name="Contract_BackToList" xml:space="preserve">
+    <value>Danh sách hợp đồng</value>
+  </data>
+  <data name="Contract_SearchPlaceholder" xml:space="preserve">
+    <value>Tên khách hàng</value>
+  </data>
+  <data name="Contract_AllStatuses" xml:space="preserve">
+    <value>Tất cả trạng thái</value>
+  </data>
+  <data name="Contract_AllStaff" xml:space="preserve">
+    <value>Tất cả nhân viên</value>
+  </data>
+  <data name="Contract_SignFrom" xml:space="preserve">
+    <value>Ký từ ngày</value>
+  </data>
+  <data name="Contract_SignTo" xml:space="preserve">
+    <value>Ký đến ngày</value>
+  </data>
+  <data name="Contract_ExpiringSoon" xml:space="preserve">
+    <value>Sắp hết hạn (30 ngày)</value>
+  </data>
+  <data name="Contract_NoMatch" xml:space="preserve">
+    <value>Không tìm thấy hợp đồng nào phù hợp</value>
+  </data>
+  <data name="Contract_NoMatchHint" xml:space="preserve">
+    <value>Thử từ khoá khác, hoặc xoá bớt bộ lọc.</value>
+  </data>
+  <data name="Contract_NoneYet" xml:space="preserve">
+    <value>Chưa có hợp đồng nào</value>
+  </data>
+  <data name="Contract_NoneYetHint" xml:space="preserve">
+    <value>Thêm hợp đồng đầu tiên để bắt đầu.</value>
+  </data>
+  <data name="Contract_Created" xml:space="preserve">
+    <value>Đã thêm hợp đồng mới.</value>
+  </data>
+  <data name="Contract_Signed" xml:space="preserve">
+    <value>Đã ký hợp đồng.</value>
+  </data>
+  <data name="Contract_Renewed" xml:space="preserve">
+    <value>Đã gia hạn hợp đồng.</value>
+  </data>
+  <data name="Contract_Cancelled" xml:space="preserve">
+    <value>Đã huỷ hợp đồng.</value>
+  </data>
+  <data name="Contract_Customer" xml:space="preserve">
+    <value>Khách hàng</value>
+  </data>
+  <data name="Contract_CustomerUnset" xml:space="preserve">
+    <value>Chọn khách hàng</value>
+  </data>
+  <data name="Contract_Staff" xml:space="preserve">
+    <value>Nhân viên phụ trách</value>
+  </data>
+  <data name="Contract_StaffUnset" xml:space="preserve">
+    <value>Chọn nhân viên</value>
+  </data>
+      <data name="Contract_NewEndDate" xml:space="preserve">
+    <value>Ngày kết thúc mới</value>
+  </data>
+        <data name="Contract_TotalValue" xml:space="preserve">
+    <value>Tổng giá trị</value>
+  </data>
+  <data name="Contract_Lines" xml:space="preserve">
+    <value>Chi tiết sản phẩm / dịch vụ</value>
+  </data>
+  <data name="Contract_Product" xml:space="preserve">
+    <value>Sản phẩm / dịch vụ</value>
+  </data>
+  <data name="Contract_Quantity" xml:space="preserve">
+    <value>Số lượng</value>
+  </data>
+  <data name="Contract_UnitPrice" xml:space="preserve">
+    <value>Đơn giá</value>
+  </data>
+  <data name="Contract_LineTotal" xml:space="preserve">
+    <value>Thành tiền</value>
+  </data>
+  <data name="Contract_AddLine" xml:space="preserve">
+    <value>Thêm dòng</value>
+  </data>
+  <data name="Contract_GeneralInfo" xml:space="preserve">
+    <value>Thông tin chung</value>
+  </data>
+    <data name="Contract_Type" xml:space="preserve">
+    <value>Loại</value>
+  </data>
+  <data name="Contract_ChangeHistory" xml:space="preserve">
+    <value>Lịch sử thay đổi</value>
+  </data>
+  <data name="Contract_DetailTitle" xml:space="preserve">
+    <value>Hợp đồng #{0}</value>
+  </data>
+    <data name="Contract_Sign" xml:space="preserve">
+    <value>Ký hợp đồng</value>
+  </data>
+  <data name="Contract_Renew" xml:space="preserve">
+    <value>Gia hạn</value>
+  </data>
+  <data name="Contract_RenewTitle" xml:space="preserve">
+    <value>Gia hạn hợp đồng này?</value>
+  </data>
+  <data name="Contract_RenewBody" xml:space="preserve">
+    <value>Chọn ngày kết thúc mới. Hợp đồng sẽ trở lại trạng thái đang hiệu lực.</value>
+  </data>
+  <data name="Contract_Cancel" xml:space="preserve">
+    <value>Huỷ hợp đồng</value>
+  </data>
+  <data name="Contract_CancelTitle" xml:space="preserve">
+    <value>Huỷ hợp đồng này?</value>
+  </data>
+  <data name="Contract_CancelBody" xml:space="preserve">
+    <value>Hợp đồng sẽ chuyển sang trạng thái đã huỷ và không thể khôi phục.</value>
+  </data>
+  <data name="Contract_CancelReason" xml:space="preserve">
+    <value>Lý do huỷ (không bắt buộc)</value>
+  </data>
+  <data name="AuditAction_Insert" xml:space="preserve">
+    <value>Tạo mới</value>
+  </data>
+  <data name="AuditAction_StatusChange" xml:space="preserve">
+    <value>Đổi trạng thái</value>
+  </data>
+  <data name="AuditAction_Delete" xml:space="preserve">
+    <value>Xoá</value>
+  </data>
+  <data name="AuditAction_Assign" xml:space="preserve">
+    <value>Phân công</value>
+  </data>
+  <data name="ProductType_Product" xml:space="preserve">
+    <value>Sản phẩm</value>
+  </data>
+  <data name="ProductType_Service" xml:space="preserve">
+    <value>Dịch vụ</value>
+  </data>
+  <data name="Validation_ContractCustomerRequired" xml:space="preserve">
+    <value>Chọn khách hàng.</value>
+  </data>
+  <data name="Validation_ContractStaffRequired" xml:space="preserve">
+    <value>Chọn nhân viên phụ trách.</value>
+  </data>
+  <data name="Validation_ContractEndDateRequired" xml:space="preserve">
+    <value>Nhập ngày kết thúc.</value>
+  </data>
+  <data name="Validation_ContractNoteTooLong" xml:space="preserve">
+    <value>Ghi chú tối đa 500 ký tự.</value>
+  </data>
+  <!-- M04: contacts, care, feedback -->
+  <data name="Common_Customer" xml:space="preserve">
+    <value>Khách hàng</value>
+  </data>
+  <data name="Common_Staff" xml:space="preserve">
+    <value>Nhân viên</value>
+  </data>
+  <data name="Common_Content" xml:space="preserve">
+    <value>Nội dung</value>
+  </data>
+  <data name="Common_Result" xml:space="preserve">
+    <value>Kết quả</value>
+  </data>
+  <data name="Common_FromDate" xml:space="preserve">
+    <value>Từ ngày</value>
+  </data>
+  <data name="Common_ToDate" xml:space="preserve">
+    <value>Đến ngày</value>
+  </data>
+  <data name="Contact_Subtitle" xml:space="preserve">
+    <value>Ghi lại mọi cuộc gọi, email và buổi gặp với khách hàng.</value>
+  </data>
+  <data name="Contact_Add" xml:space="preserve">
+    <value>Ghi nhận liên hệ</value>
+  </data>
+  <data name="Contact_SearchLabel" xml:space="preserve">
+    <value>Khách hàng</value>
+  </data>
+  <data name="Contact_SearchPlaceholder" xml:space="preserve">
+    <value>Tìm theo tên khách hàng</value>
+  </data>
+  <data name="Contact_AllStaff" xml:space="preserve">
+    <value>Tất cả nhân viên</value>
+  </data>
+  <data name="Contact_Channel" xml:space="preserve">
+    <value>Kênh liên hệ</value>
+  </data>
+  <data name="Contact_AllChannels" xml:space="preserve">
+    <value>Tất cả kênh</value>
+  </data>
+  <data name="Contact_Time" xml:space="preserve">
+    <value>Thời gian</value>
+  </data>
+  <data name="Contact_NoPage" xml:space="preserve">
+    <value>Trang này không có liên hệ nào</value>
+  </data>
+  <data name="Contact_NoPageHint" xml:space="preserve">
+    <value>Các liên hệ vẫn còn ở trang trước.</value>
+  </data>
+  <data name="Contact_NoMatch" xml:space="preserve">
+    <value>Không tìm thấy liên hệ nào</value>
+  </data>
+  <data name="Contact_NoMatchHint" xml:space="preserve">
+    <value>Thử bỏ bớt bộ lọc hoặc tìm bằng tên khác.</value>
+  </data>
+  <data name="Contact_NoneYet" xml:space="preserve">
+    <value>Chưa có liên hệ nào</value>
+  </data>
+  <data name="Contact_NoneYetHint" xml:space="preserve">
+    <value>Ghi lại cuộc gọi, email hoặc buổi gặp đầu tiên với khách hàng.</value>
+  </data>
+  <data name="Contact_AddHint" xml:space="preserve">
+    <value>Nhân viên và thời gian được ghi tự động theo phiên đăng nhập.</value>
+  </data>
+  <data name="Contact_ChooseCustomer" xml:space="preserve">
+    <value>Chọn khách hàng</value>
+  </data>
+  <data name="Contact_ChooseChannel" xml:space="preserve">
+    <value>Chọn kênh</value>
+  </data>
+  <data name="Contact_Recorded" xml:space="preserve">
+    <value>Đã ghi nhận liên hệ.</value>
+  </data>
+  <data name="Validation_ContactCustomerRequired" xml:space="preserve">
+    <value>Chọn khách hàng.</value>
+  </data>
+  <data name="Validation_ContactChannelRequired" xml:space="preserve">
+    <value>Chọn kênh liên hệ.</value>
+  </data>
+  <data name="Validation_ContactChannelInvalid" xml:space="preserve">
+    <value>Kênh liên hệ không hợp lệ.</value>
+  </data>
+  <data name="Validation_ContentTooLong" xml:space="preserve">
+    <value>Nội dung tối đa 1000 ký tự.</value>
+  </data>
+  <data name="Validation_ResultTooLong" xml:space="preserve">
+    <value>Kết quả tối đa 200 ký tự.</value>
+  </data>
+  <data name="Care_Subtitle" xml:space="preserve">
+    <value>Lịch cần chăm sóc và nhật ký chăm sóc khách hàng.</value>
+  </data>
+  <data name="Care_Add" xml:space="preserve">
+    <value>Thêm chăm sóc</value>
+  </data>
+  <data name="Care_Tabs" xml:space="preserve">
+    <value>Chăm sóc khách hàng</value>
+  </data>
+  <data name="Care_ScheduleTab" xml:space="preserve">
+    <value>Lịch cần chăm sóc</value>
+  </data>
+  <data name="Care_LogTab" xml:space="preserve">
+    <value>Nhật ký chăm sóc</value>
+  </data>
+  <data name="Care_GroupCount" xml:space="preserve">
+    <value>{0} khách hàng</value>
+  </data>
+  <data name="Care_Overdue" xml:space="preserve">
+    <value>Quá hạn</value>
+  </data>
+  <data name="Care_Today" xml:space="preserve">
+    <value>Hôm nay</value>
+  </data>
+  <data name="Care_Upcoming" xml:space="preserve">
+    <value>7 ngày tới</value>
+  </data>
+  <data name="Care_EmptySchedule" xml:space="preserve">
+    <value>Không có lịch chăm sóc nào</value>
+  </data>
+  <data name="Care_EmptyScheduleHint" xml:space="preserve">
+    <value>Không có khách hàng nào cần chăm sóc trong 7 ngày tới.</value>
+  </data>
+  <data name="Care_SearchLabel" xml:space="preserve">
+    <value>Khách hàng</value>
+  </data>
+  <data name="Care_SearchPlaceholder" xml:space="preserve">
+    <value>Tìm theo tên khách hàng</value>
+  </data>
+  <data name="Care_AllStaff" xml:space="preserve">
+    <value>Tất cả nhân viên</value>
+  </data>
+  <data name="Care_AllTypes" xml:space="preserve">
+    <value>Tất cả loại</value>
+  </data>
+  <data name="Care_Type" xml:space="preserve">
+    <value>Loại chăm sóc</value>
+  </data>
+  <data name="Care_NextAppointment" xml:space="preserve">
+    <value>Hẹn tiếp theo</value>
+  </data>
+  <data name="Care_MarkCared" xml:space="preserve">
+    <value>Đã chăm sóc</value>
+  </data>
+  <data name="Care_Date" xml:space="preserve">
+    <value>Ngày chăm sóc</value>
+  </data>
+  <data name="Care_DateHint" xml:space="preserve">
+    <value>Ngày chăm sóc là hôm nay; lần chăm sóc trước vẫn còn trong nhật ký.</value>
+  </data>
+  <data name="Care_Score" xml:space="preserve">
+    <value>Điểm hài lòng</value>
+  </data>
+  <data name="Care_ScoreHint" xml:space="preserve">
+    <value>Chỉ dùng cho loại Khảo sát, từ 1 đến 5.</value>
+  </data>
+  <data name="Care_GeneralInfo" xml:space="preserve">
+    <value>Thông tin chăm sóc</value>
+  </data>
+  <data name="Care_ChooseCustomer" xml:space="preserve">
+    <value>Chọn khách hàng</value>
+  </data>
+  <data name="Care_ChooseType" xml:space="preserve">
+    <value>Chọn loại chăm sóc</value>
+  </data>
+  <data name="Care_Back" xml:space="preserve">
+    <value>Quay lại chăm sóc</value>
+  </data>
+  <data name="Care_Created" xml:space="preserve">
+    <value>Đã ghi nhận lần chăm sóc.</value>
+  </data>
+  <data name="Care_NoPage" xml:space="preserve">
+    <value>Trang này không có lần chăm sóc nào</value>
+  </data>
+  <data name="Care_NoPageHint" xml:space="preserve">
+    <value>Các lần chăm sóc vẫn còn ở trang trước.</value>
+  </data>
+  <data name="Care_NoMatch" xml:space="preserve">
+    <value>Không tìm thấy lần chăm sóc nào</value>
+  </data>
+  <data name="Care_NoMatchHint" xml:space="preserve">
+    <value>Thử bỏ bớt bộ lọc hoặc tìm bằng tên khác.</value>
+  </data>
+  <data name="Care_NoneYet" xml:space="preserve">
+    <value>Chưa có lần chăm sóc nào</value>
+  </data>
+  <data name="Care_NoneYetHint" xml:space="preserve">
+    <value>Ghi lại lần chăm sóc đầu tiên để theo dõi khách hàng.</value>
+  </data>
+  <data name="Validation_CareCustomerRequired" xml:space="preserve">
+    <value>Chọn khách hàng.</value>
+  </data>
+  <data name="Validation_CareTypeRequired" xml:space="preserve">
+    <value>Chọn loại chăm sóc.</value>
+  </data>
+  <data name="Validation_CareTypeInvalid" xml:space="preserve">
+    <value>Loại chăm sóc không hợp lệ.</value>
+  </data>
+  <data name="Validation_SurveyScoreInvalid" xml:space="preserve">
+    <value>Điểm hài lòng phải từ 1 đến 5 và chỉ dùng cho Khảo sát.</value>
+  </data>
+  <data name="Feedback_Subtitle" xml:space="preserve">
+    <value>Tiếp nhận, phân công và xử lý phản hồi của khách hàng.</value>
+  </data>
+  <data name="Feedback_Add" xml:space="preserve">
+    <value>Thêm phản hồi</value>
+  </data>
+  <data name="Feedback_Back" xml:space="preserve">
+    <value>Quay lại danh sách phản hồi</value>
+  </data>
+  <data name="Feedback_CountNew" xml:space="preserve">
+    <value>Mới</value>
+  </data>
+  <data name="Feedback_CountInProgress" xml:space="preserve">
+    <value>Đang xử lý</value>
+  </data>
+  <data name="Feedback_CountOverdue" xml:space="preserve">
+    <value>Quá hạn</value>
+  </data>
+  <data name="Feedback_SearchLabel" xml:space="preserve">
+    <value>Khách hàng</value>
+  </data>
+  <data name="Feedback_SearchPlaceholder" xml:space="preserve">
+    <value>Tìm theo tên khách hàng</value>
+  </data>
+  <data name="Feedback_Open" xml:space="preserve">
+    <value>Chưa xử lý</value>
+  </data>
+  <data name="Feedback_AllPriorities" xml:space="preserve">
+    <value>Tất cả ưu tiên</value>
+  </data>
+  <data name="Feedback_AllTypes" xml:space="preserve">
+    <value>Tất cả loại</value>
+  </data>
+  <data name="Feedback_OverdueOnly" xml:space="preserve">
+    <value>Chỉ quá hạn</value>
+  </data>
+  <data name="Feedback_Assign" xml:space="preserve">
+    <value>Gán xử lý</value>
+  </data>
+  <data name="Feedback_Reassign" xml:space="preserve">
+    <value>Đổi người xử lý</value>
+  </data>
+  <data name="Feedback_AssignTitle" xml:space="preserve">
+    <value>Gán nhân viên xử lý</value>
+  </data>
+  <data name="Feedback_AssignHint" xml:space="preserve">
+    <value>Chọn nhân viên sẽ tiếp nhận phản hồi này.</value>
+  </data>
+  <data name="Feedback_Assigned" xml:space="preserve">
+    <value>Đã gán phản hồi.</value>
+  </data>
+  <data name="Feedback_StatusTitle" xml:space="preserve">
+    <value>Cập nhật trạng thái</value>
+  </data>
+  <data name="Feedback_UpdateStatus" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="Feedback_StatusUpdated" xml:space="preserve">
+    <value>Đã cập nhật trạng thái phản hồi.</value>
+  </data>
+  <data name="Feedback_Note" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="Feedback_NoteOptional" xml:space="preserve">
+    <value>Ghi chú (không bắt buộc)</value>
+  </data>
+  <data name="Feedback_AddNote" xml:space="preserve">
+    <value>Thêm ghi chú</value>
+  </data>
+  <data name="Feedback_NoteAdded" xml:space="preserve">
+    <value>Đã thêm ghi chú.</value>
+  </data>
+  <data name="Feedback_NoteAppendHint" xml:space="preserve">
+    <value>Ghi chú mới được nối vào ghi chú cũ, tối đa 500 ký tự.</value>
+  </data>
+  <data name="Feedback_ResolvedDate" xml:space="preserve">
+    <value>Ngày hoàn tất</value>
+  </data>
+  <data name="Feedback_ChooseAssignee" xml:space="preserve">
+    <value>Chọn nhân viên</value>
+  </data>
+  <data name="Feedback_ChooseCustomer" xml:space="preserve">
+    <value>Chọn khách hàng</value>
+  </data>
+  <data name="Feedback_ChooseType" xml:space="preserve">
+    <value>Chọn loại phản hồi</value>
+  </data>
+  <data name="Feedback_GeneralInfo" xml:space="preserve">
+    <value>Thông tin phản hồi</value>
+  </data>
+  <data name="Feedback_DueDateHint" xml:space="preserve">
+    <value>Không trước ngày tạo phản hồi.</value>
+  </data>
+  <data name="Feedback_Created" xml:space="preserve">
+    <value>Đã ghi nhận phản hồi.</value>
+  </data>
+  <data name="Feedback_DetailTitle" xml:space="preserve">
+    <value>Phản hồi #{0}</value>
+  </data>
+  <data name="Feedback_NeedsAssigneeHint" xml:space="preserve">
+    <value>Phải gán nhân viên trước khi chuyển sang trạng thái khác Mới.</value>
+  </data>
+  <data name="Feedback_NoPage" xml:space="preserve">
+    <value>Trang này không có phản hồi nào</value>
+  </data>
+  <data name="Feedback_NoPageHint" xml:space="preserve">
+    <value>Các phản hồi vẫn còn ở trang trước.</value>
+  </data>
+  <data name="Feedback_NoMatch" xml:space="preserve">
+    <value>Không tìm thấy phản hồi nào</value>
+  </data>
+  <data name="Feedback_NoMatchHint" xml:space="preserve">
+    <value>Thử bỏ bớt bộ lọc hoặc tìm bằng tên khác.</value>
+  </data>
+  <data name="Feedback_NoneYet" xml:space="preserve">
+    <value>Chưa có phản hồi nào</value>
+  </data>
+  <data name="Feedback_NoneYetHint" xml:space="preserve">
+    <value>Ghi nhận phản hồi đầu tiên để bắt đầu theo dõi.</value>
+  </data>
+  <data name="Validation_FeedbackCustomerRequired" xml:space="preserve">
+    <value>Chọn khách hàng.</value>
+  </data>
+  <data name="Validation_FeedbackTypeRequired" xml:space="preserve">
+    <value>Chọn loại phản hồi.</value>
+  </data>
+  <data name="Validation_FeedbackTypeInvalid" xml:space="preserve">
+    <value>Loại phản hồi không hợp lệ.</value>
+  </data>
+  <data name="Validation_FeedbackPriorityInvalid" xml:space="preserve">
+    <value>Mức ưu tiên không hợp lệ.</value>
+  </data>
+  <data name="Validation_FeedbackContentTooLong" xml:space="preserve">
+    <value>Nội dung tối đa 2000 ký tự.</value>
+  </data>
+  <data name="Validation_FeedbackDueDateInvalid" xml:space="preserve">
+    <value>Hạn xử lý không được trước ngày tạo.</value>
+  </data>
+  <data name="Validation_FeedbackNoteRequired" xml:space="preserve">
+    <value>Nhập nội dung ghi chú.</value>
+  </data>
+  <data name="Error_FeedbackDueDateInvalid" xml:space="preserve">
+    <value>Hạn xử lý không được trước ngày tạo phản hồi.</value>
+  </data>
+  <data name="Bell_Empty" xml:space="preserve"><value>Không có việc nào cần chú ý.</value></data>
+  <data name="Bell_Item_Care" xml:space="preserve"><value>{0} · {1}</value></data>
+  <data name="Bell_Item_Expiring" xml:space="preserve"><value>Hết hạn {0} · còn {1} ngày</value></data>
+  <data name="Bell_Item_FeedbackOverdue" xml:space="preserve"><value>Hạn {0}</value></data>
+  <data name="Bell_None" xml:space="preserve"><value>Không có mục nào.</value></data>
+  <data name="Dashboard_CareTitle" xml:space="preserve"><value>Lịch chăm sóc</value></data>
+  <data name="Dashboard_DueDate" xml:space="preserve"><value>Hạn: {0}</value></data>
+  <data name="Dashboard_ExpiringTitle" xml:space="preserve"><value>Hợp đồng sắp hết hạn</value></data>
+  <data name="Dashboard_FeedbackTitle" xml:space="preserve"><value>Phản hồi cần xử lý</value></data>
+  <data name="Dashboard_Kpi_ActiveContracts" xml:space="preserve"><value>Hợp đồng đang hiệu lực</value></data>
+  <data name="Dashboard_Kpi_ActiveContractsHint" xml:space="preserve"><value>Đang hiệu lực</value></data>
+  <data name="Dashboard_Kpi_ExpiringContracts" xml:space="preserve"><value>Hợp đồng sắp hết hạn</value></data>
+  <data name="Dashboard_Kpi_ExpiringContractsHint" xml:space="preserve"><value>Trong 30 ngày tới</value></data>
+  <data name="Dashboard_Kpi_NewCustomers" xml:space="preserve"><value>Khách hàng mới</value></data>
+  <data name="Dashboard_Kpi_NewCustomersHint" xml:space="preserve"><value>30 ngày qua</value></data>
+  <data name="Dashboard_Kpi_OpenFeedback" xml:space="preserve"><value>Phản hồi đang mở</value></data>
+  <data name="Dashboard_Kpi_OverdueCount" xml:space="preserve"><value>{0} quá hạn</value></data>
+  <data name="Dashboard_Kpi_Revenue" xml:space="preserve"><value>Doanh thu năm nay</value></data>
+  <data name="Dashboard_Kpi_RevenueHint" xml:space="preserve"><value>Hợp đồng đã ký trong năm</value></data>
+  <data name="Dashboard_Kpi_TotalCustomers" xml:space="preserve"><value>Tổng khách hàng</value></data>
+  <data name="Dashboard_Kpi_TotalCustomersHint" xml:space="preserve"><value>Đang hoạt động</value></data>
+  <data name="Dashboard_NoCare" xml:space="preserve"><value>Không có lịch chăm sóc nào.</value></data>
+  <data name="Dashboard_NoExpiring" xml:space="preserve"><value>Không có hợp đồng nào sắp hết hạn.</value></data>
+  <data name="Dashboard_NoFeedback" xml:space="preserve"><value>Không có phản hồi nào cần xử lý.</value></data>
+  <data name="Dashboard_NoRevenueYear" xml:space="preserve"><value>Năm {0} chưa có doanh thu.</value></data>
+  <data name="Dashboard_NoTopCustomers" xml:space="preserve"><value>Chưa có khách hàng nào.</value></data>
+  <data name="Dashboard_Overdue" xml:space="preserve"><value>Quá hạn</value></data>
+  <data name="Dashboard_RevenueChartAria" xml:space="preserve"><value>Doanh thu theo tháng năm {0}</value></data>
+  <data name="Chart_MoneyUnit" xml:space="preserve"><value>tr</value></data>
+  <data name="Dashboard_RevenueSubtitle" xml:space="preserve"><value>Năm {0}</value></data>
+  <data name="Dashboard_RevenueTitle" xml:space="preserve"><value>Doanh thu theo tháng</value></data>
+  <data name="Dashboard_TopCustomers" xml:space="preserve"><value>Khách hàng hàng đầu</value></data>
+  <data name="Dashboard_TopCustomersHint" xml:space="preserve"><value>Top {0} theo tổng giá trị hợp đồng</value></data>
+  <data name="Dashboard_ViewYear" xml:space="preserve"><value>Xem năm</value></data>
+  <data name="Dashboard_YearLabel" xml:space="preserve"><value>Năm</value></data>
+  <data name="Reports_ApplyFilter" xml:space="preserve"><value>Áp dụng</value></data>
+  <data name="Reports_Care_Chart" xml:space="preserve"><value>Số lần chăm sóc năm {0}</value></data>
+  <data name="Reports_Care_Month" xml:space="preserve"><value>Tháng</value></data>
+  <data name="Reports_Care_NoData" xml:space="preserve"><value>Năm {0} chưa có lần chăm sóc nào.</value></data>
+  <data name="Reports_Care_Subtitle" xml:space="preserve"><value>Số lần chăm sóc theo tháng và loại</value></data>
+  <data name="Reports_Care_Survey" xml:space="preserve"><value>Điểm khảo sát</value></data>
+  <data name="Reports_Care_Total" xml:space="preserve"><value>Tổng</value></data>
+  <data name="Reports_Care_TotalVisits" xml:space="preserve"><value>Tổng: {0} lần</value></data>
+  <data name="Reports_Customers_Contracts" xml:space="preserve"><value>Số hợp đồng</value></data>
+  <data name="Reports_Customers_Empty" xml:space="preserve"><value>Chưa có khách hàng nào.</value></data>
+  <data name="Reports_Customers_Name" xml:space="preserve"><value>Tên khách hàng</value></data>
+  <data name="Reports_Customers_NoMatch" xml:space="preserve"><value>Không có khách hàng nào khớp bộ lọc.</value></data>
+  <data name="Reports_Customers_Subtitle" xml:space="preserve"><value>Xếp hạng khách hàng theo tổng giá trị hợp đồng</value></data>
+  <data name="Reports_Customers_Tier" xml:space="preserve"><value>Hạng</value></data>
+  <data name="Reports_Customers_TierChart" xml:space="preserve"><value>Tỷ lệ khách hàng theo hạng</value></data>
+  <data name="Reports_Customers_Type" xml:space="preserve"><value>Loại</value></data>
+  <data name="Reports_Customers_Value" xml:space="preserve"><value>Tổng giá trị</value></data>
+  <data name="Reports_ExportCare" xml:space="preserve"><value>Xuất CSV</value></data>
+  <data name="Reports_ExportCustomers" xml:space="preserve"><value>Xuất CSV</value></data>
+  <data name="Reports_ExportRevenue" xml:space="preserve"><value>Xuất CSV</value></data>
+  <data name="Reports_Revenue_Amount" xml:space="preserve"><value>Doanh thu</value></data>
+  <data name="Reports_Revenue_Chart" xml:space="preserve"><value>Doanh thu năm {0}</value></data>
+  <data name="Reports_Revenue_Contracts" xml:space="preserve"><value>Số hợp đồng</value></data>
+  <data name="Reports_Revenue_Month" xml:space="preserve"><value>Tháng</value></data>
+  <data name="Reports_Revenue_Subtitle" xml:space="preserve"><value>Doanh thu theo tháng của năm {0}</value></data>
+  <data name="Reports_Revenue_Total" xml:space="preserve"><value>Tổng cộng</value></data>
+  <data name="Reports_Tab_Care" xml:space="preserve"><value>Chăm sóc</value></data>
+  <data name="Reports_Tab_Customers" xml:space="preserve"><value>Khách hàng</value></data>
+  <data name="Reports_Tab_Revenue" xml:space="preserve"><value>Doanh thu</value></data>
+  <data name="Reports_Tabs" xml:space="preserve"><value>Các tab báo cáo</value></data>
+  <data name="Reports_ViewYear" xml:space="preserve"><value>Xem năm</value></data>
+  <data name="Reports_YearLabel" xml:space="preserve"><value>Năm</value></data>
+  <data name="Search_NoResults" xml:space="preserve"><value>Không tìm thấy khách hàng nào.</value></data>
 </root>

@@ -1,0 +1,44 @@
+@model FeedbackRow
+<tr>
+    <td data-label="@L["Feedback_Priority"]">
+        <partial name="_Badge" model="BadgeModel.Priority(Model.Priority)" />
+    </td>
+    <td data-label="@L["Common_Customer"]">
+        <a href="/customers/@Model.CustomerId" class="hover:text-primary font-semibold">@Model.CustomerName</a>
+    </td>
+    <td data-label="@L["Feedback_Type"]">@L.Label("FeedbackType", Model.FeedbackType)</td>
+    <td data-label="@L["Feedback_Content"]" class="max-w-sm">
+        <div class="line-clamp-2 break-words">@Model.Content</div>
+    </td>
+    <td data-label="@L["Feedback_Status"]">
+        <partial name="_Badge" model="BadgeModel.FeedbackStatus(Model.FeedbackStatus)" />
+    </td>
+    <td data-label="@L["Feedback_AssignedTo"]">
+        @if (Model.EmployeeName is { } name)
+        {
+            @name
+        }
+        else
+        {
+            <span class="text-muted">@L["Feedback_Unassigned"]</span>
+        }
+    </td>
+    <td data-label="@L["Feedback_DueDate"]" class="whitespace-nowrap">
+        <span class="@(Model.IsOverdue ? "text-danger-ink font-semibold" : null)">
+            @Utils.FormatDate(Model.DueDate)
+        </span>
+    </td>
+    <td data-label="@L["Common_Actions"]" class="text-right">
+        <div class="inline-flex flex-wrap justify-end gap-1">
+            <a href="/feedbacks/@Model.FeedbackId" class="btn !py-1 !px-2.5 !text-xs">
+                <i class="fa-solid fa-eye"></i> @L["Common_View"]
+            </a>
+            @if (Model.EmployeeId is null)
+            {
+                <button type="button" class="btn !py-1 !px-2.5 !text-xs" data-open-assign="@Model.FeedbackId">
+                    <i class="fa-solid fa-user-plus"></i> @L["Feedback_Assign"]
+                </button>
+            }
+        </div>
+    </td>
+</tr>

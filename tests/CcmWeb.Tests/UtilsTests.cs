@@ -130,7 +130,7 @@ public class UtilsTests
         Assert.True(WorkConstants.Settings.IsValidValue("Theme", "dark"));
         Assert.False(WorkConstants.Settings.IsValidValue("Language", "fr"));
         Assert.False(WorkConstants.Settings.IsValidValue("Theme", "blue"));
-        Assert.False(WorkConstants.Settings.IsValidValue("PageSize", "20"));
+        Assert.False(WorkConstants.Settings.IsValidValue("PageSize", "abc"));
     }
 
     [Fact]
@@ -138,7 +138,8 @@ public class UtilsTests
     {
         Assert.True(WorkConstants.Settings.IsKnownKey("Language"));
         Assert.True(WorkConstants.Settings.IsKnownKey("Theme"));
-        Assert.False(WorkConstants.Settings.IsKnownKey("PageSize"));
+        Assert.True(WorkConstants.Settings.IsKnownKey("PageSize"));
+        Assert.False(WorkConstants.Settings.IsKnownKey("FooBar"));
     }
 
     // ------------------------------------------------------------ the return URL of a switch

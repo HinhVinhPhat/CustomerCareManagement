@@ -4,6 +4,10 @@ namespace CcmWeb.Services;
 
 public interface INotificationService
 {
-    /// <summary>Counts for the notification bell (design.md 3.2), always read from the database.</summary>
-    Task<NotificationSummaryViewModel> GetSummaryAsync();
+    /// <summary>
+    /// Nội dung chuông thông báo (design.md 3.2): mỗi nhóm một số đếm, tối đa ba việc và đường dẫn
+    /// tới danh sách đầy đủ. Nhóm mà vai trò không được mở là <c>null</c>.
+    /// </summary>
+    Task<NotificationSummaryViewModel> GetSummaryAsync(
+        string? role, CancellationToken ct = default);
 }

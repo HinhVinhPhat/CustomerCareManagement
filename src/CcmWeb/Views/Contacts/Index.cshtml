@@ -1,0 +1,40 @@
+@model ContactListViewModel
+@{
+    ViewData["Title"] = L["Nav_Contacts"];
+    ViewData["PageKey"] = "contacts";
+}
+<header class="flex flex-wrap items-center justify-between gap-3 mb-5">
+    <div>
+        <h1 class="text-2xl font-bold">@L["Nav_Contacts"]</h1>
+        <p class="text-sm text-muted mt-1">@L["Contact_Subtitle"]</p>
+    </div>
+
+    <button type="button" class="btn btn-primary" data-open-contact>
+        <i class="fa-solid fa-plus"></i> @L["Contact_Add"]
+    </button>
+</header>
+
+<partial name="_FilterBar" model="Model" />
+
+@if (Model.ErrorKey is not null)
+{
+    @* A list that could not be read is not an empty list. *@
+    <section class="card p-8 text-center">
+        <i class="fa-solid fa-triangle-exclamation text-3xl text-danger-ink"></i>
+        <p class="mt-3 font-semibold">@L[Model.ErrorKey]</p>
+        <p class="text-sm text-muted mt-1">@L["Common_TryAgain"]</p>
+    </section>
+}
+else if (Model.Rows.Count == 0)
+{
+    <partial name="_EmptyState" model="Model" />
+}
+else
+{
+    <section class="card overflow-hidden">
+        <partial name="_ContactTable" model="Model" />
+        <partial name="_Pager" model="Model" />
+    </section>
+}
+
+<partial name="_RecordContactDialog" model="Model" />

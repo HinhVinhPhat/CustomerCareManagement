@@ -1,0 +1,23 @@
+@model FeedbackListViewModel
+@{
+    // Three counters, each one a shortcut to the filter it describes. The numbers come from
+    // vw_OpenFeedback, the same view the open list reads.
+    var cards = new (string LabelKey, int Count, string Href, string Icon, string Tone)[]
+    {
+        ("Feedback_CountNew", Model.Counters.New, "/feedbacks?status=New", "fa-circle-plus", "text-info"),
+        ("Feedback_CountInProgress", Model.Counters.InProgress, "/feedbacks?status=InProgress", "fa-spinner", "text-warning"),
+        ("Feedback_CountOverdue", Model.Counters.Overdue, "/feedbacks?overdue=true", "fa-clock", "text-danger-ink")
+    };
+}
+<div class="grid gap-3 sm:grid-cols-3 mb-4">
+    @foreach (var card in cards)
+    {
+        <a href="@card.Href" class="card p-4 flex items-center gap-4 hover:bg-soft">
+            <i class="fa-solid @card.Icon text-2xl @card.Tone" aria-hidden="true"></i>
+            <div>
+                <div class="text-2xl font-bold leading-tight">@card.Count</div>
+                <div class="text-sm text-muted">@L[card.LabelKey]</div>
+            </div>
+        </a>
+    }
+</div>

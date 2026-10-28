@@ -1,0 +1,74 @@
+@model ContactListViewModel
+@{
+    // A plain GET form: the filters end up in the address, so the list can be bookmarked. The sort,
+    // the direction and the page size travel along as hidden fields, so narrowing the search does
+    // not lose them - and the page number does not, because a changed filter starts on page 1.
+    var filter = Model.Filter;
+}
+<form method="get" action="/contacts" class="card p-4 mb-4 grid gap-3 md:grid-cols-12 items-end">
+    <div class="md:col-span-3">
+        <label class="block text-sm font-semibold mb-1" for="q">@L["Contact_SearchLabel"]</label>
+        <input id="q" name="q" value="@filter.Q" class="input"
+               placeholder="@L["Contact_SearchPlaceholder"]" autocomplete="off" />
+    </div>
+
+    <div class="md:col-span-3">
+        <label class="block text-sm font-semibold mb-1" for="staff">@L["Common_Staff"]</label>
+        <select id="staff" name="staff" class="input">
+            <option value="">@L["Contact_AllStaff"]</option>
+            @foreach (var employee in Model.Staff)
+            {
+                <option value="@employee.EmployeeId" selected="@(employee.EmployeeId == filter.Staff)">@employee.FullName</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="channel">@L["Contact_Channel"]</label>
+        <select id="channel" name="channel" class="input">
+            <option value="">@L["Contact_AllChannels"]</option>
+            @foreach (var channel in WorkConstants.ContactChannels.All)
+            {
+                <option value="@channel" selected="@(channel == filter.Channel)">@L.Label("Channel", channel)</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="from">@L["Common_FromDate"]</label>
+        <input id="from" name="from" type="date" class="input"
+               value="@(filter.From?.ToString("yyyy-MM-dd"))" />
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="to">@L["Common_ToDate"]</label>
+        <input id="to" name="to" type="date" class="input"
+               value="@(filter.To?.ToString("yyyy-MM-dd"))" />
+    </div>
+
+    @if (filter.Sort != ContactFilter.SortByTime)
+    {
+        <input type="hidden" name="sort" value="@filter.Sort" />
+    }
+    @if (!filter.Desc)
+    {
+        <input type="hidden" name="desc" value="false" />
+    }
+    @if (filter.PageSize != WorkConstants.Settings.DefaultPageSize)
+    {
+        <input type="hidden" name="pageSize" value="@filter.PageSize" />
+    }
+
+    <div class="md:col-span-12 flex items-center gap-2">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> @L["Common_Search"]
+        </button>
+
+        @if (filter.HasFilters)
+        {
+            <a href="/contacts" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+        }
+    </div>
+</form>

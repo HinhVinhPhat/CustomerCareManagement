@@ -3,7 +3,7 @@
 ## 1. Context and required reading
 
 Talk to the user in Vietnamese (their working language). In the repository the split is:
-**code, SQL identifiers, comments and documents are English, while everything shown on screen and
+**code, SQL identifiers are English, comments and documents are Vietnamese, while everything shown on screen and
 the business data rows are Vietnamese**. The application carries an English/Vietnamese switch,
 defaults to Vietnamese and keeps English as the second language. The exact split, the resource
 files and the glossary are in the `ccm-language` skill - read it before writing any visible text
@@ -165,6 +165,14 @@ the schema, edit the SQL files, run them again, re-scaffold and update
 - Handle states separately: loading, empty, business error, success. A business error keeps the
   entered data and shows the message next to the field, in the user's language. Do not show a fake
   total of 0 when the DB failed.
+- **Action feedback uses a toast or an alert, never a banner that takes up page space.** The result
+  of a save, a sign/renew/cancel or any POST reachable from a button appears as a short floating
+  toast (`window.ccmToast(message, type)` with `type` = `ok` / `err` / `info`, the classes
+  `.toast-ok` / `.toast-err` / `.toast-info`, `role="status"`, auto-hidden) or, when the message must
+  stay readable or carries a next action, as an alert block at the top of the content. The text still
+  comes from a resource key; one action shows one message; field errors stay inline next to their
+  field. Never call the browser's native `alert()` / `confirm()` (confirmations use the shared
+  `_ConfirmDialog`). Details in `ccm-web-ui`.
 - A status uses text or an icon together with colour, not colour alone. Dangerous actions
   (cancelling a contract, deactivating a customer) require confirmation.
 - Forms match the DB constraints: Business customers hide gender/date of birth; there is no

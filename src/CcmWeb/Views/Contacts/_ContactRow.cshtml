@@ -1,0 +1,27 @@
+@model ContactRow
+@{
+    // Icon plus label: the channel is never shown by colour or icon alone.
+    var icon = Model.Channel switch
+    {
+        WorkConstants.ContactChannels.Phone => "fa-phone",
+        WorkConstants.ContactChannels.Email => "fa-envelope",
+        WorkConstants.ContactChannels.Zalo => "fa-comment-dots",
+        WorkConstants.ContactChannels.InPerson => "fa-handshake",
+        _ => "fa-circle-info"
+    };
+}
+<tr>
+    <td data-label="@L["Contact_Time"]" class="whitespace-nowrap">@Utils.FormatDateTime(Model.ContactTime)</td>
+    <td data-label="@L["Common_Customer"]">
+        <a href="/customers/@Model.CustomerId" class="hover:text-primary font-semibold">@Model.CustomerName</a>
+    </td>
+    <td data-label="@L["Common_Staff"]">@Model.EmployeeName</td>
+    <td data-label="@L["Contact_Channel"]">
+        <span class="inline-flex items-center gap-2">
+            <i class="fa-solid @icon text-muted" aria-hidden="true"></i>
+            @L.Label("Channel", Model.Channel)
+        </span>
+    </td>
+    <td data-label="@L["Common_Content"]" class="max-w-md break-words">@Model.Content</td>
+    <td data-label="@L["Common_Result"]" class="max-w-xs break-words">@Model.Result</td>
+</tr>

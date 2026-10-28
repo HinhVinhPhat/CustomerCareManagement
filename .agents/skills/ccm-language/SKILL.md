@@ -1,13 +1,14 @@
 ---
 name: ccm-language
-description: Language rules for the customer care management system - what stays English (code, SQL identifiers, table and column names, comments, docs, the coded values stored in the tables) and what is Vietnamese (everything shown on screen and the business data rows), the Vietnamese/English switch built on ASP.NET Core resource files (.resx) plus RequestLocalization and a cookie, the label mapping for every CHECK-constraint value, date and money formatting per language, and the English-Vietnamese glossary of the domain. Use this skill before writing or changing any visible text, any .resx file or any sample data row, when adding a page or a message, when translating between English and Vietnamese, and when the user mentions language, tiếng Việt, translation, resource, resx, culture, localization or EN/VI.
+description: Language rules for the customer care management system - what stays English (code and SQL identifiers, table and column names, the coded values stored in the tables) and what is Vietnamese (everything shown on screen, the business data rows, comments, XML docs and the documents under docs/), the Vietnamese/English switch built on ASP.NET Core resource files (.resx) plus RequestLocalization and a cookie, the label mapping for every CHECK-constraint value, date and money formatting per language, and the English-Vietnamese glossary of the domain. Use this skill before writing or changing any visible text, any .resx file or any sample data row, when adding a page or a message, when translating between English and Vietnamese, and when the user mentions language, tiếng Việt, translation, resource, resx, culture, localization or EN/VI.
 ---
 
 # Language: Vietnamese on screen, English under the hood
 
 The application is used by Vietnamese employees, so **everything a user reads is Vietnamese by
 default** and English is the second language the user can switch to. Everything the computer reads
-stays English: identifiers, SQL names, comments and documents.
+stays English: identifiers and SQL names. Comments, XML docs and the documents under `docs/` are
+written in Vietnamese so the team can review them; code and SQL identifiers never change.
 
 ## 1. The split - decide by who reads it
 
@@ -16,7 +17,7 @@ stays English: identifiers, SQL names, comments and documents.
 | Class, method, variable, file names | English | `CustomerService`, `SearchCustomersAsync` |
 | Table, column, view, procedure, trigger names | English | `CUSTOMER`, `CustomerName`, `vw_CareSchedule`, `sp_AddContract` |
 | Coded values stored in the tables (CHECK constraints) | English | `'Active'`, `'Manager'`, `'Gold'`, `'Individual'` |
-| Comments, XML docs, `docs/`, `README`, commit messages | English | `// Falls back to the system default` |
+| Comments, XML docs, `docs/`, `README`, commit messages | Vietnamese | `// Không đọc được thì rơi về mặc định của hệ thống` |
 | **Everything shown on screen** (headers, labels, buttons, table columns, empty states, errors, validation, tooltips, page titles, confirmation dialogs, emails) | **Vietnamese** | `Khách hàng`, `Lưu`, `Hợp đồng đang hiệu lực` |
 | **Business data rows in SQL** (names, addresses, notes, product names, feedback text, care notes) | **Vietnamese** | `Công ty TNHH An Phát`, `25 Lê Lợi, Quận 1` |
 | `<html lang>` | current language | `lang="vi"` / `lang="en"` |

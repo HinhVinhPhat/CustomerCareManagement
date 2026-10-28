@@ -1,0 +1,13 @@
+@model FeedbackCreateViewModel
+@{
+    ViewData["Title"] = L["Feedback_Add"];
+    ViewData["PageKey"] = "feedback";
+}
+<header class="mb-5">
+    <a href="/feedbacks" class="text-sm text-muted">
+        <i class="fa-solid fa-arrow-left"></i> @L["Feedback_Back"]
+    </a>
+    <h1 class="text-2xl font-bold mt-1">@L["Feedback_Add"]</h1>
+</header>
+
+<partial name="_FeedbackForm" model="Model" />

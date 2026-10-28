@@ -27,6 +27,13 @@ public interface ISettingService
     /// <summary>Stores the employee's own choice as a personal row.</summary>
     Task SaveUserValueAsync(int employeeID, string key, string value, CancellationToken ct = default);
 
-    /// <summary>Stores the system-wide default (<c>EmployeeID IS NULL</c>); Manager only.</summary>
-    Task SaveSystemValueAsync(string key, string value, CancellationToken ct = default);
+    /// <summary>Stores the system-wide defaults (<c>EmployeeID IS NULL</c>) in one transaction; Manager only.</summary>
+    Task SaveSystemValuesAsync(IReadOnlyDictionary<string, string> values, CancellationToken ct = default);
+
+    /// <summary>
+    /// How many rows a list shows per page: the system default a Manager set, or the built-in
+    /// <see cref="Helpers.WorkConstants.Settings.DefaultPageSize"/> when it is unset or unusable.
+    /// A list may still ask for another size through its own URL.
+    /// </summary>
+    Task<int> GetPageSizeAsync(CancellationToken ct = default);
 }

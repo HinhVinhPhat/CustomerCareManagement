@@ -1,0 +1,23 @@
+@model string
+@{
+    var tabs = WorkConstants.Reports.TabsForRole(User.GetRole());
+}
+@if (tabs.Length > 0)
+{
+    <nav class="flex flex-wrap gap-1 border-b border-line mb-4" aria-label="@L["Reports_Tabs"]">
+        @foreach (var tab in tabs)
+        {
+            var labelKey = tab switch
+            {
+                WorkConstants.Reports.TabRevenue => "Reports_Tab_Revenue",
+                WorkConstants.Reports.TabCustomers => "Reports_Tab_Customers",
+                _ => "Reports_Tab_Care"
+            };
+
+            <a href="/reports/@tab" class="tab-link @(tab == Model ? "active" : null)"
+               aria-current="@(tab == Model ? "page" : null)">
+                @L[labelKey]
+            </a>
+        }
+    </nav>
+}

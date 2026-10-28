@@ -18,9 +18,12 @@
         <partial name="_Topbar" />
 
         <main class="p-4 lg:p-6 w-full max-w-[1440px] mx-auto">
+            <partial name="_ActionMessage" />
             @RenderBody()
         </main>
     </div>
+
+    <partial name="_ConfirmDialog" />
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

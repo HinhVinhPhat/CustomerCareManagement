@@ -67,6 +67,13 @@ public static class Utils
             : value.ToString("#,##0", CultureInfo.GetCultureInfo("en-US").NumberFormat) + " VND";
     }
 
+    /// <summary>
+    /// A satisfaction score (1-5) with one decimal place, in the number format of the language being
+    /// read: <c>4,5</c> in Vietnamese and <c>4.5</c> in English.
+    /// </summary>
+    public static string FormatScore(double value) =>
+        value.ToString("0.0", CultureInfo.CurrentUICulture);
+
     /// <summary>Dates keep <c>dd/MM/yyyy</c> in both languages, so a Vietnamese reader is never in doubt.</summary>
     public static string FormatDate(DateOnly? value) =>
         value?.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) ?? string.Empty;
@@ -117,6 +124,27 @@ public static class Utils
             CookieRequestCultureProvider.DefaultCookieName,
             CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(language)),
             PreferenceCookieOptions);
+
+    // ------------------------------------------------------------------ list state from the query string
+    // A list keeps its filters, its sort and its page in the URL, so the address can be copied into
+    // another tab. Everything that comes in that way is clamped here: a hand-written ?page=abc must
+    // still show a page, and ?pageSize=100000 must not ask the database for the whole table.
+
+    /// <summary>Page number from the query string; anything below 1 becomes the first page.</summary>
+    public static int SanitisePage(int? page) => page is null or < 1 ? 1 : page.Value;
+
+    /// <summary>Rows per page from the query string, within the range the database accepts.</summary>
+    public static int SanitisePageSize(int? size) =>
+        size is >= WorkConstants.Settings.MinPageSize and <= WorkConstants.Settings.MaxPageSize
+            ? size.Value
+            : WorkConstants.Settings.DefaultPageSize;
+
+    /// <summary>
+    /// One of the fields a list may be sorted by; anything else (or nothing) becomes the default, so
+    /// an unknown ?sort= never reaches the database as a column name.
+    /// </summary>
+    public static string SanitiseSort(string? sortBy, IReadOnlyList<string> allowed, string fallback) =>
+        sortBy is not null && allowed.Contains(sortBy) ? sortBy : fallback;
 
     // ------------------------------------------------------------------ legacy demo password hash
 
@@ -198,10 +226,18 @@ public static class Utils
             ? "Error_BusinessCustomerNoGender"
         : message.Contains("CHK_Customer_Contact", StringComparison.Ordinal)
             ? "Error_CustomerNeedsContact"
+        : message.Contains("CHK_Customer_Phone", StringComparison.Ordinal)
+            ? "Error_CustomerPhoneInvalid"
+        : message.Contains("CHK_Customer_Email", StringComparison.Ordinal)
+            ? "Error_CustomerEmailInvalid"
+        : message.Contains("CHK_Customer_DateOfBirth", StringComparison.Ordinal)
+            ? "Error_CustomerBirthDateInvalid"
         : message.Contains("CHK_Care_SatisfactionScore", StringComparison.Ordinal)
             ? "Error_SurveyScoreOnly"
         : message.Contains("CHK_Care_NextAppointment", StringComparison.Ordinal)
             ? "Error_NextAppointmentBeforeCare"
+        : message.Contains("CHK_Feedback_DueDate", StringComparison.Ordinal)
+            ? "Error_FeedbackDueDateInvalid"
         : message.Contains("CHK_Settings_Key", StringComparison.Ordinal)
             ? "Error_UnknownSetting"
         : message.Contains("CHK_Settings_Value", StringComparison.Ordinal)

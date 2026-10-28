@@ -1,0 +1,33 @@
+@model RevenueReportViewModel
+<div class="overflow-x-auto">
+    <table class="tbl tbl-cards">
+        <thead>
+            <tr>
+                <th>@L["Reports_Revenue_Month"]</th>
+                <th class="text-right">@L["Reports_Revenue_Contracts"]</th>
+                <th class="text-right">@L["Reports_Revenue_Amount"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Rows)
+            {
+                <tr>
+                    <td data-label="@L["Reports_Revenue_Month"]">
+                        @CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName(row.Month)
+                    </td>
+                    <td class="num" data-label="@L["Reports_Revenue_Contracts"]">@row.ContractCount</td>
+                    <td class="num" data-label="@L["Reports_Revenue_Amount"]">
+                        @Utils.FormatMoney(row.Revenue)
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="font-bold">
+                <td data-label="@L["Reports_Revenue_Month"]">@L["Reports_Revenue_Total"]</td>
+                <td class="num" data-label="@L["Reports_Revenue_Contracts"]">@Model.ContractTotal</td>
+                <td class="num" data-label="@L["Reports_Revenue_Amount"]">@Utils.FormatMoney(Model.Total)</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

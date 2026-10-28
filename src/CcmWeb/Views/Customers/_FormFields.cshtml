@@ -1,0 +1,93 @@
+@model CustomerFormViewModel
+@* The fields of the add / edit form. Gender and the date of birth belong to an individual customer
+   only: CHK_Customer_Business refuses them for a business, so the block below is hidden and cleared
+   when the type is Business (site.js), and the service clears them again on the server. *@
+
+<div asp-validation-summary="ModelOnly" class="text-sm text-danger-ink mb-4 empty:hidden"></div>
+
+<fieldset class="mb-4">
+    <legend class="block text-sm font-semibold mb-1">@L["Customer_Field_Type"]</legend>
+    <div class="flex flex-wrap items-center gap-4">
+        @foreach (var type in WorkConstants.CustomerTypes.All)
+        {
+            <label class="flex items-center gap-2" for="type-@type">
+                <input id="type-@type" type="radio" asp-for="CustomerType" value="@type" />
+                <span>@L.Label("CustomerType", type)</span>
+                <i class="fa-solid @(WorkConstants.CustomerTypes.IsBusiness(type) ? "fa-building" : "fa-user") text-muted"
+                   aria-hidden="true"></i>
+            </label>
+        }
+    </div>
+    <span asp-validation-for="CustomerType" class="block text-sm text-danger-ink min-h-5"></span>
+</fieldset>
+
+<div class="grid gap-4 md:grid-cols-2">
+    <div class="md:col-span-2">
+        <label asp-for="CustomerName" class="block text-sm font-semibold mb-1"></label>
+        <input asp-for="CustomerName" class="input" autocomplete="off" />
+        <span asp-validation-for="CustomerName" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="Email" class="block text-sm font-semibold mb-1"></label>
+        <input asp-for="Email" class="input" autocomplete="off" />
+        <span asp-validation-for="Email" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="Phone" class="block text-sm font-semibold mb-1"></label>
+        <input asp-for="Phone" class="input" autocomplete="off" />
+        <span asp-validation-for="Phone" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div class="md:col-span-2 grid gap-4 md:grid-cols-2" data-individual-only>
+        <div>
+            <label asp-for="Gender" class="block text-sm font-semibold mb-1"></label>
+            <select asp-for="Gender" class="input">
+                <option value="">@L["Customer_Gender_Unset"]</option>
+                @foreach (var gender in WorkConstants.CustomerGenders.All)
+                {
+                    <option value="@gender">@L.Label("Gender", gender)</option>
+                }
+            </select>
+            <span asp-validation-for="Gender" class="block text-sm text-danger-ink min-h-5"></span>
+        </div>
+
+        <div>
+            <label asp-for="DateOfBirth" class="block text-sm font-semibold mb-1"></label>
+            <input asp-for="DateOfBirth" type="date" class="input" />
+            <span asp-validation-for="DateOfBirth" class="block text-sm text-danger-ink min-h-5"></span>
+        </div>
+    </div>
+
+    <div class="md:col-span-2">
+        <label asp-for="Address" class="block text-sm font-semibold mb-1"></label>
+        <input asp-for="Address" class="input" autocomplete="off" />
+        <span asp-validation-for="Address" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="Source" class="block text-sm font-semibold mb-1"></label>
+        @* A free-text column: the five values the sample data uses are offered, anything else is kept. *@
+        <input asp-for="Source" class="input" list="sourceOptions" autocomplete="off" />
+        <datalist id="sourceOptions">
+            @foreach (var source in Model.SourceSuggestions)
+            {
+                <option value="@source"></option>
+            }
+        </datalist>
+        <span asp-validation-for="Source" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="OwnerEmployeeId" class="block text-sm font-semibold mb-1"></label>
+        <select asp-for="OwnerEmployeeId" class="input">
+            <option value="">@L["Customer_Owner_Unset"]</option>
+            @foreach (var owner in Model.Owners)
+            {
+                <option value="@owner.EmployeeId">@owner.FullName</option>
+            }
+        </select>
+        <span asp-validation-for="OwnerEmployeeId" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+</div>

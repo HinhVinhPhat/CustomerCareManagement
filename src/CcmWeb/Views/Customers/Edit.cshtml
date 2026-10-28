@@ -1,0 +1,13 @@
+@model CustomerFormViewModel
+@{
+    ViewData["Title"] = L["Customer_EditTitle"];
+    ViewData["PageKey"] = "customers";
+}
+<header class="mb-5">
+    <a href="/customers/@Model.CustomerId" class="text-sm text-muted">
+        <i class="fa-solid fa-arrow-left"></i> @L["Customer_BackToDetail"]
+    </a>
+    <h1 class="text-2xl font-bold mt-1">@L["Customer_EditTitle"]</h1>
+</header>
+
+<partial name="_Form" model="Model" />

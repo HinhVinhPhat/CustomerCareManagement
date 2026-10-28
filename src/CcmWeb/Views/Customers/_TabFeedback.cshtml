@@ -1,0 +1,66 @@
+@model CustomerDetailViewModel
+@{
+    // M04 adds the way into the feedback detail. Sales has no access to that module, so the column
+    // is not offered to them - and the controller refuses the address as well.
+    var canHandle = User.IsInRole(WorkConstants.Roles.Manager) || User.IsInRole(WorkConstants.Roles.Support);
+}
+@if (Model.Feedback.Count == 0)
+{
+    <section class="card p-6 text-center text-sm text-muted">
+        <i class="fa-solid fa-comment-dots text-2xl" aria-hidden="true"></i>
+        <p class="mt-2">@L["Customer_NoFeedback"]</p>
+    </section>
+}
+else
+{
+    <section class="card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="tbl tbl-cards">
+                <thead>
+                    <tr>
+                        <th>@L["Feedback_CreatedTime"]</th>
+                        <th>@L["Feedback_Type"]</th>
+                        <th>@L["Feedback_Content"]</th>
+                        <th>@L["Feedback_Priority"]</th>
+                        <th>@L["Feedback_Status"]</th>
+                        <th>@L["Feedback_DueDate"]</th>
+                        <th>@L["Feedback_AssignedTo"]</th>
+                        @if (canHandle)
+                        {
+                            <th class="text-right">@L["Common_Actions"]</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var feedback in Model.Feedback)
+                    {
+                        <tr>
+                            <td data-label="@L["Feedback_CreatedTime"]">@Utils.FormatDateTime(feedback.CreatedTime)</td>
+                            <td data-label="@L["Feedback_Type"]">@L.Label("FeedbackType", feedback.FeedbackType)</td>
+                            <td data-label="@L["Feedback_Content"]">@feedback.Content</td>
+                            <td data-label="@L["Feedback_Priority"]">
+                                <partial name="_Badge" model="BadgeModel.Priority(feedback.Priority)" />
+                            </td>
+                            <td data-label="@L["Feedback_Status"]">
+                                <partial name="_Badge" model="BadgeModel.FeedbackStatus(feedback.FeedbackStatus)" />
+                            </td>
+                            <td data-label="@L["Feedback_DueDate"]">@Utils.FormatDate(feedback.DueDate)</td>
+                            <td data-label="@L["Feedback_AssignedTo"]">
+                                @* A feedback item without an assignee is only possible while it is new. *@
+                                @(feedback.OwnerName ?? L["Feedback_Unassigned"].Value)
+                            </td>
+                            @if (canHandle)
+                            {
+                                <td data-label="@L["Common_Actions"]" class="text-right">
+                                    <a href="/feedbacks/@feedback.FeedbackId" class="btn !py-1 !px-2.5 !text-xs">
+                                        <i class="fa-solid fa-eye"></i> @L["Common_View"]
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}

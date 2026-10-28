@@ -1,0 +1,16 @@
+@model CareFormViewModel
+@{
+    ViewData["Title"] = L["Care_Add"];
+    ViewData["PageKey"] = "care";
+    var back = Model.ReturnUrl is not null && Url.IsLocalUrl(Model.ReturnUrl)
+        ? Model.ReturnUrl
+        : "/care?tab=log";
+}
+<header class="mb-5">
+    <a href="@back" class="text-sm text-muted">
+        <i class="fa-solid fa-arrow-left"></i> @L["Care_Back"]
+    </a>
+    <h1 class="text-2xl font-bold mt-1">@L["Care_Add"]</h1>
+</header>
+
+<partial name="_CareForm" model="Model" />

@@ -1,0 +1,8 @@
+@model string
+@* Dùng chung cho trang tổng quan và ba tab báo cáo: một khối không đọc được thì chỉ khối đó báo
+   lỗi, không hiện số 0 giả và không để lộ chi tiết SQL. *@
+<div class="p-6 text-center">
+    <i class="fa-solid fa-triangle-exclamation text-2xl text-danger-ink" aria-hidden="true"></i>
+    <p class="mt-2 font-semibold">@L[Model]</p>
+    <p class="text-sm text-muted mt-1">@L["Common_TryAgain"]</p>
+</div>

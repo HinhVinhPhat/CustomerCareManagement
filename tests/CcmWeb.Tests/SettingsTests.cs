@@ -31,7 +31,7 @@ public class SettingsTests
     {
         await using var db = CreateContext();
 
-        db.Settings.Add(NewPersonalSetting(EmployeeWithoutOverride, "PageSize", "20"));
+        db.Settings.Add(NewPersonalSetting(EmployeeWithoutOverride, "FooBar", "20"));
         var exception = await Assert.ThrowsAsync<DbUpdateException>(() => db.SaveChangesAsync());
 
         Assert.Equal("Error_UnknownSetting", Utils.TranslateSqlError(exception));

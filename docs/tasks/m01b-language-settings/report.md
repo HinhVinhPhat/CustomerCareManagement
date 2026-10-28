@@ -193,3 +193,27 @@ text and a `rgb(203,213,225)` bottom edge, a white chip on it edged `rgb(203,213
 `#0B1220`, sidebar `rgb(30,41,59)`, topbar `rgb(21,30,49)`, chip edged `rgb(39,51,77)`; the theme cookie
 was put back to `light` afterwards. `docs/design.md` (2.1, 2.4, 3.2) carries the new values.
 `dotnet build` 0 errors / 0 warnings, `dotnet test` 43/43 PASS, and the app renders both themes.
+
+## Thay đổi ngày 28/10/2026 - một nút "Lưu" cho cả trang cài đặt
+
+Người dùng yêu cầu bỏ nút "Lưu" ở từng dòng: đổi ba giá trị rồi bấm một lần mới lưu hết.
+
+- `Views/Settings/_SystemSettings.cshtml`: cả bảng nằm trong **một** `<form>`; mỗi ô nhập đặt tên
+  `values[<Key>]`; nút duy nhất nằm ở chân thẻ, canh phải (`flex justify-end`), dùng `btn btn-primary`.
+- `SettingsController.SaveSystem` nhận `Dictionary<string, string>`, kiểm tra từng cặp khóa/giá trị trước
+  khi ghi, rồi gọi `ISettingService.SaveSystemValuesAsync` - một `SaveChanges` duy nhất, tức cả biểu mẫu
+  được ghi trong cùng một giao dịch, không có chuyện nửa lưu nửa không.
+- Khi một giá trị bị từ chối, controller dựng lại chính trang đó với giá trị vừa nhập (không chuyển
+  hướng) và hiện khối cảnh báo trong thẻ, nên không mất dữ liệu đã gõ.
+- `SettingsViewModel` thêm `ErrorKey`; `ISettingService` thay `SaveSystemValueAsync` bằng
+  `SaveSystemValuesAsync` (không còn chỗ nào gọi bản một khóa).
+
+Kiểm chứng trên `CustomerCareDB` thật (đăng nhập `john`):
+
+- `GET /settings` trả 200, đúng **một** nút "Lưu", ba ô `values[Language]`, `values[Theme]`,
+  `values[PageSize]`.
+- `POST /settings/system` với cả ba khóa trả 302 về `/settings`, banner "Đã lưu cài đặt.", ba dòng
+  `SETTINGS` (EmployeeID IS NULL) đúng giá trị.
+- `POST` với `Language=fr`, `PageSize=33`: trang trả lại với lỗi "Giá trị không hợp lệ cho cài đặt này.",
+  `PageSize` vẫn hiện 33, và CSDL **không** đổi (20) - đúng "tất cả hoặc không gì cả".
+- `dotnet build` 0 lỗi / 0 cảnh báo; `dotnet test` 159/159.

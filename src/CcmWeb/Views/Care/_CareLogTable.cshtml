@@ -1,0 +1,41 @@
+@model CareLogViewModel
+@{
+    void SortHeader(string field, string labelKey)
+    {
+        var isCurrent = Model.Filter.Sort == field;
+        var icon = !isCurrent ? "fa-sort" : (Model.Filter.Desc ? "fa-sort-down" : "fa-sort-up");
+
+        <th>
+            <a href="/care@(Model.Filter.SortQuery(field))" class="inline-flex items-center gap-1">
+                <span>@L[labelKey]</span>
+                <i class="fa-solid @icon @(isCurrent ? null : "text-muted")" aria-hidden="true"></i>
+            </a>
+        </th>
+    }
+}
+<div class="overflow-x-auto">
+    <table class="tbl tbl-cards">
+        <thead>
+            <tr>
+                @{
+                    SortHeader(CareFilter.SortByCareDate, "Care_Date");
+                    SortHeader(CareFilter.SortByCustomer, "Common_Customer");
+                }
+                <th>@L["Common_Staff"]</th>
+                @{
+                    SortHeader(CareFilter.SortByCareType, "Care_Type");
+                }
+                <th>@L["Common_Content"]</th>
+                <th>@L["Common_Result"]</th>
+                <th class="num">@L["Care_Score"]</th>
+                <th>@L["Care_NextAppointment"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Rows)
+            {
+                <partial name="_CareLogRow" model="row" />
+            }
+        </tbody>
+    </table>
+</div>

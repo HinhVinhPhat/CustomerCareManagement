@@ -1,0 +1,73 @@
+@model ContractListViewModel
+@{
+    var filter = Model.Filter;
+}
+<form method="get" action="/contracts" class="card p-4 mb-4 grid gap-3 md:grid-cols-12 items-end">
+    <div class="md:col-span-3">
+        <label class="block text-sm font-semibold mb-1" for="q">@L["Customer_SearchLabel"]</label>
+        <input id="q" name="q" value="@filter.Q" class="input" placeholder="@L["Contract_SearchPlaceholder"]" autocomplete="off" />
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="status">@L["Contract_Status"]</label>
+        <select id="status" name="status" class="input">
+            <option value="">@L["Contract_AllStatuses"]</option>
+            @foreach (var s in WorkConstants.ContractStatus.All)
+            {
+                <option value="@s" selected="@(s == filter.Status)">@L.Label("Contract_Status", s)</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="staff">@L["Contract_Staff"]</label>
+        <select id="staff" name="staff" class="input">
+            <option value="">@L["Contract_AllStaff"]</option>
+            @foreach (var s in Model.Staff)
+            {
+                <option value="@s.EmployeeId" selected="@(s.EmployeeId == filter.Staff)">@s.FullName</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="from">@L["Contract_SignFrom"]</label>
+        <input id="from" name="from" type="date" value="@(filter.From?.ToString("yyyy-MM-dd"))" class="input" />
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="to">@L["Contract_SignTo"]</label>
+        <input id="to" name="to" type="date" value="@(filter.To?.ToString("yyyy-MM-dd"))" class="input" />
+    </div>
+
+    <div class="md:col-span-12 flex items-center gap-2 flex-wrap">
+        <label class="flex items-center gap-2 text-sm">
+            <input type="checkbox" name="expiring" value="true" @(filter.Expiring ? "checked" : "") />
+            <span>@L["Contract_ExpiringSoon"]</span>
+        </label>
+
+        @if (filter.Sort != ContractFilter.SortBySignDate)
+        {
+            <input type="hidden" name="sort" value="@filter.Sort" />
+        }
+        @if (filter.Desc)
+        {
+            <input type="hidden" name="desc" value="true" />
+        }
+        @if (filter.PageSize != WorkConstants.Settings.DefaultPageSize)
+        {
+            <input type="hidden" name="pageSize" value="@filter.PageSize" />
+        }
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> @L["Common_Search"]
+        </button>
+
+        @if (Model.Filter.HasFilters)
+        {
+            <a href="/contracts" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+        }
+    </div>
+</form>

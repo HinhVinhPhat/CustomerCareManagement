@@ -1,0 +1,18 @@
+@* The confirmation a dangerous action asks for (design.md 3.4): cancelling a contract, deactivating a
+   customer. A plain <dialog>, so no library is needed - site.js opens it for any form that carries
+   data-confirm and posts that form only after the user agrees. The action itself still checks the
+   permission and the rule on the server: this is a courtesy, not the protection. *@
+<dialog id="confirmDialog" class="confirm-dialog card p-5">
+    <h2 class="font-semibold" data-confirm-title></h2>
+    <p class="text-sm text-muted mt-2" data-confirm-body></p>
+    <div class="hidden mt-4" data-confirm-reason-wrap>
+        <label class="block text-sm font-semibold mb-1" for="confirmReason">@L["Contract_CancelReason"]</label>
+        <textarea id="confirmReason" class="input" rows="3" maxlength="300" data-confirm-reason-input></textarea>
+    </div>
+    <div class="flex justify-end gap-2 mt-5">
+        <button type="button" class="btn" data-confirm-cancel>@L["Common_Cancel"]</button>
+        <button type="button" class="btn btn-danger" data-confirm-ok>
+            <i class="fa-solid fa-triangle-exclamation"></i> @L["Common_Confirm"]
+        </button>
+    </div>
+</dialog>

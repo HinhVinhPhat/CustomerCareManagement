@@ -25,42 +25,69 @@ public class SettingsController(ISettingService settings, ILogger<SettingsContro
     }
 
     /// <summary>
-    /// Saves one system-wide default. The key and the value are checked here first, so an
+    /// Saves every system-wide default in one go: the screen has a single "Lưu" button at the bottom,
+    /// so the whole form is one transaction. Each key and value is checked here first, so an
     /// impossible pair never reaches the database (CHK_Settings_Value would refuse it anyway).
+    /// A rejected value comes back on the same screen with what the Manager typed still in place.
     /// </summary>
     [HttpPost("/settings/system")]
-    public async Task<IActionResult> SaveSystem(string settingKey, string settingValue, CancellationToken ct)
+    public async Task<IActionResult> SaveSystem(
+        [FromForm] Dictionary<string, string> values, CancellationToken ct)
     {
-        if (!WorkConstants.Settings.IsKnownKey(settingKey))
+        if (values.Count == 0)
         {
-            return BackToSettings("Error_UnknownSetting", ok: false);
+            return RedirectToAction(nameof(Index));
         }
 
-        if (!WorkConstants.Settings.IsValidValue(settingKey, settingValue))
+        foreach (var (key, value) in values)
         {
-            return BackToSettings("Error_SettingValueInvalid", ok: false);
+            if (!WorkConstants.Settings.IsKnownKey(key))
+            {
+                return await IndexWithAsync(values, "Error_UnknownSetting", ct);
+            }
+
+            if (!WorkConstants.Settings.IsValidValue(key, value))
+            {
+                return await IndexWithAsync(values, "Error_SettingValueInvalid", ct);
+            }
         }
 
         try
         {
-            await settings.SaveSystemValueAsync(settingKey, settingValue, ct);
+            await settings.SaveSystemValuesAsync(values, ct);
         }
         catch (BusinessException ex)
         {
-            logger.LogWarning(ex, "Saving the system setting {Key} failed.", settingKey);
-            return BackToSettings(ex.MessageKey, ok: false);
+            logger.LogWarning(ex, "Saving the system settings failed.");
+            return await IndexWithAsync(values, ex.MessageKey, ct);
         }
 
-        logger.LogInformation("Employee {EmployeeID} set the system {Key} to {Value}.",
-            User.GetEmployeeID(), settingKey, settingValue);
+        logger.LogInformation("Employee {EmployeeID} saved {Count} system setting(s).",
+            User.GetEmployeeID(), values.Count);
 
-        return BackToSettings("Settings_Saved", ok: true);
+        // The shared banner in _Layout shows these two keys on every page.
+        TempData["MessageKey"] = "Settings_Saved";
+        TempData["MessageOk"] = true;
+        return RedirectToAction(nameof(Index));
     }
 
-    private IActionResult BackToSettings(string messageKey, bool ok)
+    /// <summary>
+    /// Shows the screen again with the rejected values on it, so nothing the Manager typed is lost
+    /// (AGENTS.md 5: a business error keeps the entered data).
+    /// </summary>
+    private async Task<IActionResult> IndexWithAsync(
+        IReadOnlyDictionary<string, string> posted, string errorKey, CancellationToken ct)
     {
-        TempData["SettingsMessageKey"] = messageKey;
-        TempData["SettingsMessageOk"] = ok;
-        return RedirectToAction(nameof(Index));
+        var rows = await settings.GetSystemSettingsAsync(ct);
+
+        return View("Index", new SettingsViewModel
+        {
+            SystemSettings = rows
+                .Select(row => posted.TryGetValue(row.Key, out var value)
+                    ? row with { Value = value }
+                    : row)
+                .ToList(),
+            ErrorKey = errorKey
+        });
     }
 }

@@ -1,0 +1,100 @@
+@model DashboardViewModel
+@{
+    var role = User.GetRole();
+}
+@if (Model.SummaryErrorKey is not null || Model.Summary is null)
+{
+    var summaryError = Model.SummaryErrorKey ?? "Error_Unexpected";
+    <section class="card mb-4">
+        <partial name="_BlockError" model="summaryError" />
+    </section>
+}
+else
+{
+    var summary = Model.Summary;
+
+    // Thẻ chỉ xuất hiện khi vai trò được mở trang đích: Kinh doanh không có thẻ phản hồi,
+    // Hỗ trợ không có thẻ doanh thu (requirements.md mục 3).
+    // Bốn thẻ đếm nằm ở hàng trên; doanh thu và phản hồi xuống hàng dưới, doanh thu chiếm một ô rộng
+    // để con số tiền dài không tràn khỏi thẻ.
+    var cards = new List<(string Icon, string Css, string Value, string Label, string Hint, string Url)>
+    {
+        ("fa-users", "text-primary",
+            summary.TotalCustomers.ToString("N0", CultureInfo.CurrentUICulture),
+            L["Dashboard_Kpi_TotalCustomers"].Value,
+            L["Dashboard_Kpi_TotalCustomersHint"].Value,
+            "/customers"),
+        ("fa-user-plus", "text-success",
+            summary.NewCustomers30Days.ToString("N0", CultureInfo.CurrentUICulture),
+            L["Dashboard_Kpi_NewCustomers"].Value,
+            L["Dashboard_Kpi_NewCustomersHint"].Value,
+            "/customers?sort=CreatedDate&desc=true"),
+        ("fa-file-signature", "text-primary",
+            summary.ActiveContracts.ToString("N0", CultureInfo.CurrentUICulture),
+            L["Dashboard_Kpi_ActiveContracts"].Value,
+            L["Dashboard_Kpi_ActiveContractsHint"].Value,
+            "/contracts?status=Active"),
+        ("fa-hourglass-half", "text-warning",
+            summary.ExpiringContracts.ToString("N0", CultureInfo.CurrentUICulture),
+            L["Dashboard_Kpi_ExpiringContracts"].Value,
+            L["Dashboard_Kpi_ExpiringContractsHint"].Value,
+            "/contracts?expiring=true")
+    };
+
+    if (DashboardRules.SeesRevenue(role))
+    {
+        cards.Add(("fa-sack-dollar", "text-primary",
+            Utils.FormatMoney(summary.RevenueThisYear),
+            L["Dashboard_Kpi_Revenue"].Value,
+            L["Dashboard_Kpi_RevenueHint"].Value,
+            "/reports/revenue"));
+    }
+
+    if (DashboardRules.SeesFeedback(role))
+    {
+        cards.Add(("fa-comments", "text-danger",
+            summary.OpenFeedback.ToString("N0", CultureInfo.CurrentUICulture),
+            L["Dashboard_Kpi_OpenFeedback"].Value,
+            L["Dashboard_Kpi_OverdueCount", summary.OverdueFeedback].Value,
+            "/feedbacks"));
+    }
+
+    var topCards = cards.Take(4).ToList();
+    var bottomCards = cards.Skip(4).ToList();
+
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+        @foreach (var card in topCards)
+        {
+            <a href="@card.Url" class="card p-4 kpi">
+                <div class="kpi-head">
+                    <i class="fa-solid @card.Icon kpi-icon @card.Css" aria-hidden="true"></i>
+                    <div class="kpi-value">@card.Value</div>
+                </div>
+                <div class="kpi-label">@card.Label</div>
+                <div class="kpi-hint">@card.Hint</div>
+            </a>
+        }
+    </section>
+
+    if (bottomCards.Count > 0)
+    {
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+            @for (var index = 0; index < bottomCards.Count; index++)
+            {
+                var card = bottomCards[index];
+                // Hai thẻ còn lại thì doanh thu chiếm ba ô; chỉ còn một thẻ thì nó chiếm cả hàng.
+                var span = bottomCards.Count == 1 ? "md:col-span-4" : index == 0 ? "md:col-span-3" : "md:col-span-1";
+                var wide = span != "md:col-span-1" ? "kpi-wide" : "";
+
+                <a href="@card.Url" class="card p-4 kpi @span @wide">
+                    <div class="kpi-head">
+                        <i class="fa-solid @card.Icon kpi-icon @card.Css" aria-hidden="true"></i>
+                        <div class="kpi-value">@card.Value</div>
+                    </div>
+                    <div class="kpi-label">@card.Label</div>
+                    <div class="kpi-hint">@card.Hint</div>
+                </a>
+            }
+        </section>
+    }
+}

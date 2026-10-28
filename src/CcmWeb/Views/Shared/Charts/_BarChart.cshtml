@@ -1,0 +1,32 @@
+@model BarChartModel
+@{
+    // Chiều cao do ReportRules tính: giá trị dương luôn cao ít nhất 4%, năm rỗng thì mọi cột bằng 0.
+    var heights = ReportRules.BarHeights(Model.Values);
+
+    // Nhãn trên đầu cột phải vừa bề rộng một cột (~50px), nên tiền được rút gọn theo triệu và chỉ giữ
+    // một chữ số thập phân. Dấu "≈" nhắc rằng đây là số làm tròn; con số đầy đủ nằm ở title của cột và
+    // ở bảng trên tab Doanh thu.
+    var unit = L["Chart_MoneyUnit"].Value;
+}
+<div class="chart-scroll">
+    <div class="chart" role="img" aria-label="@Model.Title">
+        @for (var index = 0; index < Model.Labels.Count; index++)
+        {
+            var value = index < Model.Values.Count ? Model.Values[index] : 0m;
+            var height = index < heights.Count ? heights[index] : 0d;
+            var full = Model.Money ? Utils.FormatMoney(value) : value.ToString("N0");
+            var text = Model.Money
+                ? "≈" + Math.Round(value / 1_000_000m, 1).ToString("0.#", CultureInfo.CurrentUICulture) + " " + unit
+                : full;
+
+            <div class="chart-col">
+                <span class="chart-value">@(value > 0 ? text : string.Empty)</span>
+                <div class="chart-track">
+                    <div class="chart-bar" style="height:@height.ToString("0.##", CultureInfo.InvariantCulture)%"
+                         title="@full"></div>
+                </div>
+                <span class="chart-label">@Model.Labels[index]</span>
+            </div>
+        }
+    </div>
+</div>

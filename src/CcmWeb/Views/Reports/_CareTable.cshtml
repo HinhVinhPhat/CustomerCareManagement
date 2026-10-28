@@ -1,0 +1,49 @@
+@model CareReportViewModel
+<div class="overflow-x-auto">
+    <table class="tbl tbl-cards">
+        <thead>
+            <tr>
+                <th>@L["Reports_Care_Month"]</th>
+                @foreach (var type in WorkConstants.CareTypes.All)
+                {
+                    <th class="text-right">@L.Label("CareType", type)</th>
+                }
+                <th class="text-right">@L["Reports_Care_Total"]</th>
+                <th class="text-right">@L["Reports_Care_Survey"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Rows)
+            {
+                <tr>
+                    <td data-label="@L["Reports_Care_Month"]">
+                        @CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName(row.Month)
+                    </td>
+                    @foreach (var type in WorkConstants.CareTypes.All)
+                    {
+                        <td class="num" data-label="@L.Label("CareType", type)">
+                            @row.Counts.GetValueOrDefault(type)
+                        </td>
+                    }
+                    <td class="num font-semibold" data-label="@L["Reports_Care_Total"]">@row.TotalVisits</td>
+                    <td class="num" data-label="@L["Reports_Care_Survey"]">
+                        @(row.SurveyAverage is { } score ? Utils.FormatScore((double)score) : "—")
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="font-bold">
+                <td data-label="@L["Reports_Care_Month"]">@L["Reports_Care_Total"]</td>
+                @foreach (var type in WorkConstants.CareTypes.All)
+                {
+                    <td class="num" data-label="@L.Label("CareType", type)">
+                        @Model.Rows.Sum(row => row.Counts.GetValueOrDefault(type))
+                    </td>
+                }
+                <td class="num" data-label="@L["Reports_Care_Total"]">@Model.TotalVisits</td>
+                <td class="num" data-label="@L["Reports_Care_Survey"]">—</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

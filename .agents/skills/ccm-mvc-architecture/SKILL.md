@@ -109,7 +109,7 @@ Check: after acting on a contract or feedback through the UI,
 
 - **Controller:** no SQL, no business rules. Check permission with `[Authorize(Roles = ...)]`
   (see `ccm-auth-security`), check `ModelState`, call a Service, return a View or
-  `RedirectToAction` with `TempData`.
+  `RedirectToAction` with `TempData` (the message key the layout turns into a toast or an alert).
 - **Service:** holds the `ApplicationDbContext`, calls procedures/views, normalises input data,
   translates SQL errors. Returns ViewModels/DTOs or lists, **never `IQueryable`** or tracked
   entities to the controller.

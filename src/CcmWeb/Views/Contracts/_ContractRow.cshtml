@@ -1,0 +1,32 @@
+@model ContractListRow
+@{
+    var canEdit = User.IsInRole(WorkConstants.Roles.Manager) || User.IsInRole(WorkConstants.Roles.Sales);
+    var urgent = Model.DaysRemaining is { } d && d >= 0 && d < ContractRules.ExpiringSoonDays;
+}
+<tr>
+    <td data-label="@L["Contract_Code"]" class="font-semibold">#@Model.ContractId</td>
+    <td data-label="@L["Contract_Customer"]">
+        <a href="/customers/@Model.CustomerId" class="hover:text-primary">@Model.CustomerName</a>
+    </td>
+    <td data-label="@L["Contract_Staff"]">@Model.EmployeeName</td>
+    <td data-label="@L["Contract_SignDate"]">@Utils.FormatDate(Model.SignDate)</td>
+    <td data-label="@L["Contract_EndDate"]">
+        @Utils.FormatDate(Model.EndDate)
+        @if (Model.DaysRemaining is { } days && days >= 0)
+        {
+            <span class="@(urgent ? "text-danger-ink" : "text-muted")">
+                (@L["Contract_DaysRemaining", days])
+            </span>
+        }
+    </td>
+    <td class="num" data-label="@L["Contract_Value"]">@Utils.FormatMoney(Model.TotalValue)</td>
+    <td data-label="@L["Contract_Status"]">
+        <partial name="_Badge" model="BadgeModel.ContractStatus(Model.Status)" />
+    </td>
+    <td class="text-right whitespace-nowrap" data-label="@L["Common_Actions"]">
+        <a href="/contracts/@Model.ContractId" class="btn !py-1 !px-2.5 !text-xs"
+           title="@L["Common_View"]" aria-label="@L["Common_View"]">
+            <i class="fa-solid fa-eye"></i>
+        </a>
+    </td>
+</tr>

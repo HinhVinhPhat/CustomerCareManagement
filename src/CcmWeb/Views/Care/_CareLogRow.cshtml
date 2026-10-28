@@ -1,0 +1,20 @@
+@model CareLogRow
+<tr>
+    <td data-label="@L["Care_Date"]" class="whitespace-nowrap">@Utils.FormatDate(Model.CareDate)</td>
+    <td data-label="@L["Common_Customer"]">
+        <a href="/customers/@Model.CustomerId" class="hover:text-primary font-semibold">@Model.CustomerName</a>
+    </td>
+    <td data-label="@L["Common_Staff"]">@Model.EmployeeName</td>
+    <td data-label="@L["Care_Type"]">@L.Label("CareType", Model.CareType)</td>
+    <td data-label="@L["Common_Content"]" class="max-w-md break-words">@Model.Content</td>
+    <td data-label="@L["Common_Result"]" class="max-w-xs break-words">@Model.Result</td>
+    <td data-label="@L["Care_Score"]" class="num">
+        @if (Model.SatisfactionScore is { } score)
+        {
+            <span class="inline-flex items-center gap-1">
+                <i class="fa-solid fa-star text-warning" aria-hidden="true"></i> @score/5
+            </span>
+        }
+    </td>
+    <td data-label="@L["Care_NextAppointment"]" class="whitespace-nowrap">@Utils.FormatDate(Model.NextAppointmentDate)</td>
+</tr>

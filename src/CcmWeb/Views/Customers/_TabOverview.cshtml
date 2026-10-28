@@ -1,0 +1,61 @@
+@model CustomerDetailViewModel
+@* The numbers of this one customer, read from the database: vw_ContractInfo, CARE, vw_OpenFeedback
+   and vw_CareSchedule. Nothing here is a second opinion on what those objects say. *@
+<div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="card p-4">
+        <p class="text-sm text-muted">@L["Customer_ContractCount"]</p>
+        <p class="text-2xl font-bold">@Model.Overview.ContractCount</p>
+    </div>
+
+    <div class="card p-4">
+        <p class="text-sm text-muted">@L["Customer_Field_TotalValue"]</p>
+        <p class="text-2xl font-bold num">@Utils.FormatMoney(Model.Overview.TotalValue)</p>
+    </div>
+
+    <div class="card p-4">
+        <p class="text-sm text-muted">@L["Customer_AverageSatisfaction"]</p>
+        <p class="text-2xl font-bold">
+            @if (Model.Overview.AverageSatisfaction is { } average)
+            {
+                <i class="fa-solid fa-star text-warning" aria-hidden="true"></i>
+                @Utils.FormatScore(average)
+            }
+            else
+            {
+                @* No score was ever given - not a zero, which would read as "very unhappy". *@
+                <span class="text-muted text-base font-normal">@L["Customer_NoScore"]</span>
+            }
+        </p>
+    </div>
+
+    <div class="card p-4">
+        <p class="text-sm text-muted">@L["Customer_OpenFeedback"]</p>
+        <p class="text-2xl font-bold">
+            @Model.Overview.OpenFeedbackCount
+            @if (Model.Overview.OpenFeedbackCount > 0)
+            {
+                <a href="?tab=feedback" class="text-sm font-normal text-primary ml-1">@L["Common_ViewAll"]</a>
+            }
+        </p>
+    </div>
+</div>
+
+<section class="card p-4 mt-4">
+    <h2 class="font-semibold mb-2">
+        <i class="fa-solid fa-calendar-check text-primary mr-2" aria-hidden="true"></i>
+        @L["Customer_NextAppointment"]
+    </h2>
+
+    @if (Model.Overview.NextAppointmentDate is { } appointment)
+    {
+        <p class="text-sm">
+            @Utils.FormatDate(appointment)
+            <partial name="_Badge" model="BadgeModel.ScheduleStatus(Model.Overview.NextAppointmentStatus)" />
+        </p>
+    }
+    else
+    {
+        @* vw_CareSchedule only carries appointments of the latest care record, within seven days. *@
+        <p class="text-sm text-muted">@L["Customer_NoAppointment"]</p>
+    }
+</section>

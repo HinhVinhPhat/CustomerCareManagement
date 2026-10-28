@@ -1,0 +1,41 @@
+@model CustomerReportViewModel
+@{
+    var filter = Model.Filter;
+    var defaultDesc = filter.Sort != CustomerRankFilter.SortByName;
+}
+<form method="get" action="/reports/customers" class="flex flex-wrap items-end gap-2">
+    <div>
+        <label for="tier" class="block text-sm font-semibold mb-1">@L["Customer_Field_Tier"]</label>
+        <select id="tier" name="tier" class="input">
+            <option value="">@L["Customer_AllTiers"]</option>
+            @foreach (var tier in WorkConstants.CustomerTiers.All)
+            {
+                <option value="@tier" selected="@(tier == filter.Tier)">@L.Label("Tier", tier)</option>
+            }
+        </select>
+    </div>
+
+    @if (filter.Sort != CustomerRankFilter.SortByValue)
+    {
+        <input type="hidden" name="sort" value="@filter.Sort" />
+    }
+    @if (filter.Desc != defaultDesc)
+    {
+        <input type="hidden" name="desc" value="@(filter.Desc ? "true" : "false")" />
+    }
+    @if (filter.PageSize != WorkConstants.Settings.DefaultPageSize)
+    {
+        <input type="hidden" name="pageSize" value="@filter.PageSize" />
+    }
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fa-solid fa-filter"></i> @L["Reports_ApplyFilter"]
+    </button>
+
+    @if (filter.HasFilters)
+    {
+        <a href="/reports/customers" class="btn">
+            <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+        </a>
+    }
+</form>

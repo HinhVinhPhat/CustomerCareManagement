@@ -24,7 +24,7 @@ public class LocalizationTests
     private static readonly string[] Prefixes =
     [
         "App", "Common", "Nav", "Topbar", "Setting", "Settings", "Language", "Theme", "Role",
-        "Login", "Validation", "Error", "Bell", "Dashboard"
+        "Login", "Validation", "Error", "Bell", "Dashboard", "Reports", "Search"
     ];
 
     private static readonly Regex KeyInSource = new(

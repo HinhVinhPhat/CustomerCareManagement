@@ -1,0 +1,15 @@
+@model FeedbackDetailViewModel
+<section class="card p-5 mt-4">
+    <h2 class="font-semibold">@L["Feedback_AddNote"]</h2>
+    <p class="text-sm text-muted mt-1">@L["Feedback_NoteAppendHint"]</p>
+
+    <form method="post" action="/feedbacks/@Model.FeedbackId/note" class="mt-4">
+        @Html.AntiForgeryToken()
+        <label class="block text-sm font-semibold mb-1" for="note">@L["Feedback_Note"]</label>
+        <textarea id="note" name="note" class="input" rows="3" maxlength="500" required></textarea>
+
+        <button type="submit" class="btn mt-4">
+            <i class="fa-solid fa-plus"></i> @L["Feedback_AddNote"]
+        </button>
+    </form>
+</section>

@@ -1,0 +1,77 @@
+@model FeedbackListViewModel
+@{
+    var filter = Model.Filter;
+}
+<form method="get" action="/feedbacks" class="card p-4 mb-4 grid gap-3 md:grid-cols-12 items-end">
+    <div class="md:col-span-3">
+        <label class="block text-sm font-semibold mb-1" for="q">@L["Feedback_SearchLabel"]</label>
+        <input id="q" name="q" value="@filter.Q" class="input"
+               placeholder="@L["Feedback_SearchPlaceholder"]" autocomplete="off" />
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="status">@L["Feedback_Status"]</label>
+        <select id="status" name="status" class="input">
+            <option value="" selected="@(filter.Status is null)">@L["Feedback_Open"]</option>
+            @foreach (var status in WorkConstants.FeedbackStatuses.All)
+            {
+                <option value="@status" selected="@(status == filter.Status)">@L.Label("FeedbackStatus", status)</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="priority">@L["Feedback_Priority"]</label>
+        <select id="priority" name="priority" class="input">
+            <option value="">@L["Feedback_AllPriorities"]</option>
+            @foreach (var priority in WorkConstants.FeedbackPriorities.All)
+            {
+                <option value="@priority" selected="@(priority == filter.Priority)">@L.Label("Priority", priority.ToString())</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="type">@L["Feedback_Type"]</label>
+        <select id="type" name="type" class="input">
+            <option value="">@L["Feedback_AllTypes"]</option>
+            @foreach (var type in WorkConstants.FeedbackTypes.All)
+            {
+                <option value="@type" selected="@(type == filter.Type)">@L.Label("FeedbackType", type)</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-3">
+        <label class="flex items-center gap-2 text-sm" for="overdue">
+            <input id="overdue" type="checkbox" name="overdue" value="true" @(filter.Overdue ? "checked" : "") />
+            <span>@L["Feedback_OverdueOnly"]</span>
+        </label>
+    </div>
+
+    @if (filter.Sort != FeedbackFilter.SortByPriority)
+    {
+        <input type="hidden" name="sort" value="@filter.Sort" />
+    }
+    @if (filter.Desc)
+    {
+        <input type="hidden" name="desc" value="true" />
+    }
+    @if (filter.PageSize != WorkConstants.Settings.DefaultPageSize)
+    {
+        <input type="hidden" name="pageSize" value="@filter.PageSize" />
+    }
+
+    <div class="md:col-span-12 flex items-center gap-2">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> @L["Common_Search"]
+        </button>
+
+        @if (filter.HasFilters)
+        {
+            <a href="/feedbacks" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+        }
+    </div>
+</form>

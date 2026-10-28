@@ -218,14 +218,19 @@ CREATE TABLE SETTINGS (
     -- One default per key (SQL Server treats NULL as a value in a UNIQUE constraint) and
     -- one personal row per employee and key - the rule is enforced by the engine, not by the app
     CONSTRAINT UQ_Settings_Scope     UNIQUE (EmployeeID, SettingKey),
-    CONSTRAINT CHK_Settings_Key      CHECK (SettingKey IN (N'Language', N'Theme')),
+    CONSTRAINT CHK_Settings_Key      CHECK (SettingKey IN (N'Language', N'Theme', N'PageSize')),
     CONSTRAINT CHK_Settings_DataType CHECK (DataType IN ('String', 'Int', 'Bool')),
     CONSTRAINT CHK_Settings_Category CHECK (Category IN ('Localization', 'Appearance', 'General')),
-    -- The value must be legal for its key, so not even sqlcmd can store garbage here.
-    -- Adding a key in a later module means extending this CHECK as well.
+    -- The value AND its declared type must be legal for its key, so not even sqlcmd can store garbage
+    -- here. Adding a key in a later module means extending this CHECK as well.
+    --   Language / Theme : a fixed word list
+    --   PageSize         : a whole number 1..100 - the lists page by it, and 0 or 10000 is nonsense
     CONSTRAINT CHK_Settings_Value    CHECK (
-             (SettingKey = N'Language' AND SettingValue IN (N'vi', N'en'))
-          OR (SettingKey = N'Theme'    AND SettingValue IN (N'light', N'dark')))
+             (SettingKey = N'Language' AND DataType = 'String' AND SettingValue IN (N'vi', N'en'))
+          OR (SettingKey = N'Theme'    AND DataType = 'String' AND SettingValue IN (N'light', N'dark'))
+          OR (SettingKey = N'PageSize' AND DataType = 'Int'
+                                       AND SettingValue NOT LIKE N'%[^0-9]%'
+                                       AND TRY_CAST(SettingValue AS INT) BETWEEN 1 AND 100))
 );
 GO
 

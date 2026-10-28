@@ -49,11 +49,13 @@ GO
 -- 4. APPLICATION SETTINGS
 --    EmployeeID = NULL is the system-wide default. A personal row (EmployeeID = that employee) is
 --    created by the application when somebody picks a different language or theme, and it wins over
---    the default. The values are guarded by CHK_Settings_Value, so only 'vi'/'en' and 'light'/'dark'
---    can be stored. vw_EffectiveSettings (file 02) reads the fallback rule.
+--    the default. The values are guarded by CHK_Settings_Value, so only 'vi'/'en', 'light'/'dark'
+--    and a whole number 1..100 for PageSize can be stored.
+--    vw_EffectiveSettings (file 02) reads the fallback rule.
 INSERT INTO SETTINGS (EmployeeID, SettingKey, SettingValue, DataType, Category, Description) VALUES
 (NULL, N'Language', N'vi',    'String', 'Localization', N'Ngôn ngữ hiển thị mặc định (vi / en)'),
-(NULL, N'Theme',    N'light', 'String', 'Appearance',   N'Chế độ hiển thị mặc định (light / dark)');
+(NULL, N'Theme',    N'light', 'String', 'Appearance',   N'Chế độ hiển thị mặc định (light / dark)'),
+(NULL, N'PageSize', N'20',    'Int',    'General',      N'Số dòng mỗi trang của các danh sách (1..100)');
 GO
 
 -- 5. PRODUCT / SERVICE

@@ -1,0 +1,20 @@
+@model DashboardViewModel
+@* Ô chọn năm chỉ thuộc khối doanh thu; vai trò không xem doanh thu thì không thấy nó. *@
+@if (DashboardRules.SeesRevenue(User.GetRole()))
+{
+    <form method="get" action="/" class="flex flex-wrap items-end gap-2 mb-4">
+        <div>
+            <label for="year" class="block text-sm font-semibold mb-1">@L["Dashboard_YearLabel"]</label>
+            <select id="year" name="year" class="input">
+                @foreach (var year in Model.Years)
+                {
+                    <option value="@year" selected="@(year == Model.Year)">@year</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn">
+            <i class="fa-solid fa-chart-column"></i> @L["Dashboard_ViewYear"]
+        </button>
+    </form>
+}

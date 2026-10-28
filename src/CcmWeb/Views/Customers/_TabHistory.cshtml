@@ -1,0 +1,72 @@
+@model CustomerDetailViewModel
+@{
+    // One timeline for three kinds of record (vw_InteractionHistory). The sub-type is a coded value
+    // whose meaning depends on the kind: a channel for a contact, a care type for care, a feedback
+    // type for feedback. The code stays English in the database, the label is looked up per group.
+    string SubTypeGroup(string category) => category switch
+    {
+        "Contact" => "Channel",
+        "Care" => "CareType",
+        "Feedback" => "FeedbackType",
+        _ => "HistoryCategory"
+    };
+}
+@if (Model.History.Count == 0)
+{
+    <section class="card p-6 text-center text-sm text-muted">
+        <i class="fa-solid fa-clock-rotate-left text-2xl" aria-hidden="true"></i>
+        <p class="mt-2">@L["Customer_NoInteraction"]</p>
+    </section>
+}
+else
+{
+    <section class="card p-5">
+        <ol class="timeline">
+            @foreach (var entry in Model.History)
+            {
+                <li class="timeline-item">
+                    <span class="timeline-dot" aria-hidden="true"></span>
+
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="font-semibold">@L.Label("HistoryCategory", entry.Category)</span>
+                        <span class="badge b-neutral">@L.Label(SubTypeGroup(entry.Category), entry.SubType)</span>
+                        <span class="text-sm text-muted">
+                            @* A care record carries a date, not a time (CareDate is a DATE column and the
+                               view casts it to midnight), so it is shown without a misleading 00:00. *@
+                            @(entry.Category == "Care"
+                                ? Utils.FormatDate(entry.LogTime)
+                                : Utils.FormatDateTime(entry.LogTime))
+                        </span>
+                        @if (entry.EmployeeName is not null)
+                        {
+                            <span class="text-sm text-muted">
+                                <i class="fa-solid fa-user text-xs" aria-hidden="true"></i> @entry.EmployeeName
+                            </span>
+                        }
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(entry.Content))
+                    {
+                        <p class="text-sm mt-1">@entry.Content</p>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(entry.Result))
+                    {
+                        <p class="text-sm text-muted mt-1">
+                            <span class="font-semibold">@L["History_Result"]:</span>
+                            @* For feedback the result column holds a status code, so it is labelled. *@
+                            @if (entry.Category == "Feedback")
+                            {
+                                @L.Label("FeedbackStatus", entry.Result)
+                            }
+                            else
+                            {
+                                @entry.Result
+                            }
+                        </p>
+                    }
+                </li>
+            }
+        </ol>
+    </section>
+}

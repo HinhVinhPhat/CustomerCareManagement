@@ -1,0 +1,94 @@
+@model CustomerDetailViewModel
+@{
+    ViewData["Title"] = Model.Customer.CustomerName;
+    ViewData["PageKey"] = "customers";
+
+    var canEdit = User.IsInRole(WorkConstants.Roles.Manager) || User.IsInRole(WorkConstants.Roles.Sales);
+    var canCreateCare = User.IsInRole(WorkConstants.Roles.Manager) || User.IsInRole(WorkConstants.Roles.Support);
+    var active = ViewData["Tab"] as string ?? "overview";
+    var returnUrl = Uri.EscapeDataString($"/customers/{Model.Customer.CustomerId}?tab=history");
+
+    // The open tab comes from the address, so a tab can be linked to directly and the back button
+    // works. The counts are the rows already loaded for the page.
+    var tabs = new (string Key, string LabelKey, string Icon, int Count)[]
+    {
+        ("overview", "Customer_TabOverview", "fa-circle-info", 0),
+        ("contracts", "Customer_TabContracts", "fa-file-signature", Model.Contracts.Count),
+        ("history", "Customer_TabHistory", "fa-clock-rotate-left", Model.History.Count),
+        ("feedback", "Customer_TabFeedback", "fa-comment-dots", Model.Feedback.Count)
+    };
+}
+
+<header class="flex flex-wrap items-start justify-between gap-3 mb-5">
+    <div class="min-w-0">
+        <a href="/customers" class="text-sm text-muted">
+            <i class="fa-solid fa-arrow-left"></i> @L["Customer_BackToList"]
+        </a>
+        <h1 class="text-2xl font-bold mt-1 truncate">@Model.Customer.CustomerName</h1>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2">
+        <a href="/contacts?create=true&customerId=@Model.Customer.CustomerId&returnUrl=@returnUrl" class="btn">
+            <i class="fa-solid fa-phone"></i> @L["Contact_Add"]
+        </a>
+
+        @if (canCreateCare)
+        {
+            <a href="/care/create?customerId=@Model.Customer.CustomerId&returnUrl=@returnUrl" class="btn">
+                <i class="fa-solid fa-heart"></i> @L["Care_Add"]
+            </a>
+        }
+
+        @if (canEdit)
+        {
+            <a href="/customers/@Model.Customer.CustomerId/edit" class="btn">
+                <i class="fa-solid fa-pen"></i> @L["Common_Edit"]
+            </a>
+
+            @* A dangerous action: it asks for confirmation before it posts (shared dialog). *@
+            <form method="post" asp-controller="Customers" asp-action="SetStatus" asp-route-id="@Model.Customer.CustomerId"
+                  data-confirm
+                  data-confirm-title="@(Model.Customer.IsActive ? L["Customer_DeactivateTitle"] : L["Customer_ReactivateTitle"])"
+                  data-confirm-body="@(Model.Customer.IsActive ? L["Customer_DeactivateBody"] : L["Customer_ReactivateBody"])">
+                <input type="hidden" name="isActive" value="@(!Model.Customer.IsActive ? "true" : "false")" />
+                <button type="submit" class="btn @(Model.Customer.IsActive ? "btn-danger" : "btn-primary")">
+                    <i class="fa-solid @(Model.Customer.IsActive ? "fa-user-slash" : "fa-user-check")"></i>
+                    @(Model.Customer.IsActive ? L["Customer_Deactivate"] : L["Customer_Reactivate"])
+                </button>
+            </form>
+        }
+    </div>
+</header>
+
+<partial name="_CustomerHeader" model="Model.Customer" />
+
+<nav class="flex flex-wrap gap-1 border-b border-line mb-4" role="tablist" aria-label="@L["Customer_Tabs"]">
+    @foreach (var tab in tabs)
+    {
+        <a href="?tab=@tab.Key" role="tab" aria-selected="@(active == tab.Key ? "true" : "false")"
+           class="tab-link @(active == tab.Key ? "active" : null)">
+            <i class="fa-solid @tab.Icon" aria-hidden="true"></i>
+            <span>@L[tab.LabelKey]</span>
+            @if (tab.Count > 0)
+            {
+                <span class="tab-count">@tab.Count</span>
+            }
+        </a>
+    }
+</nav>
+
+@switch (active)
+{
+    case "contracts":
+        <partial name="_TabContracts" model="Model" />
+        break;
+    case "history":
+        <partial name="_TabHistory" model="Model" />
+        break;
+    case "feedback":
+        <partial name="_TabFeedback" model="Model" />
+        break;
+    default:
+        <partial name="_TabOverview" model="Model" />
+        break;
+}

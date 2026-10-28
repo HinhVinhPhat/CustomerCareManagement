@@ -1,0 +1,90 @@
+@model CustomerHeader
+@{
+    var isBusiness = WorkConstants.CustomerTypes.IsBusiness(Model.CustomerType);
+}
+@* The summary card: identity, how to reach the customer, and the two facts the database calculates
+   (fn_CustomerAge, fn_CustomerContractTotal). *@
+<section class="card p-5 mb-4">
+    <div class="flex flex-wrap items-center gap-2 mb-4">
+        <i class="fa-solid @(isBusiness ? "fa-building" : "fa-user") text-primary"
+           aria-hidden="true"></i>
+        <span class="font-semibold">@L.Label("CustomerType", Model.CustomerType)</span>
+        <partial name="_Badge" model="BadgeModel.Tier(Model.Tier)" />
+        <partial name="_Badge" model="BadgeModel.Active(Model.IsActive)" />
+    </div>
+
+    <dl class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-sm">
+        <div>
+            <dt class="text-muted">@L["Customer_Field_Email"]</dt>
+            <dd>
+                @if (!string.IsNullOrWhiteSpace(Model.Email))
+                {
+                    <a href="mailto:@Model.Email" class="hover:text-primary">@Model.Email</a>
+                }
+                else
+                {
+                    <span class="text-muted">—</span>
+                }
+            </dd>
+        </div>
+
+        <div>
+            <dt class="text-muted">@L["Customer_Field_Phone"]</dt>
+            <dd>
+                @if (!string.IsNullOrWhiteSpace(Model.Phone))
+                {
+                    <a href="tel:@Model.Phone" class="hover:text-primary">@Model.Phone</a>
+                }
+                else
+                {
+                    <span class="text-muted">—</span>
+                }
+            </dd>
+        </div>
+
+        <div>
+            <dt class="text-muted">@L["Customer_Field_Owner"]</dt>
+            <dd>@(Model.OwnerName ?? L["Customer_Owner_Unset"].Value)</dd>
+        </div>
+
+        @* A business has no gender and no date of birth (CHK_Customer_Business). *@
+        @if (!isBusiness)
+        {
+            <div>
+                <dt class="text-muted">@L["Customer_Field_Gender"]</dt>
+                <dd>@(Model.Gender is null ? "—" : L.Label("Gender", Model.Gender).Value)</dd>
+            </div>
+
+            <div>
+                <dt class="text-muted">@L["Customer_Field_DateOfBirth"]</dt>
+                <dd>
+                    @Utils.FormatDate(Model.DateOfBirth)
+                    @if (Model.Age is { } age)
+                    {
+                        <span class="text-muted">(@L["Customer_YearsOld", age])</span>
+                    }
+                </dd>
+            </div>
+        }
+
+        <div>
+            <dt class="text-muted">@L["Customer_Field_CreatedDate"]</dt>
+            <dd>@Utils.FormatDate(Model.CreatedDate)</dd>
+        </div>
+
+        <div>
+            <dt class="text-muted">@L["Customer_Field_Source"]</dt>
+            <dd>@(string.IsNullOrWhiteSpace(Model.Source) ? "—" : Model.Source)</dd>
+        </div>
+
+        <div class="sm:col-span-2">
+            <dt class="text-muted">@L["Customer_Field_Address"]</dt>
+            <dd>@(string.IsNullOrWhiteSpace(Model.Address) ? "—" : Model.Address)</dd>
+        </div>
+
+        <div>
+            <dt class="text-muted">@L["Customer_Field_TotalValue"]</dt>
+            <dd class="num font-semibold">@Utils.FormatMoney(Model.TotalValue)</dd>
+        </div>
+    </dl>
+</section>

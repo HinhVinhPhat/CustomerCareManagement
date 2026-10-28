@@ -1,0 +1,62 @@
+@model CarePageViewModel
+@{
+    ViewData["Title"] = L["Nav_Care"];
+    ViewData["PageKey"] = "care";
+
+    var canCreate = User.IsInRole(WorkConstants.Roles.Manager) || User.IsInRole(WorkConstants.Roles.Support);
+    var logTotal = Model.Log?.TotalRows ?? 0;
+}
+<header class="flex flex-wrap items-center justify-between gap-3 mb-5">
+    <div>
+        <h1 class="text-2xl font-bold">@L["Nav_Care"]</h1>
+        <p class="text-sm text-muted mt-1">@L["Care_Subtitle"]</p>
+    </div>
+
+    @if (canCreate)
+    {
+        <a href="/care/create" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> @L["Care_Add"]
+        </a>
+    }
+</header>
+
+<nav class="flex flex-wrap gap-1 border-b border-line mb-4" role="tablist" aria-label="@L["Care_Tabs"]">
+    <a href="?tab=schedule" role="tab" aria-selected="@(Model.Tab == "schedule" ? "true" : "false")"
+       class="tab-link @(Model.Tab == "schedule" ? "active" : null)">
+        <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+        <span>@L["Care_ScheduleTab"]</span>
+        @if (Model.Schedule.Total > 0)
+        {
+            <span class="tab-count">@Model.Schedule.Total</span>
+        }
+    </a>
+    <a href="?tab=log" role="tab" aria-selected="@(Model.Tab == "log" ? "true" : "false")"
+       class="tab-link @(Model.Tab == "log" ? "active" : null)">
+        <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+        <span>@L["Care_LogTab"]</span>
+        @if (logTotal > 0)
+        {
+            <span class="tab-count">@logTotal</span>
+        }
+    </a>
+</nav>
+
+@if (Model.Tab == "log")
+{
+    @if (Model.Log is { } log)
+    {
+        <partial name="_LogTab" model="log" />
+    }
+}
+else if (Model.ErrorKey is not null)
+{
+    <section class="card p-8 text-center">
+        <i class="fa-solid fa-triangle-exclamation text-3xl text-danger-ink"></i>
+        <p class="mt-3 font-semibold">@L[Model.ErrorKey]</p>
+        <p class="text-sm text-muted mt-1">@L["Common_TryAgain"]</p>
+    </section>
+}
+else
+{
+    <partial name="_ScheduleTab" model="Model.Schedule" />
+}
