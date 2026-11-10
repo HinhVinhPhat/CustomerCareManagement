@@ -1,0 +1,31 @@
+@model ProfileViewModel
+@{
+    ViewData["Title"] = L["Nav_Profile"];
+    ViewData["PageKey"] = "profile";
+}
+<header class="mb-5">
+    <h1 class="text-2xl font-bold">@L["Nav_Profile"]</h1>
+    <p class="text-sm text-muted">@L["Profile_Subtitle"]</p>
+</header>
+
+<partial name="_ActionMessage" />
+
+<section class="card p-5 mb-4">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <h2 class="font-semibold">
+            <i class="fa-solid fa-id-card text-muted" aria-hidden="true"></i> @L["Profile_MyInfo"]
+        </h2>
+        <span class="text-sm text-muted">@L["Profile_InfoHint"]</span>
+    </div>
+
+    <partial name="_ProfileCard" model="Model.Info" />
+</section>
+
+<section class="card p-5">
+    <h2 class="font-semibold">
+        <i class="fa-solid fa-lock text-muted" aria-hidden="true"></i> @L["Profile_ChangePassword"]
+    </h2>
+    <p class="text-sm text-muted mt-1">@L["Profile_ChangePasswordHint"]</p>
+
+    <partial name="_ChangePasswordForm" model="Model.Password" />
+</section>

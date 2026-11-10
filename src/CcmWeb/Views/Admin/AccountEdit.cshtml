@@ -1,0 +1,76 @@
+@model AccountEditViewModel
+@{
+    ViewData["Title"] = L["Account_Edit"];
+    ViewData["PageKey"] = "administration";
+}
+<header class="mb-5">
+    <a href="/admin/accounts" class="text-sm text-muted">
+        <i class="fa-solid fa-arrow-left"></i> @L["Account_BackToList"]
+    </a>
+    <h1 class="text-2xl font-bold mt-1">@L["Account_Edit"]</h1>
+</header>
+
+<form method="post" asp-controller="AdminAccounts" asp-action="Edit"
+      asp-route-id="@Model.AccountId" class="card p-5 max-w-2xl">
+    <div asp-validation-summary="ModelOnly" class="text-sm text-danger-ink mb-4 empty:hidden"></div>
+
+    <dl class="grid gap-3 sm:grid-cols-2 mb-4">
+        <div>
+            <dt class="text-sm text-muted">@L["Account_Username"]</dt>
+            <dd class="font-semibold">@Model.Username</dd>
+        </div>
+        <div>
+            <dt class="text-sm text-muted">@L["Account_Employee"]</dt>
+            <dd class="font-semibold">@Model.EmployeeName</dd>
+        </div>
+    </dl>
+
+    @if (Model.IsSelf)
+    {
+        @* A Manager must not be able to lock or demote themselves out of the system. *@
+        <div class="card p-3 mb-4 text-sm text-muted">
+            <i class="fa-solid fa-circle-info"></i> @L["Account_SelfHint"]
+        </div>
+    }
+
+    <div class="grid gap-4">
+        <div>
+            <label asp-for="Role" class="block text-sm font-semibold mb-1"></label>
+            <select asp-for="Role" class="input" disabled="@Model.IsSelf">
+                @foreach (var role in WorkConstants.Roles.All)
+                {
+                    <option value="@role">@L.Label("Role", role)</option>
+                }
+            </select>
+            @if (Model.IsSelf)
+            {
+                @* A disabled select posts nothing, so the value travels in a hidden field. *@
+                <input type="hidden" asp-for="Role" />
+            }
+            <span asp-validation-for="Role" class="block text-sm text-danger-ink min-h-5"></span>
+        </div>
+
+        <div>
+            <label class="flex items-center gap-2" for="IsActive">
+                <input asp-for="IsActive" disabled="@Model.IsSelf" />
+                <span class="font-semibold">@L["Account_IsActive"]</span>
+            </label>
+            @if (Model.IsSelf)
+            {
+                <input type="hidden" asp-for="IsActive" />
+            }
+            <span class="block text-xs text-muted mt-1">@L["Account_IsActiveHint"]</span>
+            <span asp-validation-for="IsActive" class="block text-sm text-danger-ink min-h-5"></span>
+        </div>
+    </div>
+
+    <div class="flex items-center gap-2 mt-6 pt-4 border-t border-line">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> @L["Common_Save"]
+        </button>
+        <a href="/admin/accounts" class="btn">@L["Common_Cancel"]</a>
+        <a href="/admin/accounts/@Model.AccountId/password" class="btn ms-auto">
+            <i class="fa-solid fa-key"></i> @L["Account_ResetPassword"]
+        </a>
+    </div>
+</form>

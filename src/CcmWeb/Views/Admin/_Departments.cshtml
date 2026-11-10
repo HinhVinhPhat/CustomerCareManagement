@@ -1,0 +1,64 @@
+@model EmployeeListViewModel
+@{
+    // The department card (design.md 6.13). A department is added or renamed, never deleted: a
+    // department that still holds people would orphan them, so the decision was to keep the row.
+}
+<section class="card p-5 mb-4">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <h2 class="font-semibold">
+            <i class="fa-solid fa-sitemap text-muted" aria-hidden="true"></i> @L["Department_Title"]
+        </h2>
+        <span class="text-sm text-muted">@L["Department_Count", Model.DepartmentRows.Count]</span>
+    </div>
+
+    @if (Model.DepartmentErrorKey is not null)
+    {
+        <partial name="_BlockError" model="Model.DepartmentErrorKey" />
+    }
+    else if (Model.DepartmentRows.Count == 0)
+    {
+        <p class="text-sm text-muted">@L["Department_NoneYetHint"]</p>
+    }
+    else
+    {
+        <ul class="divide-y divide-line">
+            @foreach (var department in Model.DepartmentRows)
+            {
+                <li class="py-2">
+                    <form method="post" action="/admin/employees/departments/@department.DepartmentId/rename"
+                          class="flex flex-wrap items-center gap-2">
+                        <input name="DepartmentName" value="@department.DepartmentName" class="input max-w-xs"
+                               aria-label="@L["Department_Name"]" maxlength="100" required />
+                        <button type="submit" class="btn !py-1 !px-2 !text-xs"
+                                title="@L["Department_Rename"]">
+                            <i class="fa-solid fa-check"></i> @L["Department_Rename"]
+                        </button>
+
+                        <span class="text-sm text-muted ms-auto">
+                            <i class="fa-solid fa-user-group" aria-hidden="true"></i>
+                            @L["Department_Headcount", department.EmployeeCount]
+                        </span>
+
+                        @if (department.HeadName is not null)
+                        {
+                            <span class="text-sm text-muted">
+                                <i class="fa-solid fa-user-tie" aria-hidden="true"></i> @department.HeadName
+                            </span>
+                        }
+                    </form>
+                </li>
+            }
+        </ul>
+    }
+
+    <form method="post" action="/admin/employees/departments" class="flex flex-wrap items-end gap-2 mt-4 pt-4 border-t border-line">
+        <div>
+            <label class="block text-sm font-semibold mb-1" for="newDepartment">@L["Department_Name"]</label>
+            <input id="newDepartment" name="DepartmentName" class="input max-w-xs"
+                   placeholder="@L["Department_NamePlaceholder"]" maxlength="100" required />
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> @L["Department_Add"]
+        </button>
+    </form>
+</section>

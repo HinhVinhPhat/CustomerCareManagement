@@ -1,0 +1,39 @@
+@model ProductListViewModel
+@{
+    ViewData["Title"] = L["Nav_AdminProducts"];
+    ViewData["PageKey"] = "administration";
+}
+<header class="flex flex-wrap items-center justify-between gap-3 mb-5">
+    <div>
+        <h1 class="text-2xl font-bold">@L["Nav_AdminProducts"]</h1>
+        <p class="text-sm text-muted">@L["Product_Subtitle"]</p>
+    </div>
+
+    @if (Model.CanEdit)
+    {
+        <a href="/admin/products/create" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> @L["Product_Add"]
+        </a>
+    }
+</header>
+
+<partial name="_AdminTabs" model="@("products")" />
+<partial name="_ProductFilter" model="Model" />
+
+@if (Model.ErrorKey is not null)
+{
+    <section class="card">
+        <partial name="_BlockError" model="Model.ErrorKey" />
+    </section>
+}
+else if (Model.Rows.Count == 0)
+{
+    <partial name="_ListEmptyState" model="Model.EmptyState" />
+}
+else
+{
+    <section class="card overflow-hidden">
+        <partial name="_ProductTable" model="Model" />
+        <partial name="_Pager" model="Model" />
+    </section>
+}

@@ -1,0 +1,61 @@
+@model AccountListViewModel
+@{
+    var filter = Model.Filter;
+}
+<form method="get" action="/admin/accounts" class="card p-4 mb-4 grid gap-3 md:grid-cols-12 items-end">
+    <div class="md:col-span-5">
+        <label class="block text-sm font-semibold mb-1" for="q">@L["Common_Search"]</label>
+        <input id="q" name="q" value="@filter.Q" class="input"
+               placeholder="@L["Account_SearchPlaceholder"]" autocomplete="off" />
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="role">@L["Account_Role"]</label>
+        <select id="role" name="role" class="input">
+            <option value="">@L["Account_AllRoles"]</option>
+            @foreach (var role in WorkConstants.Roles.All)
+            {
+                <option value="@role" selected="@(role == filter.Role)">@L.Label("Role", role)</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="state">@L["Account_State"]</label>
+        <select id="state" name="state" class="input">
+            <option value="">@L["Account_AllStates"]</option>
+            <option value="@AccountFilter.StateActive" selected="@(filter.State == AccountFilter.StateActive)">
+                @L["AccountState_Active"]
+            </option>
+            <option value="@AccountFilter.StateLocked" selected="@(filter.State == AccountFilter.StateLocked)">
+                @L["AccountState_Locked"]
+            </option>
+        </select>
+    </div>
+
+    <div class="md:col-span-3 flex items-center gap-2 flex-wrap">
+        @if (filter.Sort != AccountFilter.SortByUsername)
+        {
+            <input type="hidden" name="sort" value="@filter.Sort" />
+        }
+        @if (filter.Desc)
+        {
+            <input type="hidden" name="desc" value="true" />
+        }
+        @if (filter.PageSize != WorkConstants.Settings.DefaultPageSize)
+        {
+            <input type="hidden" name="pageSize" value="@filter.PageSize" />
+        }
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> @L["Common_Search"]
+        </button>
+
+        @if (filter.HasFilters)
+        {
+            <a href="/admin/accounts" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+        }
+    </div>
+</form>

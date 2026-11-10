@@ -1,0 +1,26 @@
+@model string
+@{
+    // The four screens of the administration area. Only a Manager sees the tabs: Sales and Support may
+    // open the product catalogue and nothing else here (design.md 5.1).
+    var isManager = User.IsInRole(WorkConstants.Roles.Manager);
+
+    var tabs = new (string Key, string LabelKey, string Url)[]
+    {
+        ("products", "Nav_AdminProducts", "/admin/products"),
+        ("employees", "Nav_AdminEmployees", "/admin/employees"),
+        ("accounts", "Nav_AdminAccounts", "/admin/accounts"),
+        ("audit", "Nav_AdminAuditLogs", "/admin/audit-logs")
+    };
+}
+@if (isManager)
+{
+    <nav class="flex flex-wrap gap-1 border-b border-line mb-4" aria-label="@L["Admin_Tabs"]">
+        @foreach (var tab in tabs)
+        {
+            <a href="@tab.Url" class="tab-link @(tab.Key == Model ? "active" : null)"
+               aria-current="@(tab.Key == Model ? "page" : null)">
+                @L[tab.LabelKey]
+            </a>
+        }
+    </nav>
+}

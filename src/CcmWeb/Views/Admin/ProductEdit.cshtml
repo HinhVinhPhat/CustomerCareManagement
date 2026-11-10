@@ -1,0 +1,31 @@
+@model ProductFormViewModel
+@{
+    ViewData["Title"] = L["Product_Edit"];
+    ViewData["PageKey"] = "administration";
+}
+<header class="mb-5">
+    <a href="/admin/products" class="text-sm text-muted">
+        <i class="fa-solid fa-arrow-left"></i> @L["Product_BackToList"]
+    </a>
+    <h1 class="text-2xl font-bold mt-1">@L["Product_Edit"]</h1>
+</header>
+
+@if (Model.UsageCount > 0)
+{
+    @* Editing is still allowed: the price changes for future contracts, the old lines keep theirs. *@
+    <div class="card p-4 mb-4 text-sm text-muted">
+        <i class="fa-solid fa-circle-info"></i> @L["Product_InUse", Model.UsageCount]
+    </div>
+}
+
+<form method="post" asp-controller="AdminProducts" asp-action="Edit"
+      asp-route-id="@Model.ProductId" class="card p-5 max-w-3xl">
+    <partial name="_ProductForm" model="Model" />
+
+    <div class="flex items-center gap-2 mt-6 pt-4 border-t border-line">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> @L["Common_Save"]
+        </button>
+        <a href="/admin/products" class="btn">@L["Common_Cancel"]</a>
+    </div>
+</form>

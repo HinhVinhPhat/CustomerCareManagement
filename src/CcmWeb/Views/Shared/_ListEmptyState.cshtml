@@ -1,0 +1,40 @@
+@model ListState
+@{
+    // Three empty states, because they mean three different things: a page past the end, a filter that
+    // matches nobody, and a list that really is empty. One partial renders all of them, so no admin
+    // page copies the block.
+    var title = Model.PastEnd ? L["List_PastEnd"]
+        : Model.Filtered ? L["List_NoMatch"] : L[Model.EmptyTitleKey];
+
+    var hint = Model.PastEnd ? L["List_PastEndHint"]
+        : Model.Filtered ? L["List_NoMatchHint"] : L[Model.EmptyHintKey];
+
+    var icon = Model.PastEnd ? "fa-file-circle-question" : Model.Filtered ? "fa-magnifying-glass" : Model.Icon;
+}
+<section class="card p-8 text-center">
+    <i class="fa-solid @icon text-3xl text-muted" aria-hidden="true"></i>
+    <p class="mt-3 font-semibold">@title</p>
+    <p class="text-sm text-muted mt-1">@hint</p>
+
+    <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+        @if (Model.PastEnd && Model.FirstPageUrl is not null)
+        {
+            <a href="@Model.FirstPageUrl" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-left"></i> @L["Common_FirstPage"]
+            </a>
+        }
+        else if (Model.Filtered && Model.ClearUrl is not null)
+        {
+            <a href="@Model.ClearUrl" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+        }
+
+        @if (!Model.PastEnd && Model.AddUrl is not null && Model.AddLabelKey is not null)
+        {
+            <a href="@Model.AddUrl" class="btn @(Model.Filtered ? null : "btn-primary")">
+                <i class="fa-solid fa-plus"></i> @L[Model.AddLabelKey]
+            </a>
+        }
+    </div>
+</section>

@@ -242,11 +242,24 @@ public static class Utils
             ? "Error_UnknownSetting"
         : message.Contains("CHK_Settings_Value", StringComparison.Ordinal)
             ? "Error_SettingValueInvalid"
+        : message.Contains("CHK_Employee_Gender", StringComparison.Ordinal)
+            ? "Error_EmployeeGenderInvalid"
+        : message.Contains("CHK_Employee_Email", StringComparison.Ordinal)
+            ? "Error_EmployeeEmailInvalid"
+        : message.Contains("CHK_Employee_Phone", StringComparison.Ordinal)
+            ? "Error_EmployeePhoneInvalid"
+        : message.Contains("CHK_Employee_Position", StringComparison.Ordinal)
+            ? "Error_EmployeePositionInvalid"
+        : message.Contains("CHK_Product_Type", StringComparison.Ordinal)
+            ? "Error_ProductTypeInvalid"
+        : message.Contains("CHK_Product_UnitPrice", StringComparison.Ordinal)
+            ? "Error_ProductPriceInvalid"
+        : message.Contains("CHK_Account_Role", StringComparison.Ordinal)
+            ? "Error_AccountRoleInvalid"
         : message.Contains("FOREIGN KEY", StringComparison.OrdinalIgnoreCase)
           || message.Contains("REFERENCE constraint", StringComparison.OrdinalIgnoreCase)
             ? "Error_RecordReferenced"
             : "Error_DatabaseRule";
-
     /// <summary>Message key for a unique violation (errors 2601 and 2627).</summary>
     public static string TranslateDuplicateErrorKey(string message) =>
         message.Contains("UX_Customer_Email", StringComparison.Ordinal)

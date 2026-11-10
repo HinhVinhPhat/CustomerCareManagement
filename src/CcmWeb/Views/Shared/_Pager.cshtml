@@ -1,0 +1,61 @@
+@model IPagedList
+@{
+    // "Đang xem 6-10 / 26" plus the controls, shared by the four admin lists and the audit log. Every
+    // link keeps the filters and the sort: only the page number (or the page size) changes.
+}
+<div class="flex flex-wrap items-center gap-3 justify-between p-4 border-t border-line">
+    <p class="text-sm text-muted">
+        @L["List_ShowingRange", Model.FirstRowNumber(), Model.LastRowNumber(), Model.TotalRows]
+    </p>
+
+    <div class="flex items-center gap-2">
+        <span class="text-sm text-muted">@L["List_RowsPerPage"]</span>
+        @foreach (var size in WorkConstants.Settings.PageSizeOptions)
+        {
+            <a href="@(Model.PageBaseUrl)@(Model.PageSizeQuery(size))"
+               class="btn !py-1 !px-2.5 !text-xs @(size == Model.PageSize ? "btn-primary" : null)"
+               aria-current="@(size == Model.PageSize ? "true" : null)">@size</a>
+        }
+    </div>
+
+    @if (Model.TotalPageCount() > 1)
+    {
+        <nav class="flex items-center gap-1" aria-label="@L["List_Pagination"]">
+            @if (Model.HasPreviousPage())
+            {
+                <a href="@(Model.PageBaseUrl)@(Model.PageQuery(Model.Page - 1))" class="btn !py-1 !px-2.5"
+                   aria-label="@L["List_PreviousPage"]" title="@L["List_PreviousPage"]">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+            }
+            else
+            {
+                @* The first page has nowhere to go: the control stays where it is but cannot be used. *@
+                <span class="btn !py-1 !px-2.5 opacity-40" aria-disabled="true">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </span>
+            }
+
+            @foreach (var number in Model.PageNumbers())
+            {
+                <a href="@(Model.PageBaseUrl)@(Model.PageQuery(number))"
+                   class="btn !py-1 !px-2.5 !text-xs @(number == Model.Page ? "btn-primary" : null)"
+                   aria-current="@(number == Model.Page ? "page" : null)">@number</a>
+            }
+
+            @if (Model.HasNextPage())
+            {
+                <a href="@(Model.PageBaseUrl)@(Model.PageQuery(Model.Page + 1))" class="btn !py-1 !px-2.5"
+                   aria-label="@L["List_NextPage"]" title="@L["List_NextPage"]">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            }
+            else
+            {
+                <span class="btn !py-1 !px-2.5 opacity-40" aria-disabled="true">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </span>
+            }
+        </nav>
+    }
+</div>

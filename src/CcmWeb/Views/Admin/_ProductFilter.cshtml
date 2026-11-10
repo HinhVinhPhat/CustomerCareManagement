@@ -1,0 +1,48 @@
+@model ProductListViewModel
+@{
+    var filter = Model.Filter;
+}
+<form method="get" action="/admin/products" class="card p-4 mb-4 grid gap-3 md:grid-cols-12 items-end">
+    <div class="md:col-span-5">
+        <label class="block text-sm font-semibold mb-1" for="q">@L["Common_Search"]</label>
+        <input id="q" name="q" value="@filter.Q" class="input"
+               placeholder="@L["Product_SearchPlaceholder"]" autocomplete="off" />
+    </div>
+
+    <div class="md:col-span-3">
+        <label class="block text-sm font-semibold mb-1" for="type">@L["Product_Type"]</label>
+        <select id="type" name="type" class="input">
+            <option value="">@L["Product_AllTypes"]</option>
+            @foreach (var type in WorkConstants.ProductTypes.All)
+            {
+                <option value="@type" selected="@(type == filter.Type)">@L.Label("ProductType", type)</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-4 flex items-center gap-2 flex-wrap">
+        @if (filter.Sort != ProductFilter.SortByName)
+        {
+            <input type="hidden" name="sort" value="@filter.Sort" />
+        }
+        @if (filter.Desc)
+        {
+            <input type="hidden" name="desc" value="true" />
+        }
+        @if (filter.PageSize != WorkConstants.Settings.DefaultPageSize)
+        {
+            <input type="hidden" name="pageSize" value="@filter.PageSize" />
+        }
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> @L["Common_Search"]
+        </button>
+
+        @if (filter.HasFilters)
+        {
+            <a href="/admin/products" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+        }
+    </div>
+</form>

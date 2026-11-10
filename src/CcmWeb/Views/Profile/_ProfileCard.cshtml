@@ -1,0 +1,59 @@
+@model ProfileInfo
+@{
+    // Read-only: the person sees what the system holds about them. Changing the name, the e-mail or
+    // the department stays with a Manager on the employee screen (design.md 6.14).
+}
+<dl class="grid gap-4 sm:grid-cols-2">
+    <div>
+        <dt class="text-sm text-muted">@L["Employee_FullName"]</dt>
+        <dd class="font-semibold">@Model.FullName</dd>
+    </div>
+
+    <div>
+        <dt class="text-sm text-muted">@L["Employee_Department"]</dt>
+        <dd class="font-semibold">@Model.DepartmentName</dd>
+    </div>
+
+    <div>
+        <dt class="text-sm text-muted">@L["Employee_Email"]</dt>
+        <dd class="font-semibold break-all">@Model.Email</dd>
+    </div>
+
+    <div>
+        <dt class="text-sm text-muted">@L["Employee_Phone"]</dt>
+        <dd class="font-semibold">@Model.Phone</dd>
+    </div>
+
+    <div>
+        <dt class="text-sm text-muted">@L["Employee_Gender"]</dt>
+        <dd class="font-semibold">@L.Label("EmployeeGender", Model.Gender)</dd>
+    </div>
+
+    <div>
+        <dt class="text-sm text-muted">@L["Employee_Position"]</dt>
+        <dd>
+            <partial name="_Badge" model="@(new BadgeModel("Position", Model.Position,
+                Model.Position == WorkConstants.Positions.Manager ? "b-warning" : "b-neutral"))" />
+        </dd>
+    </div>
+
+    <div>
+        <dt class="text-sm text-muted">@L["Account_Username"]</dt>
+        <dd class="font-semibold">@(string.IsNullOrEmpty(Model.Username) ? "—" : Model.Username)</dd>
+    </div>
+
+    <div>
+        <dt class="text-sm text-muted">@L["Account_Role"]</dt>
+        <dd>
+            @if (string.IsNullOrEmpty(Model.Role))
+            {
+                <span class="text-muted">—</span>
+            }
+            else
+            {
+                <partial name="_Badge" model="@(new BadgeModel("Role", Model.Role,
+                    Model.Role == WorkConstants.Roles.Manager ? "b-warning" : "b-info"))" />
+            }
+        </dd>
+    </div>
+</dl>

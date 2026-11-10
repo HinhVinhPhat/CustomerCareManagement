@@ -1315,4 +1315,149 @@
   <data name="Reports_ViewYear" xml:space="preserve"><value>Xem năm</value></data>
   <data name="Reports_YearLabel" xml:space="preserve"><value>Năm</value></data>
   <data name="Search_NoResults" xml:space="preserve"><value>Không tìm thấy khách hàng nào.</value></data>
+  <data name="Nav_AdminProducts" xml:space="preserve"><value>Sản phẩm</value></data>
+  <data name="Nav_AdminEmployees" xml:space="preserve"><value>Nhân viên</value></data>
+  <data name="Nav_AdminAccounts" xml:space="preserve"><value>Tài khoản</value></data>
+  <data name="Nav_AdminAuditLogs" xml:space="preserve"><value>Nhật ký hệ thống</value></data>
+  <data name="Nav_Profile" xml:space="preserve"><value>Hồ sơ cá nhân</value></data>
+  <data name="Admin_Tabs" xml:space="preserve"><value>Khu vực quản trị</value></data>
+  <data name="Product_Subtitle" xml:space="preserve"><value>Danh mục sản phẩm và dịch vụ bán cho khách hàng</value></data>
+  <data name="Product_Add" xml:space="preserve"><value>Thêm sản phẩm</value></data>
+  <data name="Product_Edit" xml:space="preserve"><value>Sửa sản phẩm</value></data>
+  <data name="Product_BackToList" xml:space="preserve"><value>Quay lại danh mục</value></data>
+  <data name="Product_SearchPlaceholder" xml:space="preserve"><value>Tìm theo tên hoặc mô tả</value></data>
+  <data name="Product_AllTypes" xml:space="preserve"><value>Tất cả loại</value></data>
+  <data name="Product_Name" xml:space="preserve"><value>Tên sản phẩm</value></data>
+  <data name="Product_Type" xml:space="preserve"><value>Loại</value></data>
+  <data name="Product_Type_Unset" xml:space="preserve"><value>— Chọn loại —</value></data>
+  <data name="Product_UnitPrice" xml:space="preserve"><value>Đơn giá</value></data>
+  <data name="Product_UnitPriceHint" xml:space="preserve"><value>Giá áp dụng cho hợp đồng mới; hợp đồng cũ giữ giá đã bán.</value></data>
+  <data name="Product_Description" xml:space="preserve"><value>Mô tả</value></data>
+  <data name="Product_DeleteTitle" xml:space="preserve"><value>Xoá sản phẩm</value></data>
+  <data name="Product_DeleteBody" xml:space="preserve"><value>Xoá sản phẩm “{0}”? Thao tác này không thể hoàn tác.</value></data>
+  <data name="Product_InUse" xml:space="preserve"><value>Đang dùng trong {0} dòng hợp đồng</value></data>
+  <data name="Product_InUseHint" xml:space="preserve"><value>Sản phẩm đã có trong hợp đồng thì không xoá được, chỉ sửa được.</value></data>
+  <data name="Product_Created" xml:space="preserve"><value>Đã thêm sản phẩm.</value></data>
+  <data name="Product_Saved" xml:space="preserve"><value>Đã lưu sản phẩm.</value></data>
+  <data name="Product_Deleted" xml:space="preserve"><value>Đã xoá sản phẩm.</value></data>
+  <data name="Employee_Subtitle" xml:space="preserve"><value>Nhân viên và phòng ban của công ty</value></data>
+  <data name="Employee_Add" xml:space="preserve"><value>Thêm nhân viên</value></data>
+  <data name="Employee_Edit" xml:space="preserve"><value>Sửa nhân viên</value></data>
+  <data name="Employee_BackToList" xml:space="preserve"><value>Quay lại danh sách nhân viên</value></data>
+  <data name="Employee_SearchPlaceholder" xml:space="preserve"><value>Tìm theo tên, email hoặc điện thoại</value></data>
+  <data name="Employee_AllDepartments" xml:space="preserve"><value>Tất cả phòng ban</value></data>
+  <data name="Employee_AllPositions" xml:space="preserve"><value>Tất cả chức danh</value></data>
+  <data name="Employee_FullName" xml:space="preserve"><value>Họ và tên</value></data>
+  <data name="Employee_Email" xml:space="preserve"><value>Email</value></data>
+  <data name="Employee_Phone" xml:space="preserve"><value>Điện thoại</value></data>
+  <data name="Employee_Gender" xml:space="preserve"><value>Giới tính</value></data>
+  <data name="Employee_Gender_Unset" xml:space="preserve"><value>— Chọn giới tính —</value></data>
+  <data name="Employee_Department" xml:space="preserve"><value>Phòng ban</value></data>
+  <data name="Employee_Department_Unset" xml:space="preserve"><value>— Chọn phòng ban —</value></data>
+  <data name="Employee_Position" xml:space="preserve"><value>Chức danh</value></data>
+  <data name="Employee_Position_Unset" xml:space="preserve"><value>— Chọn chức danh —</value></data>
+  <data name="Employee_PositionHint" xml:space="preserve"><value>Chức danh trong phòng ban, khác với vai trò đăng nhập của tài khoản.</value></data>
+  <data name="Employee_Contact" xml:space="preserve"><value>Liên hệ</value></data>
+  <data name="Employee_HasAccount" xml:space="preserve"><value>Đã có tài khoản</value></data>
+  <data name="Employee_CreateAccount" xml:space="preserve"><value>Tạo tài khoản</value></data>
+  <data name="Employee_Created" xml:space="preserve"><value>Đã thêm nhân viên.</value></data>
+  <data name="Employee_Saved" xml:space="preserve"><value>Đã lưu nhân viên.</value></data>
+  <data name="Department_Title" xml:space="preserve"><value>Phòng ban</value></data>
+  <data name="Department_Count" xml:space="preserve"><value>{0} phòng ban</value></data>
+  <data name="Department_Name" xml:space="preserve"><value>Tên phòng ban</value></data>
+  <data name="Department_NamePlaceholder" xml:space="preserve"><value>Ví dụ: Kinh doanh</value></data>
+  <data name="Department_Add" xml:space="preserve"><value>Thêm phòng ban</value></data>
+  <data name="Department_Rename" xml:space="preserve"><value>Đổi tên</value></data>
+  <data name="Department_Headcount" xml:space="preserve"><value>{0} nhân viên</value></data>
+  <data name="Department_NoneYetHint" xml:space="preserve"><value>Chưa có phòng ban nào. Hãy thêm phòng ban trước khi thêm nhân viên.</value></data>
+  <data name="Department_Created" xml:space="preserve"><value>Đã thêm phòng ban.</value></data>
+  <data name="Department_Renamed" xml:space="preserve"><value>Đã đổi tên phòng ban.</value></data>
+  <data name="Account_Title" xml:space="preserve"><value>Tài khoản</value></data>
+  <data name="Account_Subtitle" xml:space="preserve"><value>Tài khoản đăng nhập và vai trò của từng nhân viên</value></data>
+  <data name="Account_Add" xml:space="preserve"><value>Thêm tài khoản</value></data>
+  <data name="Account_Edit" xml:space="preserve"><value>Sửa tài khoản</value></data>
+  <data name="Account_BackToList" xml:space="preserve"><value>Quay lại danh sách tài khoản</value></data>
+  <data name="Account_SearchPlaceholder" xml:space="preserve"><value>Tìm theo tên đăng nhập hoặc nhân viên</value></data>
+  <data name="Account_AllRoles" xml:space="preserve"><value>Tất cả vai trò</value></data>
+  <data name="Account_AllStates" xml:space="preserve"><value>Tất cả trạng thái</value></data>
+  <data name="Account_Username" xml:space="preserve"><value>Tên đăng nhập</value></data>
+  <data name="Account_UsernameHint" xml:space="preserve"><value>Chỉ dùng chữ, số và các dấu . _ -</value></data>
+  <data name="Account_Employee" xml:space="preserve"><value>Nhân viên</value></data>
+  <data name="Account_Employee_Unset" xml:space="preserve"><value>— Chọn nhân viên —</value></data>
+  <data name="Account_Role" xml:space="preserve"><value>Vai trò</value></data>
+  <data name="Account_Role_Unset" xml:space="preserve"><value>— Chọn vai trò —</value></data>
+  <data name="Account_State" xml:space="preserve"><value>Trạng thái</value></data>
+  <data name="Account_IsActive" xml:space="preserve"><value>Đang hoạt động</value></data>
+  <data name="Account_IsActiveHint" xml:space="preserve"><value>Bỏ chọn để khoá tài khoản. Tài khoản bị khoá không đăng nhập được nhưng dữ liệu vẫn giữ nguyên.</value></data>
+  <data name="Account_ThisIsYou" xml:space="preserve"><value>Tài khoản của bạn</value></data>
+  <data name="Account_SelfHint" xml:space="preserve"><value>Đây là tài khoản bạn đang đăng nhập, nên không thể tự khoá hay tự đổi vai trò.</value></data>
+  <data name="Account_ResetPassword" xml:space="preserve"><value>Đặt lại mật khẩu</value></data>
+  <data name="Account_ResetPasswordFor" xml:space="preserve"><value>Đặt mật khẩu mới cho {0} ({1}).</value></data>
+  <data name="Account_AllEmployeesHaveAccount" xml:space="preserve"><value>Mọi nhân viên đều đã có tài khoản</value></data>
+  <data name="Account_AllEmployeesHaveAccountHint" xml:space="preserve"><value>Mỗi nhân viên chỉ có một tài khoản. Hãy thêm nhân viên mới nếu cần cấp thêm tài khoản.</value></data>
+  <data name="Account_Created" xml:space="preserve"><value>Đã tạo tài khoản.</value></data>
+  <data name="Account_Saved" xml:space="preserve"><value>Đã lưu tài khoản.</value></data>
+  <data name="Account_PasswordReset" xml:space="preserve"><value>Đã đặt lại mật khẩu.</value></data>
+  <data name="AccountState_Active" xml:space="preserve"><value>Hoạt động</value></data>
+  <data name="AccountState_Locked" xml:space="preserve"><value>Đã khoá</value></data>
+  <data name="Audit_Subtitle" xml:space="preserve"><value>Nhật ký do cơ sở dữ liệu ghi lại, chỉ đọc</value></data>
+  <data name="Audit_Employee" xml:space="preserve"><value>Người thực hiện</value></data>
+  <data name="Audit_AllEmployees" xml:space="preserve"><value>Tất cả nhân viên</value></data>
+  <data name="Audit_Table" xml:space="preserve"><value>Bảng</value></data>
+  <data name="Audit_AllTables" xml:space="preserve"><value>Tất cả bảng</value></data>
+  <data name="Audit_Action" xml:space="preserve"><value>Hành động</value></data>
+  <data name="Audit_AllActions" xml:space="preserve"><value>Tất cả hành động</value></data>
+  <data name="Audit_Time" xml:space="preserve"><value>Thời điểm</value></data>
+  <data name="Audit_RecordId" xml:space="preserve"><value>Mã bản ghi</value></data>
+  <data name="Audit_Detail" xml:space="preserve"><value>Chi tiết</value></data>
+  <data name="Audit_SystemActor" xml:space="preserve"><value>Hệ thống</value></data>
+  <data name="TableName_CONTRACT" xml:space="preserve"><value>Hợp đồng</value></data>
+  <data name="TableName_FEEDBACK" xml:space="preserve"><value>Phản hồi</value></data>
+  <data name="TableName_PRODUCT_SERVICE" xml:space="preserve"><value>Sản phẩm</value></data>
+  <data name="TableName_EMPLOYEE" xml:space="preserve"><value>Nhân viên</value></data>
+  <data name="TableName_ACCOUNT" xml:space="preserve"><value>Tài khoản</value></data>
+  <data name="AuditAction_Update" xml:space="preserve"><value>Cập nhật</value></data>
+  <data name="Position_Manager" xml:space="preserve"><value>Trưởng phòng</value></data>
+  <data name="Position_Staff" xml:space="preserve"><value>Nhân viên</value></data>
+  <data name="EmployeeGender_Male" xml:space="preserve"><value>Nam</value></data>
+  <data name="EmployeeGender_Female" xml:space="preserve"><value>Nữ</value></data>
+  <data name="EmployeeGender_Other" xml:space="preserve"><value>Khác</value></data>
+  <data name="Profile_Subtitle" xml:space="preserve"><value>Thông tin của bạn và mật khẩu đăng nhập</value></data>
+  <data name="Profile_MyInfo" xml:space="preserve"><value>Thông tin của tôi</value></data>
+  <data name="Profile_InfoHint" xml:space="preserve"><value>Cần sửa thông tin? Liên hệ quản trị viên.</value></data>
+  <data name="Profile_ChangePassword" xml:space="preserve"><value>Đổi mật khẩu</value></data>
+  <data name="Profile_ChangePasswordHint" xml:space="preserve"><value>Nhập mật khẩu hiện tại rồi mật khẩu mới.</value></data>
+  <data name="Profile_PasswordChanged" xml:space="preserve"><value>Đã đổi mật khẩu.</value></data>
+  <data name="Password_Change" xml:space="preserve"><value>Đổi mật khẩu</value></data>
+  <data name="Password_LengthHint" xml:space="preserve"><value>Từ 8 đến 100 ký tự.</value></data>
+  <data name="Common_Delete" xml:space="preserve"><value>Xoá</value></data>
+  <data name="List_PastEnd" xml:space="preserve"><value>Trang này không còn dữ liệu</value></data>
+  <data name="List_PastEndHint" xml:space="preserve"><value>Các dòng vẫn còn, chỉ là trang bạn mở đã vượt quá số trang hiện có.</value></data>
+  <data name="List_NoMatch" xml:space="preserve"><value>Không tìm thấy kết quả nào</value></data>
+  <data name="List_NoMatchHint" xml:space="preserve"><value>Thử bỏ bớt bộ lọc hoặc đổi từ khoá.</value></data>
+  <data name="Error_Required" xml:space="preserve"><value>Vui lòng nhập thông tin này.</value></data>
+  <data name="Error_TooLong" xml:space="preserve"><value>Nội dung quá dài.</value></data>
+  <data name="Error_ProductInUse" xml:space="preserve"><value>Sản phẩm đã có trong hợp đồng nên không thể xoá.</value></data>
+  <data name="Error_ProductNameTaken" xml:space="preserve"><value>Tên sản phẩm này đã có.</value></data>
+  <data name="Error_ProductPriceInvalid" xml:space="preserve"><value>Đơn giá không hợp lệ.</value></data>
+  <data name="Error_ProductTypeInvalid" xml:space="preserve"><value>Loại sản phẩm không hợp lệ.</value></data>
+  <data name="Error_EmployeeGenderInvalid" xml:space="preserve"><value>Giới tính không hợp lệ.</value></data>
+  <data name="Error_EmployeePositionInvalid" xml:space="preserve"><value>Chức danh không hợp lệ.</value></data>
+  <data name="Error_EmployeePhoneInvalid" xml:space="preserve"><value>Số điện thoại phải gồm 9 đến 11 chữ số.</value></data>
+  <data name="Error_EmployeeEmailInvalid" xml:space="preserve"><value>Email không hợp lệ.</value></data>
+  <data name="Error_EmployeeEmailTaken" xml:space="preserve"><value>Email này đã được dùng cho nhân viên khác.</value></data>
+  <data name="Error_EmployeePhoneTaken" xml:space="preserve"><value>Số điện thoại này đã được dùng cho nhân viên khác.</value></data>
+  <data name="Error_EmployeeHasAccount" xml:space="preserve"><value>Nhân viên này đã có tài khoản.</value></data>
+  <data name="Error_DepartmentNotFound" xml:space="preserve"><value>Không tìm thấy phòng ban.</value></data>
+  <data name="Error_DepartmentNameTaken" xml:space="preserve"><value>Tên phòng ban này đã có.</value></data>
+  <data name="Error_AccountNotFound" xml:space="preserve"><value>Không tìm thấy tài khoản.</value></data>
+  <data name="Error_AccountRoleInvalid" xml:space="preserve"><value>Vai trò không hợp lệ.</value></data>
+  <data name="Error_UsernameInvalid" xml:space="preserve"><value>Tên đăng nhập chỉ gồm chữ, số và các dấu . _ -</value></data>
+  <data name="Error_UsernameTaken" xml:space="preserve"><value>Tên đăng nhập này đã có người dùng.</value></data>
+  <data name="Error_PasswordTooShort" xml:space="preserve"><value>Mật khẩu phải từ 8 đến 100 ký tự.</value></data>
+  <data name="Error_PasswordMismatch" xml:space="preserve"><value>Mật khẩu nhập lại không khớp.</value></data>
+  <data name="Error_PasswordSameAsOld" xml:space="preserve"><value>Mật khẩu mới phải khác mật khẩu hiện tại.</value></data>
+  <data name="Error_CurrentPasswordWrong" xml:space="preserve"><value>Mật khẩu hiện tại không đúng.</value></data>
+  <data name="Error_SelfLockout" xml:space="preserve"><value>Bạn không thể tự khoá hoặc tự đổi vai trò của tài khoản đang đăng nhập.</value></data>
+  <data name="Error_LastManager" xml:space="preserve"><value>Đây là quản trị viên đang hoạt động cuối cùng, không thể khoá hoặc hạ quyền.</value></data>
 </root>

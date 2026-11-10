@@ -1,0 +1,23 @@
+@model EmployeeFormViewModel
+@{
+    ViewData["Title"] = L["Employee_Edit"];
+    ViewData["PageKey"] = "administration";
+}
+<header class="mb-5">
+    <a href="/admin/employees" class="text-sm text-muted">
+        <i class="fa-solid fa-arrow-left"></i> @L["Employee_BackToList"]
+    </a>
+    <h1 class="text-2xl font-bold mt-1">@L["Employee_Edit"]</h1>
+</header>
+
+<form method="post" asp-controller="AdminEmployees" asp-action="Edit"
+      asp-route-id="@Model.EmployeeId" class="card p-5 max-w-3xl">
+    <partial name="_EmployeeForm" model="Model" />
+
+    <div class="flex items-center gap-2 mt-6 pt-4 border-t border-line">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> @L["Common_Save"]
+        </button>
+        <a href="/admin/employees" class="btn">@L["Common_Cancel"]</a>
+    </div>
+</form>

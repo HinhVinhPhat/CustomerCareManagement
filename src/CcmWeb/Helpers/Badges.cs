@@ -55,4 +55,18 @@ public static class Badges
 
     /// <summary>The soft-delete state of a customer: still cared for, or put aside.</summary>
     public static string ForActive(bool isActive) => isActive ? "b-success" : "b-neutral";
+
+    /// <summary>An account that can sign in, or one a Manager has locked.</summary>
+    public static string ForAccountState(bool isActive) => isActive ? "b-success" : "b-danger";
+
+    /// <summary>The action of an <c>AUDIT_LOG</c> row. A delete and a status change stand out.</summary>
+    public static string ForAuditAction(string? action) => action switch
+    {
+        "Insert" => "b-info",
+        "Update" => "b-neutral",
+        "Assign" => "b-warning",
+        "StatusChange" => "b-warning",
+        "Delete" => "b-danger",
+        _ => "b-neutral"
+    };
 }

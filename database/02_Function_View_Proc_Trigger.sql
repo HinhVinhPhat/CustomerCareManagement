@@ -622,6 +622,140 @@ BEGIN
 END;
 GO
 
+-- 7. Product / service audit log: insert / change / delete
+--    Detail keeps the values, never a translated sentence, so the log does not depend on the language
+--    of the person reading it later.
+CREATE TRIGGER dbo.trg_Product_AuditLog
+ON PRODUCT_SERVICE
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @actorID INT = TRY_CAST(SESSION_CONTEXT(N'EmployeeID') AS INT);
+
+    INSERT INTO AUDIT_LOG (EmployeeID, TableName, RecordID, Action, Detail)
+    SELECT @actorID, N'PRODUCT_SERVICE', i.ProductID, N'Insert',
+           LEFT(i.ProductName + N' | ' + i.ProductType + N' | ' + CAST(i.UnitPrice AS NVARCHAR(30)), 500)
+    FROM inserted i
+    WHERE NOT EXISTS (SELECT 1 FROM deleted d WHERE d.ProductID = i.ProductID);
+
+    INSERT INTO AUDIT_LOG (EmployeeID, TableName, RecordID, Action, Detail)
+    SELECT @actorID, N'PRODUCT_SERVICE', i.ProductID, N'Update',
+           LEFT(
+               CASE WHEN i.ProductName <> d.ProductName
+                    THEN N'Name: ' + d.ProductName + N' -> ' + i.ProductName + N' | ' ELSE N'' END
+             + CASE WHEN i.ProductType <> d.ProductType
+                    THEN N'Type: ' + d.ProductType + N' -> ' + i.ProductType + N' | ' ELSE N'' END
+             + CASE WHEN i.UnitPrice <> d.UnitPrice
+                    THEN N'UnitPrice: ' + CAST(d.UnitPrice AS NVARCHAR(30)) + N' -> '
+                         + CAST(i.UnitPrice AS NVARCHAR(30)) + N' | ' ELSE N'' END
+             + CASE WHEN ISNULL(i.Description, N'') <> ISNULL(d.Description, N'')
+                    THEN N'Description changed' ELSE N'' END, 500)
+    FROM inserted i
+    JOIN deleted d ON d.ProductID = i.ProductID
+    WHERE i.ProductName <> d.ProductName
+       OR i.ProductType <> d.ProductType
+       OR i.UnitPrice <> d.UnitPrice
+       OR ISNULL(i.Description, N'') <> ISNULL(d.Description, N'');
+
+    INSERT INTO AUDIT_LOG (EmployeeID, TableName, RecordID, Action, Detail)
+    SELECT @actorID, N'PRODUCT_SERVICE', d.ProductID, N'Delete', LEFT(d.ProductName, 500)
+    FROM deleted d
+    WHERE NOT EXISTS (SELECT 1 FROM inserted i WHERE i.ProductID = d.ProductID);
+END;
+GO
+
+-- 8. Employee audit log: insert / change / delete. Deleting an employee is blocked by the foreign keys
+--    of CONTRACT, CONTACT, CARE, FEEDBACK and AUDIT_LOG, so in practice this trigger only sees inserts
+--    and updates; it is still complete for a direct change made in SQL Server.
+CREATE TRIGGER dbo.trg_Employee_AuditLog
+ON EMPLOYEE
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @actorID INT = TRY_CAST(SESSION_CONTEXT(N'EmployeeID') AS INT);
+
+    INSERT INTO AUDIT_LOG (EmployeeID, TableName, RecordID, Action, Detail)
+    SELECT @actorID, N'EMPLOYEE', i.EmployeeID, N'Insert',
+           LEFT(N'Department ' + CAST(i.DepartmentID AS NVARCHAR(10)) + N' | ' + i.Position, 500)
+    FROM inserted i
+    WHERE NOT EXISTS (SELECT 1 FROM deleted d WHERE d.EmployeeID = i.EmployeeID);
+
+    INSERT INTO AUDIT_LOG (EmployeeID, TableName, RecordID, Action, Detail)
+    SELECT @actorID, N'EMPLOYEE', i.EmployeeID, N'Update',
+           LEFT(
+               CASE WHEN i.FullName <> d.FullName
+                    THEN N'Name: ' + d.FullName + N' -> ' + i.FullName + N' | ' ELSE N'' END
+             + CASE WHEN i.DepartmentID <> d.DepartmentID
+                    THEN N'Department: ' + CAST(d.DepartmentID AS NVARCHAR(10)) + N' -> '
+                         + CAST(i.DepartmentID AS NVARCHAR(10)) + N' | ' ELSE N'' END
+             + CASE WHEN i.Position <> d.Position
+                    THEN N'Position: ' + d.Position + N' -> ' + i.Position + N' | ' ELSE N'' END
+             + CASE WHEN i.Email <> d.Email THEN N'Email changed | ' ELSE N'' END
+             + CASE WHEN i.Phone <> d.Phone THEN N'Phone changed | ' ELSE N'' END
+             + CASE WHEN i.Gender <> d.Gender
+                    THEN N'Gender: ' + d.Gender + N' -> ' + i.Gender ELSE N'' END, 500)
+    FROM inserted i
+    JOIN deleted d ON d.EmployeeID = i.EmployeeID
+    WHERE i.FullName <> d.FullName
+       OR i.DepartmentID <> d.DepartmentID
+       OR i.Position <> d.Position
+       OR i.Email <> d.Email
+       OR i.Phone <> d.Phone
+       OR i.Gender <> d.Gender;
+
+    INSERT INTO AUDIT_LOG (EmployeeID, TableName, RecordID, Action, Detail)
+    SELECT @actorID, N'EMPLOYEE', d.EmployeeID, N'Delete',
+           LEFT(d.FullName + N' | ' + d.Email, 500)
+    FROM deleted d
+    WHERE NOT EXISTS (SELECT 1 FROM inserted i WHERE i.EmployeeID = d.EmployeeID);
+END;
+GO
+
+-- 9. Account audit log: create / role or lock change / delete.
+--    The password hash is NEVER written to the log. An UPDATE that only replaces the hash - the
+--    sign-in upgrade from the demo SHA2 hash to PasswordHasher - is skipped on purpose, otherwise
+--    every first sign-in would fill the log with noise.
+CREATE TRIGGER dbo.trg_Account_AuditLog
+ON ACCOUNT
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @actorID INT = TRY_CAST(SESSION_CONTEXT(N'EmployeeID') AS INT);
+
+    INSERT INTO AUDIT_LOG (EmployeeID, TableName, RecordID, Action, Detail)
+    SELECT @actorID, N'ACCOUNT', i.AccountID, N'Insert',
+           LEFT(N'Username ' + i.Username + N' | ' + i.Role + N' | '
+                + CASE WHEN i.IsActive = 1 THEN N'Active' ELSE N'Locked' END, 500)
+    FROM inserted i
+    WHERE NOT EXISTS (SELECT 1 FROM deleted d WHERE d.AccountID = i.AccountID);
+
+    INSERT INTO AUDIT_LOG (EmployeeID, TableName, RecordID, Action, Detail)
+    SELECT @actorID, N'ACCOUNT', i.AccountID, N'Update',
+           LEFT(
+               CASE WHEN i.Username <> d.Username
+                    THEN N'Username: ' + d.Username + N' -> ' + i.Username + N' | ' ELSE N'' END
+             + CASE WHEN i.Role <> d.Role
+                    THEN N'Role: ' + d.Role + N' -> ' + i.Role + N' | ' ELSE N'' END
+             + CASE WHEN i.IsActive <> d.IsActive
+                    THEN N'State: ' + CASE WHEN d.IsActive = 1 THEN N'Active' ELSE N'Locked' END
+                         + N' -> ' + CASE WHEN i.IsActive = 1 THEN N'Active' ELSE N'Locked' END
+                    ELSE N'' END, 500)
+    FROM inserted i
+    JOIN deleted d ON d.AccountID = i.AccountID
+    WHERE i.Username <> d.Username
+       OR i.Role <> d.Role
+       OR i.IsActive <> d.IsActive;
+
+    INSERT INTO AUDIT_LOG (EmployeeID, TableName, RecordID, Action, Detail)
+    SELECT @actorID, N'ACCOUNT', d.AccountID, N'Delete', LEFT(N'Username ' + d.Username, 500)
+    FROM deleted d
+    WHERE NOT EXISTS (SELECT 1 FROM inserted i WHERE i.AccountID = d.AccountID);
+END;
+GO
+
 /* ====================== ROLES ====================== */
 -- Note: if the web app uses one shared login for the whole application, the real authorization lives at
 -- the web layer via ACCOUNT.Role; the roles below are for demoing DB-level authorization or for the case

@@ -1,4 +1,4 @@
-using System.Text.Encodings.Web;
+﻿using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Threading.RateLimiting;
 using CcmWeb;
@@ -47,6 +47,11 @@ builder.Services.AddScoped<ICareService, CareService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IProductService, ProductCatalogService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IAdminAccountService, AdminAccountService>();
+builder.Services.AddScoped<IAuditLogService, AuditLogService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddHostedService<ContractExpiryService>();
 
 // ---------------------------------------------------------------------- language and appearance
@@ -92,6 +97,14 @@ builder.Services.AddControllersWithViews(options =>
     // instead of showing the key itself.
     options.Filters.Add<ModelStateLocalizationFilter>();
 })
+    // The four administration screens share one folder, Views/Admin, because they share so many
+    // partials (the tabs, the two list partials, the pager). The format is added last, so a view name
+    // that a controller folder or Shared already answers is still found first.
+    .AddRazorOptions(options =>
+    {
+        options.ViewLocationFormats.Add("/Views/Admin/{0}.cshtml");
+        options.PageViewLocationFormats.Add("/Views/Admin/{0}.cshtml");
+    })
     // The DataAnnotations messages in the view models are resource KEYS, so the English text written
     // in the attribute is never what the user reads.
     .AddDataAnnotationsLocalization(options =>

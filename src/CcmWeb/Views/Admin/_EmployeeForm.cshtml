@@ -1,0 +1,61 @@
+@model EmployeeFormViewModel
+@* The fields of the employee form. A person is edited, never deleted, so the form has no delete
+   button; the way to take someone out of the system is to lock the account on the account screen. *@
+<div asp-validation-summary="ModelOnly" class="text-sm text-danger-ink mb-4 empty:hidden"></div>
+
+<div class="grid gap-4 md:grid-cols-2">
+    <div class="md:col-span-2">
+        <label asp-for="FullName" class="block text-sm font-semibold mb-1"></label>
+        <input asp-for="FullName" class="input" autocomplete="off" />
+        <span asp-validation-for="FullName" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="Email" class="block text-sm font-semibold mb-1"></label>
+        <input asp-for="Email" class="input" autocomplete="off" />
+        <span asp-validation-for="Email" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="Phone" class="block text-sm font-semibold mb-1"></label>
+        <input asp-for="Phone" class="input" inputmode="numeric" autocomplete="off" maxlength="15" />
+        <span asp-validation-for="Phone" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="Gender" class="block text-sm font-semibold mb-1"></label>
+        <select asp-for="Gender" class="input">
+            <option value="">@L["Employee_Gender_Unset"]</option>
+            @foreach (var gender in WorkConstants.EmployeeGenders.All)
+            {
+                <option value="@gender">@L.Label("EmployeeGender", gender)</option>
+            }
+        </select>
+        <span asp-validation-for="Gender" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="DepartmentId" class="block text-sm font-semibold mb-1"></label>
+        <select asp-for="DepartmentId" class="input">
+            <option value="">@L["Employee_Department_Unset"]</option>
+            @foreach (var department in Model.Departments)
+            {
+                <option value="@department.DepartmentId">@department.DepartmentName</option>
+            }
+        </select>
+        <span asp-validation-for="DepartmentId" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div class="md:col-span-2">
+        <label asp-for="Position" class="block text-sm font-semibold mb-1"></label>
+        <select asp-for="Position" class="input">
+            <option value="">@L["Employee_Position_Unset"]</option>
+            @foreach (var position in WorkConstants.Positions.All)
+            {
+                <option value="@position">@L.Label("Position", position)</option>
+            }
+        </select>
+        <span class="block text-xs text-muted mt-1">@L["Employee_PositionHint"]</span>
+        <span asp-validation-for="Position" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+</div>

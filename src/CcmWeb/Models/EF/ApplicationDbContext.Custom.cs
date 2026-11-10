@@ -49,5 +49,10 @@ public partial class ApplicationDbContext
         modelBuilder.Entity<ContractDetail>().ToTable(tb => tb.UseSqlOutputClause(false));
         modelBuilder.Entity<Customer>().ToTable(tb => tb.UseSqlOutputClause(false));
         modelBuilder.Entity<Feedback>().ToTable(tb => tb.UseSqlOutputClause(false));
+
+        // M06 gave these three tables an audit trigger as well, so the same rule applies to them.
+        modelBuilder.Entity<ProductService>().ToTable(tb => tb.UseSqlOutputClause(false));
+        modelBuilder.Entity<Employee>().ToTable(tb => tb.UseSqlOutputClause(false));
+        modelBuilder.Entity<Account>().ToTable(tb => tb.UseSqlOutputClause(false));
     }
 }

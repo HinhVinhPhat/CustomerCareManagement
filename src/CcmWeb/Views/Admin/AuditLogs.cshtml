@@ -1,0 +1,30 @@
+@model AuditLogListViewModel
+@{
+    ViewData["Title"] = L["Nav_AdminAuditLogs"];
+    ViewData["PageKey"] = "administration";
+}
+<header class="mb-5">
+    <h1 class="text-2xl font-bold">@L["Nav_AdminAuditLogs"]</h1>
+    <p class="text-sm text-muted">@L["Audit_Subtitle"]</p>
+</header>
+
+<partial name="_AdminTabs" model="@("audit")" />
+<partial name="_AuditFilter" model="Model" />
+
+@if (Model.ErrorKey is not null)
+{
+    <section class="card">
+        <partial name="_BlockError" model="Model.ErrorKey" />
+    </section>
+}
+else if (Model.Rows.Count == 0)
+{
+    <partial name="_ListEmptyState" model="Model.EmptyState" />
+}
+else
+{
+    <section class="card overflow-hidden">
+        <partial name="_AuditTable" model="Model" />
+        <partial name="_Pager" model="Model" />
+    </section>
+}

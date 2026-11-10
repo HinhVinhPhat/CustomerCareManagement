@@ -1314,4 +1314,149 @@
   <data name="Reports_ViewYear" xml:space="preserve"><value>View year</value></data>
   <data name="Reports_YearLabel" xml:space="preserve"><value>Year</value></data>
   <data name="Search_NoResults" xml:space="preserve"><value>No customers found.</value></data>
+  <data name="Nav_AdminProducts" xml:space="preserve"><value>Products</value></data>
+  <data name="Nav_AdminEmployees" xml:space="preserve"><value>Employees</value></data>
+  <data name="Nav_AdminAccounts" xml:space="preserve"><value>Accounts</value></data>
+  <data name="Nav_AdminAuditLogs" xml:space="preserve"><value>Audit log</value></data>
+  <data name="Nav_Profile" xml:space="preserve"><value>My profile</value></data>
+  <data name="Admin_Tabs" xml:space="preserve"><value>Administration</value></data>
+  <data name="Product_Subtitle" xml:space="preserve"><value>The products and services sold to customers</value></data>
+  <data name="Product_Add" xml:space="preserve"><value>Add product</value></data>
+  <data name="Product_Edit" xml:space="preserve"><value>Edit product</value></data>
+  <data name="Product_BackToList" xml:space="preserve"><value>Back to the catalogue</value></data>
+  <data name="Product_SearchPlaceholder" xml:space="preserve"><value>Search by name or description</value></data>
+  <data name="Product_AllTypes" xml:space="preserve"><value>All types</value></data>
+  <data name="Product_Name" xml:space="preserve"><value>Product name</value></data>
+  <data name="Product_Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Product_Type_Unset" xml:space="preserve"><value>— Choose a type —</value></data>
+  <data name="Product_UnitPrice" xml:space="preserve"><value>Unit price</value></data>
+  <data name="Product_UnitPriceHint" xml:space="preserve"><value>Applies to new contracts; an old contract keeps the price it was sold at.</value></data>
+  <data name="Product_Description" xml:space="preserve"><value>Description</value></data>
+  <data name="Product_DeleteTitle" xml:space="preserve"><value>Delete product</value></data>
+  <data name="Product_DeleteBody" xml:space="preserve"><value>Delete “{0}”? This cannot be undone.</value></data>
+  <data name="Product_InUse" xml:space="preserve"><value>Used in {0} contract line(s)</value></data>
+  <data name="Product_InUseHint" xml:space="preserve"><value>A product that a contract already contains can be edited but not deleted.</value></data>
+  <data name="Product_Created" xml:space="preserve"><value>Product added.</value></data>
+  <data name="Product_Saved" xml:space="preserve"><value>Product saved.</value></data>
+  <data name="Product_Deleted" xml:space="preserve"><value>Product deleted.</value></data>
+  <data name="Employee_Subtitle" xml:space="preserve"><value>The people and departments of the company</value></data>
+  <data name="Employee_Add" xml:space="preserve"><value>Add employee</value></data>
+  <data name="Employee_Edit" xml:space="preserve"><value>Edit employee</value></data>
+  <data name="Employee_BackToList" xml:space="preserve"><value>Back to the employee list</value></data>
+  <data name="Employee_SearchPlaceholder" xml:space="preserve"><value>Search by name, e-mail or phone</value></data>
+  <data name="Employee_AllDepartments" xml:space="preserve"><value>All departments</value></data>
+  <data name="Employee_AllPositions" xml:space="preserve"><value>All positions</value></data>
+  <data name="Employee_FullName" xml:space="preserve"><value>Full name</value></data>
+  <data name="Employee_Email" xml:space="preserve"><value>E-mail</value></data>
+  <data name="Employee_Phone" xml:space="preserve"><value>Phone</value></data>
+  <data name="Employee_Gender" xml:space="preserve"><value>Gender</value></data>
+  <data name="Employee_Gender_Unset" xml:space="preserve"><value>— Choose a gender —</value></data>
+  <data name="Employee_Department" xml:space="preserve"><value>Department</value></data>
+  <data name="Employee_Department_Unset" xml:space="preserve"><value>— Choose a department —</value></data>
+  <data name="Employee_Position" xml:space="preserve"><value>Position</value></data>
+  <data name="Employee_Position_Unset" xml:space="preserve"><value>— Choose a position —</value></data>
+  <data name="Employee_PositionHint" xml:space="preserve"><value>The level inside the department; the sign-in role of the account is a different thing.</value></data>
+  <data name="Employee_Contact" xml:space="preserve"><value>Contact</value></data>
+  <data name="Employee_HasAccount" xml:space="preserve"><value>Has an account</value></data>
+  <data name="Employee_CreateAccount" xml:space="preserve"><value>Create an account</value></data>
+  <data name="Employee_Created" xml:space="preserve"><value>Employee added.</value></data>
+  <data name="Employee_Saved" xml:space="preserve"><value>Employee saved.</value></data>
+  <data name="Department_Title" xml:space="preserve"><value>Departments</value></data>
+  <data name="Department_Count" xml:space="preserve"><value>{0} department(s)</value></data>
+  <data name="Department_Name" xml:space="preserve"><value>Department name</value></data>
+  <data name="Department_NamePlaceholder" xml:space="preserve"><value>For example: Sales</value></data>
+  <data name="Department_Add" xml:space="preserve"><value>Add department</value></data>
+  <data name="Department_Rename" xml:space="preserve"><value>Rename</value></data>
+  <data name="Department_Headcount" xml:space="preserve"><value>{0} employee(s)</value></data>
+  <data name="Department_NoneYetHint" xml:space="preserve"><value>There is no department yet. Add one before adding an employee.</value></data>
+  <data name="Department_Created" xml:space="preserve"><value>Department added.</value></data>
+  <data name="Department_Renamed" xml:space="preserve"><value>Department renamed.</value></data>
+  <data name="Account_Title" xml:space="preserve"><value>Account</value></data>
+  <data name="Account_Subtitle" xml:space="preserve"><value>The login accounts and the role of each employee</value></data>
+  <data name="Account_Add" xml:space="preserve"><value>Add account</value></data>
+  <data name="Account_Edit" xml:space="preserve"><value>Edit account</value></data>
+  <data name="Account_BackToList" xml:space="preserve"><value>Back to the account list</value></data>
+  <data name="Account_SearchPlaceholder" xml:space="preserve"><value>Search by username or employee</value></data>
+  <data name="Account_AllRoles" xml:space="preserve"><value>All roles</value></data>
+  <data name="Account_AllStates" xml:space="preserve"><value>All states</value></data>
+  <data name="Account_Username" xml:space="preserve"><value>Username</value></data>
+  <data name="Account_UsernameHint" xml:space="preserve"><value>Letters, digits and the characters . _ - only</value></data>
+  <data name="Account_Employee" xml:space="preserve"><value>Employee</value></data>
+  <data name="Account_Employee_Unset" xml:space="preserve"><value>— Choose an employee —</value></data>
+  <data name="Account_Role" xml:space="preserve"><value>Role</value></data>
+  <data name="Account_Role_Unset" xml:space="preserve"><value>— Choose a role —</value></data>
+  <data name="Account_State" xml:space="preserve"><value>State</value></data>
+  <data name="Account_IsActive" xml:space="preserve"><value>Active</value></data>
+  <data name="Account_IsActiveHint" xml:space="preserve"><value>Clear the box to lock the account. A locked account cannot sign in, and its data stays untouched.</value></data>
+  <data name="Account_ThisIsYou" xml:space="preserve"><value>Your account</value></data>
+  <data name="Account_SelfHint" xml:space="preserve"><value>This is the account you are signed in with, so you cannot lock it or change its role yourself.</value></data>
+  <data name="Account_ResetPassword" xml:space="preserve"><value>Reset password</value></data>
+  <data name="Account_ResetPasswordFor" xml:space="preserve"><value>Set a new password for {0} ({1}).</value></data>
+  <data name="Account_AllEmployeesHaveAccount" xml:space="preserve"><value>Every employee already has an account</value></data>
+  <data name="Account_AllEmployeesHaveAccountHint" xml:space="preserve"><value>Each employee has exactly one account. Add a new employee if another account is needed.</value></data>
+  <data name="Account_Created" xml:space="preserve"><value>Account created.</value></data>
+  <data name="Account_Saved" xml:space="preserve"><value>Account saved.</value></data>
+  <data name="Account_PasswordReset" xml:space="preserve"><value>Password reset.</value></data>
+  <data name="AccountState_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="AccountState_Locked" xml:space="preserve"><value>Locked</value></data>
+  <data name="Audit_Subtitle" xml:space="preserve"><value>Written by the database triggers; read-only</value></data>
+  <data name="Audit_Employee" xml:space="preserve"><value>Actor</value></data>
+  <data name="Audit_AllEmployees" xml:space="preserve"><value>All employees</value></data>
+  <data name="Audit_Table" xml:space="preserve"><value>Table</value></data>
+  <data name="Audit_AllTables" xml:space="preserve"><value>All tables</value></data>
+  <data name="Audit_Action" xml:space="preserve"><value>Action</value></data>
+  <data name="Audit_AllActions" xml:space="preserve"><value>All actions</value></data>
+  <data name="Audit_Time" xml:space="preserve"><value>Time</value></data>
+  <data name="Audit_RecordId" xml:space="preserve"><value>Record id</value></data>
+  <data name="Audit_Detail" xml:space="preserve"><value>Detail</value></data>
+  <data name="Audit_SystemActor" xml:space="preserve"><value>System</value></data>
+  <data name="TableName_CONTRACT" xml:space="preserve"><value>Contract</value></data>
+  <data name="TableName_FEEDBACK" xml:space="preserve"><value>Feedback</value></data>
+  <data name="TableName_PRODUCT_SERVICE" xml:space="preserve"><value>Product</value></data>
+  <data name="TableName_EMPLOYEE" xml:space="preserve"><value>Employee</value></data>
+  <data name="TableName_ACCOUNT" xml:space="preserve"><value>Account</value></data>
+  <data name="AuditAction_Update" xml:space="preserve"><value>Updated</value></data>
+  <data name="Position_Manager" xml:space="preserve"><value>Manager</value></data>
+  <data name="Position_Staff" xml:space="preserve"><value>Staff</value></data>
+  <data name="EmployeeGender_Male" xml:space="preserve"><value>Male</value></data>
+  <data name="EmployeeGender_Female" xml:space="preserve"><value>Female</value></data>
+  <data name="EmployeeGender_Other" xml:space="preserve"><value>Other</value></data>
+  <data name="Profile_Subtitle" xml:space="preserve"><value>Your own information and your sign-in password</value></data>
+  <data name="Profile_MyInfo" xml:space="preserve"><value>My information</value></data>
+  <data name="Profile_InfoHint" xml:space="preserve"><value>Need a change? Ask an administrator.</value></data>
+  <data name="Profile_ChangePassword" xml:space="preserve"><value>Change password</value></data>
+  <data name="Profile_ChangePasswordHint" xml:space="preserve"><value>Enter your current password, then the new one.</value></data>
+  <data name="Profile_PasswordChanged" xml:space="preserve"><value>Password changed.</value></data>
+  <data name="Password_Change" xml:space="preserve"><value>Change password</value></data>
+  <data name="Password_LengthHint" xml:space="preserve"><value>Between 8 and 100 characters.</value></data>
+  <data name="Common_Delete" xml:space="preserve"><value>Delete</value></data>
+  <data name="List_PastEnd" xml:space="preserve"><value>This page has no rows</value></data>
+  <data name="List_PastEndHint" xml:space="preserve"><value>The rows are still there; the page you opened is past the last one.</value></data>
+  <data name="List_NoMatch" xml:space="preserve"><value>Nothing matches</value></data>
+  <data name="List_NoMatchHint" xml:space="preserve"><value>Try fewer filters or another keyword.</value></data>
+  <data name="Error_Required" xml:space="preserve"><value>Please fill this in.</value></data>
+  <data name="Error_TooLong" xml:space="preserve"><value>This is too long.</value></data>
+  <data name="Error_ProductInUse" xml:space="preserve"><value>The product is already used by a contract, so it cannot be deleted.</value></data>
+  <data name="Error_ProductNameTaken" xml:space="preserve"><value>That product name is already taken.</value></data>
+  <data name="Error_ProductPriceInvalid" xml:space="preserve"><value>That unit price is not valid.</value></data>
+  <data name="Error_ProductTypeInvalid" xml:space="preserve"><value>That product type is not valid.</value></data>
+  <data name="Error_EmployeeGenderInvalid" xml:space="preserve"><value>That gender is not valid.</value></data>
+  <data name="Error_EmployeePositionInvalid" xml:space="preserve"><value>That position is not valid.</value></data>
+  <data name="Error_EmployeePhoneInvalid" xml:space="preserve"><value>A phone number must be 9 to 11 digits.</value></data>
+  <data name="Error_EmployeeEmailInvalid" xml:space="preserve"><value>That e-mail address is not valid.</value></data>
+  <data name="Error_EmployeeEmailTaken" xml:space="preserve"><value>Another employee already uses that e-mail address.</value></data>
+  <data name="Error_EmployeePhoneTaken" xml:space="preserve"><value>Another employee already uses that phone number.</value></data>
+  <data name="Error_EmployeeHasAccount" xml:space="preserve"><value>That employee already has an account.</value></data>
+  <data name="Error_DepartmentNotFound" xml:space="preserve"><value>Department not found.</value></data>
+  <data name="Error_DepartmentNameTaken" xml:space="preserve"><value>That department name is already taken.</value></data>
+  <data name="Error_AccountNotFound" xml:space="preserve"><value>Account not found.</value></data>
+  <data name="Error_AccountRoleInvalid" xml:space="preserve"><value>That role is not valid.</value></data>
+  <data name="Error_UsernameInvalid" xml:space="preserve"><value>A username may only use letters, digits and the characters . _ -</value></data>
+  <data name="Error_UsernameTaken" xml:space="preserve"><value>That username is already taken.</value></data>
+  <data name="Error_PasswordTooShort" xml:space="preserve"><value>A password must be 8 to 100 characters long.</value></data>
+  <data name="Error_PasswordMismatch" xml:space="preserve"><value>The two passwords do not match.</value></data>
+  <data name="Error_PasswordSameAsOld" xml:space="preserve"><value>The new password must differ from the current one.</value></data>
+  <data name="Error_CurrentPasswordWrong" xml:space="preserve"><value>The current password is not correct.</value></data>
+  <data name="Error_SelfLockout" xml:space="preserve"><value>You cannot lock, or change the role of, the account you are signed in with.</value></data>
+  <data name="Error_LastManager" xml:space="preserve"><value>This is the last active Manager, so it cannot be locked or demoted.</value></data>
 </root>

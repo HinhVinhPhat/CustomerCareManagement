@@ -1,0 +1,46 @@
+@model AuditLogListViewModel
+@{
+    // The log is read-only: the rows are written by the triggers of database/02 and nothing on this
+    // screen may change one. The detail column holds the values the trigger recorded, not a sentence.
+}
+<div class="overflow-x-auto">
+    <table class="tbl tbl-cards">
+        <thead>
+            <tr>
+                <th>@L["Audit_Time"]</th>
+                <th>@L["Audit_Employee"]</th>
+                <th>@L["Audit_Table"]</th>
+                <th>@L["Audit_RecordId"]</th>
+                <th>@L["Audit_Action"]</th>
+                <th>@L["Audit_Detail"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Rows)
+            {
+                <tr>
+                    <td data-label="@L["Audit_Time"]" class="whitespace-nowrap">@Utils.FormatDateTime(row.LogTime)</td>
+                    <td data-label="@L["Audit_Employee"]">
+                        @if (row.EmployeeName is not null)
+                        {
+                            @row.EmployeeName
+                        }
+                        else
+                        {
+                            <span class="text-muted">@L["Audit_SystemActor"]</span>
+                        }
+                    </td>
+                    <td data-label="@L["Audit_Table"]">@L.Label("TableName", row.TableName)</td>
+                    <td data-label="@L["Audit_RecordId"]" class="num">@row.RecordId</td>
+                    <td data-label="@L["Audit_Action"]">
+                        <partial name="_Badge" model="@(new BadgeModel("AuditAction", row.Action,
+                            Badges.ForAuditAction(row.Action)))" />
+                    </td>
+                    <td data-label="@L["Audit_Detail"]" class="text-muted">
+                        <span class="block max-w-md truncate" title="@row.Detail">@row.Detail</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

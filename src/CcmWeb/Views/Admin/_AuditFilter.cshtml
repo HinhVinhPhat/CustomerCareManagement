@@ -1,0 +1,68 @@
+@model AuditLogListViewModel
+@{
+    var filter = Model.Filter;
+}
+<form method="get" action="/admin/audit-logs" class="card p-4 mb-4 grid gap-3 md:grid-cols-12 items-end">
+    <div class="md:col-span-3">
+        <label class="block text-sm font-semibold mb-1" for="employee">@L["Audit_Employee"]</label>
+        <select id="employee" name="employee" class="input">
+            <option value="">@L["Audit_AllEmployees"]</option>
+            @foreach (var employee in Model.Employees)
+            {
+                <option value="@employee.EmployeeId" selected="@(employee.EmployeeId == filter.Employee)">
+                    @employee.FullName
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-3">
+        <label class="block text-sm font-semibold mb-1" for="table">@L["Audit_Table"]</label>
+        <select id="table" name="table" class="input">
+            <option value="">@L["Audit_AllTables"]</option>
+            @foreach (var table in WorkConstants.Audit.Tables)
+            {
+                <option value="@table" selected="@(table == filter.Table)">@L.Label("TableName", table)</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="action">@L["Audit_Action"]</label>
+        <select id="action" name="action" class="input">
+            <option value="">@L["Audit_AllActions"]</option>
+            @foreach (var action in WorkConstants.Audit.Actions)
+            {
+                <option value="@action" selected="@(action == filter.Action)">@L.Label("AuditAction", action)</option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="from">@L["Common_FromDate"]</label>
+        <input id="from" name="from" type="date" value="@filter.From?.ToString("yyyy-MM-dd")" class="input" />
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="to">@L["Common_ToDate"]</label>
+        <input id="to" name="to" type="date" value="@filter.To?.ToString("yyyy-MM-dd")" class="input" />
+    </div>
+
+    <div class="md:col-span-12 flex items-center gap-2 flex-wrap pt-1">
+        @if (filter.PageSize != WorkConstants.Settings.DefaultPageSize)
+        {
+            <input type="hidden" name="pageSize" value="@filter.PageSize" />
+        }
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> @L["Common_Search"]
+        </button>
+
+        @if (filter.HasFilters)
+        {
+            <a href="/admin/audit-logs" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+        }
+    </div>
+</form>

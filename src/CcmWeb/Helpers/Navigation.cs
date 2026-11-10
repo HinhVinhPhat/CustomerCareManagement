@@ -26,8 +26,11 @@ public static class Navigation
         new("feedback", "Nav_Feedback", "fa-comments", "/feedbacks",
             [WorkConstants.Roles.Manager, WorkConstants.Roles.Support], true),
         new("reports", "Nav_Reports", "fa-chart-column", "/reports", WorkConstants.Roles.All, true),
+        // Sales and Support may read the product catalogue (design.md 5.1) but not the rest of /admin.
+        new("products", "Nav_AdminProducts", "fa-box", "/admin/products",
+            [WorkConstants.Roles.Sales, WorkConstants.Roles.Support], true),
         new("administration", "Nav_Administration", "fa-gear", "/admin",
-            [WorkConstants.Roles.Manager], false),
+            [WorkConstants.Roles.Manager], true),
         new("settings", "Nav_Settings", "fa-sliders", "/settings",
             [WorkConstants.Roles.Manager], true)
     ];

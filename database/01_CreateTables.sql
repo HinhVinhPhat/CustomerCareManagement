@@ -256,4 +256,5 @@ CREATE INDEX IDX_Feedback_EmployeeID         ON FEEDBACK(EmployeeID);
 CREATE INDEX IDX_Feedback_CustomerID         ON FEEDBACK(CustomerID);
 CREATE INDEX IDX_Feedback_Status    ON FEEDBACK(FeedbackStatus);
 CREATE INDEX IDX_AuditLog_Table_Record     ON AUDIT_LOG(TableName, RecordID);
+CREATE INDEX IDX_AuditLog_LogTime          ON AUDIT_LOG(LogTime DESC);   -- the audit screen reads newest first
 GO

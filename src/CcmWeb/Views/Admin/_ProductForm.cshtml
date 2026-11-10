@@ -1,0 +1,37 @@
+@model ProductFormViewModel
+@* The fields of the product form. The price is a decimal the database keeps for the catalogue; a
+   contract line keeps its own copy, so changing this price never rewrites an old contract. *@
+<div asp-validation-summary="ModelOnly" class="text-sm text-danger-ink mb-4 empty:hidden"></div>
+
+<div class="grid gap-4 md:grid-cols-2">
+    <div class="md:col-span-2">
+        <label asp-for="ProductName" class="block text-sm font-semibold mb-1"></label>
+        <input asp-for="ProductName" class="input" autocomplete="off" />
+        <span asp-validation-for="ProductName" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="ProductType" class="block text-sm font-semibold mb-1"></label>
+        <select asp-for="ProductType" class="input">
+            <option value="">@L["Product_Type_Unset"]</option>
+            @foreach (var type in WorkConstants.ProductTypes.All)
+            {
+                <option value="@type">@L.Label("ProductType", type)</option>
+            }
+        </select>
+        <span asp-validation-for="ProductType" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div>
+        <label asp-for="UnitPrice" class="block text-sm font-semibold mb-1"></label>
+        <input asp-for="UnitPrice" class="input" inputmode="decimal" autocomplete="off" />
+        <span class="block text-xs text-muted mt-1">@L["Product_UnitPriceHint"]</span>
+        <span asp-validation-for="UnitPrice" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+
+    <div class="md:col-span-2">
+        <label asp-for="Description" class="block text-sm font-semibold mb-1"></label>
+        <textarea asp-for="Description" class="input" rows="3"></textarea>
+        <span asp-validation-for="Description" class="block text-sm text-danger-ink min-h-5"></span>
+    </div>
+</div>

@@ -55,22 +55,8 @@ public sealed class AccountService(
             account.Role));
     }
 
-    private (bool Verified, bool NeedsRehash) VerifyPassword(Account account, string password)
-    {
-        if (Utils.IsLegacySha256Hash(account.PasswordHash))
-        {
-            // Demo rows store SHA2_256 of the password as a UTF-16LE string. Verified once, then
-            // replaced by a PasswordHasher hash below.
-            return (Utils.VerifyLegacySha256(password, account.PasswordHash), true);
-        }
-
-        return passwordHasher.VerifyHashedPassword(account, account.PasswordHash, password) switch
-        {
-            PasswordVerificationResult.Success => (true, false),
-            PasswordVerificationResult.SuccessRehashNeeded => (true, true),
-            _ => (false, false)
-        };
-    }
+    private (bool Verified, bool NeedsRehash) VerifyPassword(Account account, string password) =>
+        PasswordRules.Verify(passwordHasher, account, password);
 
     /// <summary>ACCOUNT has no trigger, so a plain UPDATE through EF is safe here.</summary>
     private async Task RehashAsync(int accountId, string password)

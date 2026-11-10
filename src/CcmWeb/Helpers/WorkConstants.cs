@@ -17,6 +17,62 @@ public static class WorkConstants
         public static readonly string[] All = [Manager, Sales, Support];
     }
 
+    /// <summary>
+    /// Values of <c>EMPLOYEE.Position</c> (<c>CHK_Employee_Position</c>): the job level inside a
+    /// department. It is not the same thing as <c>ACCOUNT.Role</c>, which decides what a person may
+    /// open after signing in.
+    /// </summary>
+    public static class Positions
+    {
+        public const string Manager = "Manager";
+        public const string Staff = "Staff";
+
+        public static readonly string[] All = [Manager, Staff];
+    }
+
+    /// <summary>Values of <c>EMPLOYEE.Gender</c> (<c>CHK_Employee_Gender</c>).</summary>
+    public static class EmployeeGenders
+    {
+        public const string Male = "Male";
+        public const string Female = "Female";
+        public const string Other = "Other";
+
+        public static readonly string[] All = [Male, Female, Other];
+    }
+
+    /// <summary>Values of <c>PRODUCT_SERVICE.ProductType</c> (<c>CHK_Product_Type</c>).</summary>
+    public static class ProductTypes
+    {
+        public const string Product = "Product";
+        public const string Service = "Service";
+
+        public static readonly string[] All = [Product, Service];
+    }
+
+    /// <summary>
+    /// Limits of a login account, checked here before the hash is written. The database only keeps
+    /// the hash, so the length rule lives in the application (see the <c>ccm-auth-security</c> skill).
+    /// </summary>
+    public static class Accounts
+    {
+        public const int PasswordMinLength = 8;
+        public const int PasswordMaxLength = 100;
+        public const int UsernameMaxLength = 50;
+    }
+
+    /// <summary>
+    /// The tables and actions the audit screen can filter by. Both lists must cover every value the
+    /// triggers of file 02 actually write, otherwise the filter would hide real rows.
+    /// </summary>
+    public static class Audit
+    {
+        public static readonly string[] Tables =
+            ["CONTRACT", "FEEDBACK", "PRODUCT_SERVICE", "EMPLOYEE", "ACCOUNT"];
+
+        public static readonly string[] Actions =
+            ["Insert", "Update", "StatusChange", "Assign", "Delete"];
+    }
+
     /// <summary>Values of <c>vw_CareSchedule.ScheduleStatus</c> (design.md 2.2).</summary>
     public static class ScheduleStatus
     {

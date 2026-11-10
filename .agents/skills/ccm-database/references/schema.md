@@ -121,6 +121,9 @@ the new date must be after the current end date and not in the past.
 | trg_Customer_PreventDelete | CUSTOMER (INSTEAD OF DELETE) | Block deletion while contracts remain (50005); otherwise delete the related contacts, care and feedback |
 | trg_Contract_AuditLog | CONTRACT | Write AUDIT_LOG: Insert, StatusChange, Delete |
 | trg_Feedback_AuditLog | FEEDBACK | Write AUDIT_LOG: StatusChange, Assign |
+| trg_Product_AuditLog | PRODUCT_SERVICE | Write AUDIT_LOG: Insert, Update, Delete (values, not sentences) |
+| trg_Employee_AuditLog | EMPLOYEE | Write AUDIT_LOG: Insert, Update, Delete |
+| trg_Account_AuditLog | ACCOUNT | Write AUDIT_LOG: Insert, Update, Delete; never records the password hash, and skips a hash-only update |
 
 ## Custom error codes (SqlException.Number)
 

@@ -1,0 +1,63 @@
+@model EmployeeListViewModel
+@{
+    var filter = Model.Filter;
+}
+<form method="get" action="/admin/employees" class="card p-4 mb-4 grid gap-3 md:grid-cols-12 items-end">
+    <div class="md:col-span-4">
+        <label class="block text-sm font-semibold mb-1" for="q">@L["Common_Search"]</label>
+        <input id="q" name="q" value="@filter.Q" class="input"
+               placeholder="@L["Employee_SearchPlaceholder"]" autocomplete="off" />
+    </div>
+
+    <div class="md:col-span-3">
+        <label class="block text-sm font-semibold mb-1" for="department">@L["Employee_Department"]</label>
+        <select id="department" name="department" class="input">
+            <option value="">@L["Employee_AllDepartments"]</option>
+            @foreach (var department in Model.Departments)
+            {
+                <option value="@department.DepartmentId" selected="@(department.DepartmentId == filter.Department)">
+                    @department.DepartmentName
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1" for="position">@L["Employee_Position"]</label>
+        <select id="position" name="position" class="input">
+            <option value="">@L["Employee_AllPositions"]</option>
+            @foreach (var position in WorkConstants.Positions.All)
+            {
+                <option value="@position" selected="@(position == filter.Position)">
+                    @L.Label("Position", position)
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="md:col-span-3 flex items-center gap-2 flex-wrap">
+        @if (filter.Sort != EmployeeFilter.SortByName)
+        {
+            <input type="hidden" name="sort" value="@filter.Sort" />
+        }
+        @if (filter.Desc)
+        {
+            <input type="hidden" name="desc" value="true" />
+        }
+        @if (filter.PageSize != WorkConstants.Settings.DefaultPageSize)
+        {
+            <input type="hidden" name="pageSize" value="@filter.PageSize" />
+        }
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> @L["Common_Search"]
+        </button>
+
+        @if (filter.HasFilters)
+        {
+            <a href="/admin/employees" class="btn">
+                <i class="fa-solid fa-filter-circle-xmark"></i> @L["Common_ClearFilters"]
+            </a>
+        }
+    </div>
+</form>

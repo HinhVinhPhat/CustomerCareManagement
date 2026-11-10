@@ -30,10 +30,12 @@
     </nav>
 
     <div class="p-4 border-t text-sm side-foot flex items-center justify-between gap-3">
-        <div class="min-w-0">
+        @* The name opens /profile: the one place a person may look at their own record and change
+           their own password. *@
+        <a href="/profile" class="min-w-0 block hover:opacity-80" title="@L["Nav_Profile"]">
             <div class="font-semibold side-name truncate">@User.GetDisplayName()</div>
             <div>@L.Label("Role", role)</div>
-        </div>
+        </a>
 
         @* The icon sign-out came down from the topbar and sits next to the name; the topbar shows
            the word "Sign out" in the place the icon used to hold. *@

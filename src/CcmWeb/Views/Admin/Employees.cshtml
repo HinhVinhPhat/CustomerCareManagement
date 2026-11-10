@@ -1,0 +1,39 @@
+@model EmployeeListViewModel
+@{
+    ViewData["Title"] = L["Nav_AdminEmployees"];
+    ViewData["PageKey"] = "administration";
+}
+<header class="flex flex-wrap items-center justify-between gap-3 mb-5">
+    <div>
+        <h1 class="text-2xl font-bold">@L["Nav_AdminEmployees"]</h1>
+        <p class="text-sm text-muted">@L["Employee_Subtitle"]</p>
+    </div>
+
+    <a href="/admin/employees/create" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> @L["Employee_Add"]
+    </a>
+</header>
+
+<partial name="_AdminTabs" model="@("employees")" />
+
+<partial name="_Departments" model="Model" />
+
+<partial name="_EmployeeFilter" model="Model" />
+
+@if (Model.ErrorKey is not null)
+{
+    <section class="card">
+        <partial name="_BlockError" model="Model.ErrorKey" />
+    </section>
+}
+else if (Model.Rows.Count == 0)
+{
+    <partial name="_ListEmptyState" model="Model.EmptyState" />
+}
+else
+{
+    <section class="card overflow-hidden">
+        <partial name="_EmployeeTable" model="Model" />
+        <partial name="_Pager" model="Model" />
+    </section>
+}
