@@ -1,0 +1,9 @@
+# Keep the image small and reproducible: only what `dotnet publish` needs enters the build context.
+bin/
+obj/
+.vs/
+TestResults/
+*.user
+*.suo
+Dockerfile
+.dockerignore

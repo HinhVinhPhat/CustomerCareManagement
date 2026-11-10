@@ -1,4 +1,6 @@
-# Not yet tested on a real machine. Only db and db-init are enabled for now; once src/CcmWeb exists (with a Dockerfile), uncomment the web service.
+# Run the whole system with:  cp .env.example .env  (edit the passwords)  then  docker compose up -d --build
+# Open http://localhost:8080/login afterwards. The SQL Server port 1433 is published for tools such as
+# SSMS; remove that mapping in production.
 services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -16,6 +18,9 @@ services:
       retries: 20
       start_period: 30s
 
+  # Runs once: loads database/01-03 only when the database does not exist yet, then always ensures the
+  # app_ccm login (file 04). Skipping 01-03 is what keeps the data across restarts, because file 01
+  # starts with DROP DATABASE. Use `docker compose down -v` to start over from the sample data.
   db-init:
     image: mcr.microsoft.com/mssql/server:2022-latest
     depends_on:
@@ -30,16 +35,34 @@ services:
     entrypoint: ["/bin/bash", "/database/init.sh"]
     restart: "no"
 
-#  web:
-#    build: ./src/CcmWeb
-#    depends_on:
-#      db-init:
-#        condition: service_completed_successfully
-#    environment:
-#      ConnectionStrings__DefaultConnection: "Server=db,1433;Database=CustomerCareDB;User Id=app_ccm;Password=${APP_PASSWORD};TrustServerCertificate=True"
-#      ASPNETCORE_URLS: http://+:8080
-#    ports:
-#      - "8080:8080"
+  web:
+    build: ./src/CcmWeb
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    environment:
+      # The double underscore maps to ':' in .NET configuration, so this is ConnectionStrings:DefaultConnection.
+      # The application signs in as app_ccm - never sa; sa belongs to db-init only.
+      ConnectionStrings__DefaultConnection: "Server=db,1433;Database=CustomerCareDB;User Id=app_ccm;Password=${APP_PASSWORD};TrustServerCertificate=True"
+      ASPNETCORE_URLS: "http://+:8080"
+      # No certificate in the container: the HTTPS redirect would only log a warning and bounce nothing.
+      Security__RedirectToHttps: "false"
+      # Keeps sign-in cookies valid across `docker compose restart` and `down`/`up`.
+      Security__DataProtectionKeys: "/keys"
+    ports:
+      - "8080:8080"
+    volumes:
+      - keys:/keys
+    healthcheck:
+      # The runtime image has no curl, so this opens the port with bash instead of installing a package.
+      # It answers "started and listening"; /health is the probe that also checks the database.
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
 
 volumes:
   sqldata:
+  keys:

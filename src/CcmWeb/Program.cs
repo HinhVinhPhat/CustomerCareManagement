@@ -8,6 +8,7 @@ using CcmWeb.Models.Entities;
 using CcmWeb.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,24 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ---------------------------------------------------------------------- container settings
+// The application runs over HTTPS in development, but inside the compose stack it is reached through
+// one plain HTTP port and has no certificate, so Security:RedirectToHttps=false turns the redirect
+// (and HSTS) off there. Anything else keeps the development behaviour.
+var redirectToHttps = builder.Configuration.GetValue("Security:RedirectToHttps", true);
+
+// Sign-in cookies are encrypted with keys the framework keeps on disk. Inside a container that disk
+// disappears with the container, signing everybody out on every restart, so compose points this at a
+// volume through Security:DataProtectionKeys. With no setting the framework default is kept.
+var dataProtectionKeys = builder.Configuration["Security:DataProtectionKeys"];
+
+if (!string.IsNullOrWhiteSpace(dataProtectionKeys))
+{
+    builder.Services.AddDataProtection()
+        .SetApplicationName("CcmWeb")
+        .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeys));
+}
 
 // ---------------------------------------------------------------------- data
 builder.Services.AddHttpContextAccessor();
@@ -153,12 +172,15 @@ if (usingFallbackConnection)
 // ---------------------------------------------------------------------- request pipeline
 app.UseExceptionHandler("/error");
 
-if (!app.Environment.IsDevelopment())
+if (redirectToHttps)
 {
-    app.UseHsts();
-}
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseHsts();
+    }
 
-app.UseHttpsRedirection();
+    app.UseHttpsRedirection();
+}
 
 // Static files are served before routing and authorization; without this every asset request
 // would be treated as a protected page and redirected to the sign-in screen.
@@ -174,5 +196,24 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Compose waits for this before it calls the web service healthy. It answers with the state only:
+// no exception text, no connection string, no version. Public because a health probe cannot sign in.
+app.MapGet("/health", async (ApplicationDbContext db, ILogger<Program> logger, CancellationToken ct) =>
+{
+    try
+    {
+        if (await db.Database.CanConnectAsync(ct))
+        {
+            return Results.Text("Healthy");
+        }
+    }
+    catch (Exception ex)
+    {
+        logger.LogWarning(ex, "Health check failed.");
+    }
+
+    return Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
+}).AllowAnonymous();
 
 app.Run();

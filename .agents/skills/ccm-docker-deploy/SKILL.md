@@ -17,10 +17,11 @@ which is outdated: the application is now **one** MVC project, so there is only 
 | `db-init` | Runs once: loads `database/01` to `04` | Waits for `db` to be healthy, does not restart |
 | `web` | ASP.NET Core MVC | `depends_on: db-init` with `condition: service_completed_successfully` |
 
-The templates already exist in the project skeleton: `docker-compose.yml` and `.env.example` at the
-project root, and `database/init.sh`. Only `db` and `db-init` are enabled for now; the `web` service
-is commented out until `src/CcmWeb` exists with a Dockerfile. These files have not been run on a real
-machine yet: try them and adjust as needed.
+All three services are enabled and were run for real on Windows 11 + Docker Desktop (Linux
+containers) in module M07: `docker-compose.yml` and `.env.example` at the project root,
+`database/init.sh`, and `src/CcmWeb/Dockerfile` with `src/CcmWeb/.dockerignore`. The image is
+`customercaremanagement-web:latest`, about 456 MB, and the application is published from the `net10.0`
+SDK image onto the `aspnet:10.0` runtime image.
 
 ## The biggest trap: file 01 drops the database
 
@@ -48,12 +49,12 @@ quote (`'`), because it is embedded in SQL text, and must be strong (at least 8 
 case, lower case, digits and symbols) because the login uses `CHECK_POLICY = ON`. Since it also
 appears in the `web` connection string, **also avoid the semicolon (`;`) and the `$` character**.
 
-## The web service (once the source exists)
+## The web service
 
 A multi-stage Dockerfile in `src/CcmWeb`: `FROM mcr.microsoft.com/dotnet/sdk:<version> AS build` to
 run `dotnet publish -c Release`, then `FROM mcr.microsoft.com/dotnet/aspnet:<version>` to run the
 result. Use exactly the .NET version the project targets (check the `.csproj` and `global.json`),
-never change it on your own. A service template for compose:
+never change it on your own. The real service in `docker-compose.yml`:
 
 ```yaml
   web:
@@ -63,9 +64,16 @@ never change it on your own. A service template for compose:
         condition: service_completed_successfully
     environment:
       ConnectionStrings__DefaultConnection: "Server=db,1433;Database=CustomerCareDB;User Id=app_ccm;Password=${APP_PASSWORD};TrustServerCertificate=True"
-      ASPNETCORE_URLS: http://+:8080
+      ASPNETCORE_URLS: "http://+:8080"
+      Security__RedirectToHttps: "false"
+      Security__DataProtectionKeys: "/keys"
     ports:
       - "8080:8080"
+    volumes:
+      - keys:/keys
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+    restart: unless-stopped
 ```
 
 - The `__` in an environment variable name maps to a `:` in .NET configuration, so it matches
@@ -75,8 +83,15 @@ never change it on your own. A service template for compose:
 - The app connects as `app_ccm`, **never `sa`**. `sa` is only used inside `db-init`.
 - The `aspnet` image from .NET 8 onwards listens on port 8080 by default (not 80).
 - **Keep login sessions:** the cookie encryption key (Data Protection) is lost when the container
-  restarts, signing everyone out. Persist the keys to a volume with
-  `AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/keys"))` and mount a volume at `/keys`.
+  restarts, signing everyone out. `Program.cs` reads `Security:DataProtectionKeys` and, when it is
+  set, calls `AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/keys"))`; compose sets
+  it to `/keys` and mounts the `keys` volume. Without the setting (plain `dotnet run`) the framework
+  default is kept. `down -v` deletes the volume, so everybody signs in again.
+- **No certificate inside the container:** `Security:RedirectToHttps` defaults to `true` (the
+  development behaviour); compose sets it to `false`, which skips `UseHttpsRedirection` **and** HSTS.
+- **`/health`** is a public endpoint (200 when `SELECT 1` answers, 503 otherwise) and is the probe to
+  call from a reverse proxy. The compose healthcheck only opens the port, because the `aspnet` image
+  ships neither `curl` nor `wget`; installing one just for a probe is not worth the layer.
 - When `web` runs in a container, the `SessionContextInterceptor` and the background work (see
   `ccm-mvc-architecture`) work as usual, since they only need a DB connection.
 
@@ -95,6 +110,11 @@ never change it on your own. A service template for compose:
   Rosetta" in Docker Desktop), starts slowly, and needs at least 4 GB of RAM given to Docker.
 - **`db-init` reports "Login failed"**: `db` is not ready yet. Check the healthcheck and that
   `depends_on` uses `condition: service_healthy`.
+- **`db-init` reports error 904 "Database 5 cannot be autostarted during server shutdown or
+  startup"**: SQL Server accepts connections (the healthcheck passes) while it is still autostarting
+  the user databases, and file 04 starts with `USE CustomerCareDB`. `init.sh` waits until that
+  database can really be opened **and** retries file 04 for up to a minute; if the message still
+  appears, the app password or the container is at fault, not the data.
 - **Garbled text in the DB**: `-f 65001` is missing, or the `.sql` file is not saved as UTF-8.
 - **The web app cannot log into the DB**: file 04 has not run, or the `APP_PASSWORD` in `.env`
   differs from the one used when the login was created (re-running 04 does not change an existing
@@ -110,8 +130,12 @@ Caddy) in front of `web`, enable the `Secure` cookie, change every password, and
 
 ## Checklist
 
-- [ ] `docker compose up -d --build` runs cleanly on a new machine with no manual steps.
-- [ ] `docker compose logs db-init` reports that the data was loaded (or "skipped" when the DB exists).
-- [ ] `docker compose down` then `up` again: the data is **intact**. `down -v` then `up`: the DB is recreated from scratch.
-- [ ] The application does not use `sa`. `.env` is in `.gitignore`.
-- [ ] Log in as `john`/`123456`, act on a contract, then check `AUDIT_LOG` has a non-NULL `EmployeeID`.
+Checked on a real machine in M07 (Windows 11, Docker Desktop, Linux containers):
+
+- [x] `docker compose up -d --build` runs cleanly on a new machine with no manual steps.
+- [x] `docker compose logs db-init` reports that the data was loaded (or "skipped" when the DB exists).
+- [x] `docker compose down` then `up` again: the data and the sign-in session are **intact**. `down -v` then `up`: the DB is recreated from scratch and the old cookie is refused.
+- [x] The application does not use `sa`. `.env` is in `.gitignore`.
+- [x] Log in as `john`/`123456`, write through the app, then check `AUDIT_LOG` has a non-NULL `EmployeeID` (it recorded `EmployeeID = 1`).
+- [x] `/health` answers 200, and 503 once `db` is stopped; it recovers to 200 when `db` comes back.
+- [x] Vietnamese text survives the round trip into the container database and back to the page.

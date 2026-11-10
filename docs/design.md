@@ -578,41 +578,41 @@ The "Role" column: **MG** Manager, **SL** Sales, **SP** Support.
 
 ## 11. Docker
 
-> ⚠ **OUTDATED.** There is no longer a split between `api` and `web`; only **one** MVC `web` service remains. See the `ccm-docker-deploy` skill.
+Section 10 (a separate `api` + `web` model) is outdated; the application is one ASP.NET Core MVC project,
+so the stack has **one** `web` service. The details below were checked on a real machine in M07.
 
 ### 11.1. Services
 
 | Service | Role | Port (your machine) |
 |---|---|---|
 | `db` | SQL Server 2022, data stored in the `sqldata` volume | 1433 (dev only) |
-| `db-init` | Runs once: creates the DB from the 4 SQL files, loads the sample data, creates the `app_ccm` user. Skipped if the DB already exists | none |
-| `api` | REST API, waits for `db-init` to finish before starting | 5000 |
-| `web` | UI, calls the API through `API_URL` | 8080 |
+| `db-init` | Runs once: creates the DB from files 01-03 **only when it does not exist**, then always ensures the `app_ccm` login (file 04) | none |
+| `web` | The MVC application; debug keys in the `keys` volume, connects as `app_ccm` | 8080 |
 
-The skeleton lives in the `ccm-project/` folder:
+The files live in the project root:
 
 ```
-ccm-project/
+.
 ├── docker-compose.yml
-├── .env.example          (copy to .env, change the password)
-├── db/
-│   ├── 01_CreateTables.sql               ← copied from the existing build
-│   ├── 02_Function_View_Proc_Trigger.sql ← copied from the existing build
-│   ├── 03_SampleData.sql                 ← copied from the existing build
+├── .env.example                 (copy to .env, change the two passwords)
+├── database/
+│   ├── 01_CreateTables.sql
+│   ├── 02_Function_View_Proc_Trigger.sql
+│   ├── 03_SampleData.sql
 │   ├── 04_CreateAppUser.sql
 │   └── init.sh
-├── api/   (Dockerfile + source code)
-└── web/   (Dockerfile + source code)
+└── src/CcmWeb/                  (Dockerfile + .dockerignore + source)
 ```
 
 ### 11.2. Common commands
 
 ```bash
-cp .env.example .env                  # then edit the password in .env
+cp .env.example .env                  # then edit the two passwords in .env
 docker compose up -d --build          # build and run everything
 docker compose logs -f db-init        # watch the DB initialisation
-docker compose logs -f api            # watch the API log
-docker compose down                   # stop (keep the data)
+docker compose logs -f web            # watch the application log
+docker compose ps                     # db and web must report healthy
+docker compose down                   # stop (keep the data and the sign-in keys)
 docker compose down -v                # stop and DELETE the data (to recreate the DB from scratch)
 ```
 
@@ -621,17 +621,22 @@ docker compose down -v                # stop and DELETE the data (to recreate th
 - **The SA password must be strong** (at least 8 characters, with upper case, lower case, digits and symbols), otherwise the `db` container shuts itself down.
 - **`sqlcmd` needs the `-I` flag** (already present in `init.sh`). `sqlcmd` disables `QUOTED_IDENTIFIER` by default, while file 01 creates filtered indexes (`WHERE`); without this flag it reports an error.
 - **The `-f 65001` flag** so that the non-ASCII text in the SQL files is read correctly.
-- **Windows**: `init.sh` must be saved with LF line endings, not CRLF, otherwise bash inside the container reports an error. Add a `.gitattributes` file containing `*.sh text eol=lf`.
+- **The application never uses `sa`**: only `db-init` does, to create the database and the `app_ccm` login. The `web` connection string always names `app_ccm`.
+- **`Security:RedirectToHttps=false`** in compose, because the container has no certificate; the redirect would only log a warning. HSTS is off for the same reason. Put an HTTPS reverse proxy in front of `web` for a real deployment.
+- **Sign-in cookies survive a restart**: Data Protection keys are written to the `keys` volume (`Security:DataProtectionKeys=/keys`). `down -v` deletes them and everybody signs in again.
+- **`/health`** is the public probe: 200 when the database answers `SELECT 1`, 503 otherwise. The compose healthcheck only checks that the port is listening, because the runtime image ships no `curl`.
+- **Windows**: `init.sh` must be saved with LF line endings, not CRLF, otherwise bash inside the container reports an error. `.gitattributes` contains `*.sh text eol=lf`.
 - **Apple silicon Macs (M1/M2/M3...)**: the SQL Server image is x86 only, so Docker Desktop runs it through emulation (turn on "Use Rosetta" in the settings). It works but starts more slowly, and Docker needs at least 4 GB of RAM.
 - The sample data computes dates at the moment `03_SampleData.sql` runs. To refresh the time anchors, run `docker compose down -v` and then `up` again.
 - The DB server name inside the Docker network is `db` (not `localhost`). From your machine (SSMS, Azure Data Studio) use `localhost,1433`.
+- The login rate limiter partitions by client IP; behind a proxy every visitor shares the proxy's IP. Keep that in mind when raising the limit for a demo.
 - In production: remove the `ports: 1433` line from `db`, do not commit `.env`, and add an HTTPS reverse proxy.
 
 ### 11.4. Additional checklist
 
 - [ ] `docker compose up -d --build` runs cleanly on a new machine, with no manual steps.
-- [ ] `docker compose logs db-init` shows the line "OK: sample data loaded".
-- [ ] The API does not use the `sa` account.
+- [ ] `docker compose logs db-init` shows the line "OK: sample data loaded" (first run) or "Skipping 01-03" (later runs).
+- [ ] The application does not use the `sa` account.
 - [ ] `.env` is in `.gitignore`.
 - [ ] Every DB connection sets `SESSION_CONTEXT('EmployeeID')`.
-- [ ] API documentation is available (Swagger/OpenAPI or the table in section 10.3) to submit with the project.
+- [ ] `docker compose down` then `up` keeps the data and the signed-in session; `down -v` starts over.

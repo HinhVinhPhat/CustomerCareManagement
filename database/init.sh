@@ -27,8 +27,39 @@ if [ "$EXISTS" = "0" ]; then
   echo "OK: sample data loaded"
 else
   echo "Skipping 01-03: the database already exists (use docker compose down -v to recreate from scratch)"
+
+  # The healthcheck answers as soon as master is up, but SQL Server then autostarts the user
+  # databases one by one. File 04 begins with "USE CustomerCareDB", which fails with error 904
+  # while that database is still starting, so wait until it can really be opened.
+  READY=0
+  for i in $(seq 1 60); do
+    if "$SQLCMD" -S "$HOST" -U sa -P "$SA_PASSWORD" -C -I -h -1 -W \
+      -Q "SET NOCOUNT ON; USE CustomerCareDB; SELECT 1" >/dev/null 2>&1; then
+      READY=1
+      break
+    fi
+    sleep 2
+  done
+  echo "CustomerCareDB is ready (${READY})"
 fi
 
-# File 04 is safe to run again (it uses IF NOT EXISTS)
-run -v APP_PASSWORD="$APP_PASSWORD" -i /database/04_CreateAppUser.sql
+# File 04 is safe to run again (it uses IF NOT EXISTS). It is retried because SQL Server autostarts
+# the user databases in the background: a restart can still answer error 904 (database is being
+# started) for a few seconds after master already accepts connections.
+echo "Running 04_CreateAppUser.sql"
+READY=0
+for i in $(seq 1 30); do
+  if run -v APP_PASSWORD="$APP_PASSWORD" -i /database/04_CreateAppUser.sql; then
+    READY=1
+    break
+  fi
+  echo "The database is still starting, retrying in 2s..."
+  sleep 2
+done
+
+if [ "$READY" != "1" ]; then
+  echo "ERROR: could not create the app_ccm login"
+  exit 1
+fi
+
 echo "OK: app_ccm user is ready"

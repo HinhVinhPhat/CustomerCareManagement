@@ -23,7 +23,7 @@ database-first) on SQL Server.
 Run `database/01` -> `02` -> `03` -> `04` in order using SSMS or `sqlcmd` (needs
 `-I -f 65001`, add `-C` in dev). File 01 drops and recreates the DB.
 
-Or use Docker: `cp .env.example .env`, edit the passwords, then `docker compose up -d`.
+Or let Docker do it: see "Run everything with Docker" below.
 
 File `04` needs the application password as a script variable:
 
@@ -49,6 +49,37 @@ If the setting is missing - a fresh clone, another machine - the application fal
 connection string written in `ApplicationDbContext.FallbackConnectionString`
 (`Server=localhost\SQLEXPRESS;Database=CustomerCareDB;Trusted_Connection=True`), which uses Windows
 Authentication and therefore needs no password in the repository.
+
+## Run everything with Docker
+
+One command brings up SQL Server, loads the database once and starts the web application:
+
+```bash
+cp .env.example .env          # then change SA_PASSWORD and APP_PASSWORD, at least 8 characters
+docker compose up -d --build  # first run also builds the web image and pulls the SQL Server image
+docker compose logs -f db-init
+```
+
+Open <http://localhost:8080/login>. Three services run:
+
+| Service | Job | Port |
+|---|---|---|
+| `db` | SQL Server 2022, data in the `sqldata` volume | 1433 (dev only, remove in production) |
+| `db-init` | Runs once: loads `database/01`-`03` **only if the database does not exist**, then always ensures the `app_ccm` login (file 04) | none |
+| `web` | The ASP.NET Core MVC application, connecting as `app_ccm` (never `sa`) | 8080 |
+
+Things worth knowing:
+
+- `docker compose down` then `up` again: **the data and the signed-in sessions survive**. File 01 starts
+  with `DROP DATABASE`, which is why `db-init` skips files 01-03 when the database already exists.
+- `docker compose down -v` deletes the volumes: the next `up` recreates the database from the sample data
+  (the sample dates are relative to that moment) and everybody signs in again.
+- Changing `APP_PASSWORD` in `.env` does not change the existing login; use `down -v` to recreate.
+- The container has no certificate, so `Security__RedirectToHttps=false` in `docker-compose.yml` turns off
+  the HTTPS redirect; put a reverse proxy (Nginx, Caddy) in front of `web` for a real deployment.
+- `docker compose ps` shows `db` and `web` as healthy (the `web` probe only checks that the port is
+  listening); `/health` is the public probe that also runs `SELECT 1` and returns 503 when the database
+  does not answer.
 
 ## Vietnamese UI, English under the hood
 
