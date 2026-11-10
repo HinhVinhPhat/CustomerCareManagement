@@ -74,11 +74,14 @@ chạy lại T22-T26 ngày 10/11/2026**. Chưa commit. Chi tiết từng ca ở 
 
 - **B01 đã sửa** (`[ValidateNever]` cho bốn trường chỉ để hiển thị) và T22-T26 đã chạy lại đạt; xem
   `bug-report.md`.
-- **NOT RUN**: ảnh chụp ba bề rộng (công cụ chụp ảnh lỗi); lọc tài khoản theo vai trò/trạng thái trên
-  giao diện; dòng nhật ký không có người thực hiện hiện chữ "Hệ thống"; tự khoá/tự hạ quyền và "Manager
-  cuối cùng" qua giao diện (đã có ca CSDL nên chưa thử lại bằng HTTP).
+- **Đã chạy bổ sung ngày 10/11/2026** bằng trình duyệt thật: N02 (lọc tài khoản) **PASS**, N03 (dòng
+  nhật ký "Hệ thống") **PASS**, N05 (tự khoá/tự hạ quyền) **PASS một phần**, N01 (15 ảnh ba bề rộng)
+  **PASS sau khi sửa B02** - B02 là lỗi tràn ngang ở bề rộng điện thoại, đã sửa trong cùng đợt. Chi
+  tiết ở `test-results.md` mục 5, ảnh ở `screenshots/`.
+- **Còn để mở**: nhánh "Manager hoạt động cuối cùng" chỉ kiểm bằng ca CSDL vì giao diện chặn thao tác
+  tự hạ quyền trước khi chạm tới nhánh đó.
 
 ## 5. Bước đang chờ
 
-Chờ người dùng xem lại kết quả sau khi sửa B01 và đồng ý commit M06 (một commit cho toàn module, gồm cả
-phần SQL và tài liệu). Chưa commit gì.
+Người dùng xem lại kết quả sau khi sửa B01, B02 và đồng ý commit phần bổ sung này (M06 gốc đã commit ở
+`dcfae12`).

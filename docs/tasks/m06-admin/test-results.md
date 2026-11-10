@@ -2,8 +2,9 @@
 
 Ngày chạy: **28/10/2026**, hai đợt trong cùng ngày (đợt 1 trước khi dọn dữ liệu, đợt 2 sau khi thêm
 ba trigger audit vào `CustomerCareDB` thật), cộng **đợt 3 ngày 10/11/2026** chạy lại T22-T26 sau khi
-sửa B01. Mọi dòng dưới đây đã được chạy thật; việc gì chưa chạy thì ghi rõ **NOT RUN**, không đánh dấu
-PASS. Lỗi tìm thấy nằm ở `bug-report.md`: **B01 đã sửa và đã chạy lại**.
+sửa B01, cộng **đợt 4 ngày 10/11/2026** chạy N01-N05 bằng trình duyệt thật (mục 5). Mọi dòng dưới đây
+đã được chạy thật; việc gì chưa chạy thì ghi rõ **NOT RUN**, không đánh dấu PASS. Lỗi tìm thấy nằm ở
+`bug-report.md`: **B01 và B02 đã sửa và đã chạy lại**.
 
 ## 1. Môi trường thực tế
 
@@ -139,11 +140,25 @@ khi ghi lại kết quả:
 NULL vì việc dọn chạy bằng `sqlcmd` không đặt `SESSION_CONTEXT` - đúng như thiết kế, và cũng là bằng
 chứng rằng đường ghi qua ứng dụng mới có người thực hiện.
 
-## 5. Chưa chạy (NOT RUN)
+## 5. Chạy bổ sung bằng trình duyệt thật - đợt 10/11/2026 (N01-N05)
+
+Ba ca N01, N02, N03 và một phần N05 trước đây để **NOT RUN** vì thiếu công cụ chụp ảnh. Đợt này chạy
+trên ứng dụng thật (`http://localhost:5293`, CSDL `CustomerCareDB` trên `.\SQLEXPRESS`) bằng Chromium
+chạy không giao diện, điều khiển qua DevTools Protocol: đăng nhập `john`/`123456`, đặt bề rộng khung
+nhìn (`Emulation.setDeviceMetricsOverride`) rồi chụp ảnh bằng `Page.captureScreenshot`.
+
+| Mã | Ca | Kết quả | Bằng chứng |
+|---|---|---|---|
+| N01 | Ảnh 4 trang quản trị + tổng quan ở 3 bề rộng | **PASS** (sau khi sửa B02) | Đủ 15 ảnh trong `docs/tasks/m06-admin/screenshots/` (5 trang x 1280/768/412). Đo sau khi sửa: `document.documentElement.scrollWidth` = `innerWidth` ở **cả 15 ảnh** (1280/768/412), không còn tràn ngang; bảng dạng thẻ ở 412 px hiện nhãn "Thao tác" một dòng và hai nút nằm gọn bên phải. Trước khi sửa: 510 px (4 trang quản trị) và 738 px (tổng quan) - lỗi **B02** ở `bug-report.md`. |
+| N02 | Lọc tài khoản theo vai trò và trạng thái | **PASS** | Chọn `Vai trò = Hỗ trợ` -> `?role=Support&state=`, 2 dòng `david`, `helen`, "Hiển thị 1-2 trong 2 kết quả"; thêm `Trạng thái = Đã khoá` -> 0 dòng, hiện "Không tìm thấy kết quả nào" (đúng: `SELECT Role, IsActive FROM ACCOUNT` cho 2/2/2 và cả 6 đều `IsActive = 1`); `Vai trò = Quản lý` + `Hoạt động` -> 2 dòng `john`, `susan`; bấm "Xoá bộ lọc" -> về `/admin/accounts`, 6 dòng. |
+| N03 | Dòng nhật ký không có người thực hiện hiện "Hệ thống" | **PASS** | `/admin/audit-logs` có 6 dòng chữ "Hệ thống", khớp đúng `SELECT COUNT(*) FROM AUDIT_LOG WHERE EmployeeID IS NULL` = 6; ví dụ dòng đầu: `10/11/2026 18:34 | Hệ thống | Hợp đồng | 3 | Đổi trạng thái | Active -> Expired` (do job hết hạn hợp đồng ghi, không có người dùng). |
+| N05 | Tự khoá / tự hạ quyền trên giao diện | **PASS một phần** | `/admin/accounts/1/edit` (tài khoản của chính `john`): `select[name=Role]` và `input[name=IsActive]` đều `disabled`, kèm chú thích "Đây là tài khoản bạn đang đăng nhập, nên không thể tự khoá hay tự đổi vai trò."; vẫn có hidden input để giữ giá trị khi lưu. Nhánh "Manager hoạt động cuối cùng" **không chạy được qua giao diện** vì muốn chạm tới phải hạ quyền tài khoản kia trước, mà tài khoản đang đăng nhập bị chặn - chỉ kiểm bằng ca CSDL `AdminDatabaseTests`. |
+
+### Còn để mở
 
 | Mã | Ca | Lý do |
 |---|---|---|
-| N01 | Ảnh chụp màn hình 4 trang quản trị ở ba bề rộng (máy tính, tablet, điện thoại) | Công cụ chụp ảnh báo "Screenshot needs a visible tab"; chỉ kiểm được HTML và các lớp `tbl-cards`, `md:grid-cols-*` có trong markup |
-| N02 | Lọc danh sách tài khoản theo vai trò và theo trạng thái trên giao diện | Chỉ chạy `q=…`; phần dựng URL đã có ca đơn vị, phần lọc trong CSDL chưa có ca |
-| N03 | Dòng nhật ký không có người thực hiện hiện chữ "Hệ thống" | Chưa mở trang sau khi có dòng `EmployeeID` NULL |
-| N05 | Tự khoá / tự hạ quyền và "Manager hoạt động cuối cùng" trên giao diện | Đã có ca CSDL (`AdminDatabaseTests`), chưa thử qua HTTP vì giao diện chặn bằng `disabled` |
+| N05b | "Manager hoạt động cuối cùng" bấm trên giao diện | Như trên: giao diện chỉ chặn được nhánh tự hạ quyền; nhánh cuối cùng đã có ca CSDL, không dựng lại được bằng thao tác hợp lệ trên UI |
+
+Sau khi sửa B02: `dotnet build src\CcmWeb\CcmWeb.csproj` **0 cảnh báo, 0 lỗi**;
+`dotnet test tests\CcmWeb.Tests\CcmWeb.Tests.csproj` **218/218 đạt**.

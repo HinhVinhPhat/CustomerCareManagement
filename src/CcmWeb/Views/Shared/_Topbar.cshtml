@@ -10,7 +10,7 @@
     @* Quick search: the keyword goes to the customer list, which is where a customer is found. The
        live suggestions arrive with the dashboard refresh. *@
     @* Ô tìm nhanh: gõ ít nhất 2 ký tự thì gợi ý khách hàng hiện ra; Enter hoặc bấm một gợi ý thì đi tới danh sách khách hàng. *@
-    <form id="quickSearch" method="get" action="/customers" class="flex-1 max-w-md relative" role="search">
+    <form id="quickSearch" method="get" action="/customers" class="flex-1 min-w-0 max-w-md relative" role="search">
         <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-muted"></i>
         <input id="searchBox" name="q" class="input pl-9" placeholder="@L["Topbar_SearchPlaceholder"]"
                aria-label="@L["Topbar_SearchLabel"]" autocomplete="off"
@@ -28,8 +28,10 @@
         <div class="w-9 h-9 rounded-full bg-primary text-white grid place-items-center text-sm font-bold"
              title="@User.GetDisplayName()">@initials</div>
 
-        @* The word, not the icon: the icon sign-out now lives in the sidebar footer. *@
-        <form method="post" asp-controller="Account" asp-action="Logout" class="shrink-0">
+        @* The word, not the icon: the icon sign-out now lives in the sidebar footer. The word would not
+           fit next to the bell, language and theme buttons on a phone, and the sidebar footer is
+           reachable there too, so it is hidden below the sm breakpoint (B02, M06). *@
+        <form method="post" asp-controller="Account" asp-action="Logout" class="shrink-0 hidden sm:block">
             <button type="submit" class="btn whitespace-nowrap">@L["Topbar_SignOut"]</button>
         </form>
     </div>

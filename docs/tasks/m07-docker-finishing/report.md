@@ -49,12 +49,13 @@ cùng đợt (B01, `init.sh`), xem `bug-report.md`. Chưa commit. Chi tiết t�
 
 ## 4. Chưa đạt / chưa chạy
 
-- **NOT RUN**: ảnh chụp ba bề rộng (công cụ chụp ảnh trình duyệt vẫn lỗi); chạy trên máy Apple-silicon
-  hoặc một máy thứ hai thật (chỉ mô phỏng "máy sạch" bằng `down -v`); reverse proxy HTTPS; hành vi rate
-  limiter sau proxy. Chi tiết ở `test-results.md` mục 5.
-- Dòng "Giao diện dùng được trên điện thoại" của checklist `design.md` vì thế vẫn để mở.
+- **Đã chạy bổ sung ngày 10/11/2026**: ảnh chụp ba bề rộng (15 ảnh) và kiểm tra giao diện điện thoại -
+  xem `docs/tasks/m06-admin/test-results.md` mục 5; lỗi tràn ngang phát hiện ở đó (B02, M06) đã sửa nên
+  dòng "Giao diện dùng được trên điện thoại" của checklist `design.md` nay **PASS**.
+- **NOT RUN**: chạy trên máy Apple-silicon hoặc một máy thứ hai thật (chỉ mô phỏng "máy sạch" bằng
+  `down -v`); reverse proxy HTTPS; hành vi rate limiter sau proxy. Chi tiết ở `test-results.md` mục 5.
 
 ## 5. Bước đang chờ
 
 Người dùng xem lại kết quả rồi đồng ý commit M07 (một commit cho module). Sau đó hệ thống đủ 7 module;
-việc còn lại nếu muốn nộp bài là ảnh chụp giao diện và bài thuyết trình - nằm ngoài phạm vi đã duyệt.
+việc còn lại nếu muốn nộp bài là bài thuyết trình - nằm ngoài phạm vi đã duyệt.

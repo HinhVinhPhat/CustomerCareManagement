@@ -50,7 +50,7 @@ restart) và D12 (không còn cảnh báo HTTPS). Ghi rõ ở đây thay vì th�
 | D14 | Phân quyền trong container | **PASS** - `mary` (Kinh doanh): `/admin/products` 200, **không** có liên kết `/admin/products/create`; `/admin/accounts` -> `/access-denied?ReturnUrl=/admin/accounts` |
 | D15 | Background service hết hạn hợp đồng | **PASS** - log `EXEC dbo.sp_ExpireContracts`, `Contract expiry job finished: 0 contract(s) moved to Expired` |
 | D16 | Kiểm thử tự động trên máy chủ | **PASS** - build 0 cảnh báo/0 lỗi, 218/218 ca đạt |
-| D17 | Checklist `design.md` mục 9 | **PASS một phần** - xem mục 4 bên dưới; dòng "giao diện dùng được trên điện thoại" vẫn **NOT RUN** (không chụp ảnh được, xem N01) |
+| D17 | Checklist `design.md` mục 9 | **PASS** - xem mục 4 bên dưới; dòng "giao diện dùng được trên điện thoại" đã chạy ngày 10/11/2026 sau khi sửa B02 (xem N01) |
 | D18 | Làm đúng từng bước README trên trạng thái sạch | **PASS** - `down -v`, rồi `up -d --build`: `db`+`web` healthy, `db-init` chạy 01-03, `/health` 200, đăng nhập và `/customers` hiện `ABC` |
 
 ## 4. Checklist `design.md` mục 9 (D17)
@@ -63,13 +63,13 @@ restart) và D12 (không còn cảnh báo HTTPS). Ghi rõ ở đây thay vì th�
 | `SESSION_CONTEXT('EmployeeID')` cho mọi kết nối | `SessionContextTests` + D05 (`AUDIT_LOG` ghi `emp=1`) |
 | Xoá khách hàng = ngưng hoạt động, không xoá cứng | Ca M02 + `sp_SetCustomerStatus` |
 | Lỗi SQL được dịch thành câu người dùng hiểu | `TranslateSqlError` có ca đơn vị (M01, M06) |
-| Giao diện dùng được trên điện thoại | **NOT RUN** - chỉ kiểm được markup (`tbl-cards`, `md:grid-cols-*`); máy này không chụp ảnh trình duyệt được |
+| Giao diện dùng được trên điện thoại | 15 ảnh ở ba bề rộng (1280/768/412) của 5 trang, `scrollWidth` = `innerWidth` ở cả 15 ảnh sau khi sửa B02 - chi tiết và ảnh ở `docs/tasks/m06-admin/test-results.md` mục 5 |
 
 ## 5. Chưa chạy (NOT RUN)
 
 | Mã | Ca | Lý do |
 |---|---|---|
-| N01 | Ảnh chụp 4 trang quản trị và dashboard ở ba bề rộng | Công cụ chụp ảnh báo "Screenshot needs a visible tab" (giống M06) |
+| N01 | Ảnh chụp 4 trang quản trị và dashboard ở ba bề rộng | **Đã chạy ngày 10/11/2026**: 15 ảnh ở `docs/tasks/m06-admin/screenshots/`, kết quả trong `docs/tasks/m06-admin/test-results.md` mục 5 (phát hiện và sửa B02 ở đó) |
 | N02 | Chạy trên máy Apple-silicon hoặc trên một máy khác thật | Chỉ có một máy Windows 11; phần "máy sạch" được mô phỏng bằng `down -v` |
 | N03 | Reverse proxy HTTPS (Nginx/Caddy) trước `web` | Ngoài phạm vi M07; đã ghi hướng dẫn trong README và `design.md` mục 11 |
 | N04 | Rate limiter sau proxy (mọi người cùng IP) | Chỉ ghi chú giới hạn, không sửa chính sách trong M07 |

@@ -3,7 +3,9 @@
    khóa lỗi của mình (bug-report B02). *@
 @if (Model.ShowRevenue)
 {
-    <section class="card p-5 lg:col-span-2">
+    @* min-w-0: as a grid item the default min-width:auto would take the 680px minimum of .chart, so
+       the card would be wider than a phone screen. With it, .chart-scroll scrolls on its own (B02, M06). *@
+    <section class="card p-5 lg:col-span-2 min-w-0">
         <div class="flex items-start justify-between gap-3 mb-4">
             <div>
                 <h2 class="font-semibold">@L["Dashboard_RevenueTitle"]</h2>

@@ -138,13 +138,17 @@ body {
     .tbl-cards tbody tr:hover td { background: transparent; }
     .tbl-cards td {
         display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
-        border: 0; padding: 4px 16px; text-align: left;
+        border: 0; padding: 4px 16px; text-align: left; flex-wrap: wrap;
     }
     .tbl-cards td::before {
         content: attr(data-label); flex: 0 0 45%; font-size: 12px; font-weight: 600;
         color: var(--text-muted);
     }
     .tbl-cards td.num { text-align: left; }
+    /* The action cell holds two buttons that do not fit beside the label on a phone: give the label a
+       whole line and keep both buttons together, right-aligned (B02, M06). */
+    .tbl-cards td.text-right { justify-content: flex-end; }
+    .tbl-cards td.text-right::before { flex-basis: 100%; }
 }
 
 /* ---------------------------------------------------------------- tabs of a detail page */

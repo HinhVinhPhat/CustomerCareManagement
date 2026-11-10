@@ -53,3 +53,17 @@ khoản, gửi đúng những trường mà biểu mẫu gửi:
   (chi tiết ở `test-results.md` mục 2). Đã sửa test, không sửa nguồn.
 - Xoá sản phẩm đang dùng hiện **khối cảnh báo** chứ không phải toast: đúng quy ước ở `AGENTS.md` mục 5
   (lỗi nghiệp vụ ở lại màn hình để người dùng đọc, chỉ thành công mới là toast).
+
+## B02 - Ở bề rộng điện thoại, mọi trang bị tràn ngang vì thanh trên và biểu đồ doanh thu
+
+Trạng thái: **đã sửa ngày 10/11/2026** (người dùng duyệt sửa). Phát hiện khi chạy N01.
+
+| Mục | Nội dung |
+|---|---|
+| Mức độ | **Trung bình** - không sai dữ liệu, nhưng vi phạm yêu cầu "Responsive down to phone size" (`docs/design.md` mục 9, `AGENTS.md` mục 5): trên điện thoại phải vuốt ngang và một phần nút bị cắt khỏi màn hình. |
+| Phát hiện ở | N01 (ảnh chụp 3 bề rộng) |
+| Hiện tượng | Đặt khung nhìn 412 x 900: `document.documentElement.scrollWidth` = **510 px** ở `/admin/products`, `/admin/employees`, `/admin/accounts`, `/admin/audit-logs` và **738 px** ở `/` (tổng quan), trong khi `innerWidth` = 412. Ảnh `docs/tasks/m06-admin/screenshots/admin-accounts-phone.png` cho thấy nút "Đặt lại mật khẩu" và nút "Đăng xuất" bị cắt; ảnh `dashboard-phone.png` cho thấy thẻ doanh thu rộng hơn màn hình. Ở 768 px và 1280 px không tràn (`scrollWidth` = `innerWidth`). |
+| Nguyên nhân | (1) `_Topbar.cshtml` dòng 22: nhóm bên phải `ml-auto ... shrink-0` chứa chuông + VI/EN + sáng/tối + avatar + nút chữ "Đăng xuất" rộng **378 px** và không co lại, cộng với nút mở menu và ô tìm kiếm thành 510 px. (2) `_RevenueChart.cshtml` dòng 6: thẻ `<section class="card p-5 lg:col-span-2">` là ô lưới, mặc định `min-width: auto`, nên lấy bề rộng tối thiểu của `.chart` (`min-width: 680 px` trong `site.css`) làm bề rộng cột; `overflow-x: auto` của `.chart-scroll` không phát huy tác dụng vì cột lưới đã rộng 722 px. |
+| Cách sửa (đã làm) | (1) `_Topbar.cshtml`: thêm `min-w-0` cho form tìm kiếm và đổi form đăng xuất thành `class="shrink-0 hidden sm:block"` - nút đăng xuất bằng chữ vốn đã có bản biểu tượng ở chân sidebar, nên trên điện thoại không mất chức năng. (2) Thêm `min-w-0` cho sáu thẻ là ô lưới ở trang tổng quan (`_RevenueChart`, `_TopCustomers`, `_FeedbackToHandle`, `_ExpiringContracts`, `_CareSchedule`) để nội dung rộng tự cuộn bên trong thẻ thay vì kéo cả trang. (3) `site.css` (khối `@media (max-width: 767px)`): `td` của bảng dạng thẻ được `flex-wrap: wrap`, riêng ô thao tác cho nhãn chiếm trọn một dòng và hai nút nằm gọn bên phải - trước đó hai nút nằm trên một hàng flex không xuống dòng nên bị cắt mất chữ. Không đổi Service, SQL, ViewModel, không thêm thư viện. |
+| Phạm vi ảnh hưởng | Chỉ giao diện; `_Topbar` và `.tbl-cards` dùng chung nên sửa một chỗ là hết tràn ở mọi trang. Bề rộng >= 640 px giữ nguyên giao diện hiện tại. |
+| Kết quả sau khi sửa | Chạy lại N01 (15 ảnh mới, cùng bộ script): `document.documentElement.scrollWidth` = `innerWidth` ở **cả 15 ảnh** (1280 = 1280, 768 = 768, 412 = 412, trước đó 510/738). Ảnh `admin-accounts-phone.png` và `admin-products-phone.png`: nhãn "Thao tác" một dòng, hai nút "Sửa" + "Đặt lại mật khẩu" nằm gọn bên phải; `dashboard-phone.png`: biểu đồ doanh thu cuộn ngang trong thẻ, không kéo trang. Ảnh desktop không đổi (nút "Đăng xuất" vẫn còn ở thanh trên). `dotnet build` 0 cảnh báo 0 lỗi; `dotnet test` **218/218** đạt. |
