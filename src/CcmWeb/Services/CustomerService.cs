@@ -147,6 +147,22 @@ public sealed class CustomerService(
 
         var customer = found.Customer;
 
+        // The structured part is shown together with the street detail; a legacy row (no codes) is
+        // displayed exactly as it was stored, never rebuilt from parts.
+        var provinceName = customer.ProvinceCode is { } provinceCode
+            ? await db.Provinces.AsNoTracking()
+                .Where(p => p.ProvinceCode == provinceCode)
+                .Select(p => p.ProvinceName)
+                .FirstOrDefaultAsync(ct)
+            : null;
+
+        var wardName = customer.WardCode is { } wardCode
+            ? await db.Wards.AsNoTracking()
+                .Where(w => w.WardCode == wardCode)
+                .Select(w => w.WardName)
+                .FirstOrDefaultAsync(ct)
+            : null;
+
         return new CustomerDetailViewModel
         {
             Customer = new CustomerHeader(
@@ -157,7 +173,7 @@ public sealed class CustomerService(
                 customer.Phone,
                 customer.Gender,
                 customer.DateOfBirth,
-                customer.Address,
+                ComposeAddress(customer.Address, wardName, provinceName),
                 customer.Source,
                 customer.CreatedDate,
                 customer.Tier,
@@ -208,14 +224,22 @@ public sealed class CustomerService(
             Gender = customer.Gender,
             DateOfBirth = customer.DateOfBirth,
             Address = customer.Address,
+            ProvinceCode = customer.ProvinceCode,
+            WardCode = customer.WardCode,
             Source = customer.Source,
             OwnerEmployeeId = customer.OwnerEmployeeId,
-            Owners = await GetOwnersAsync(ct)
+            Owners = await GetOwnersAsync(ct),
+            Provinces = await GetProvincesAsync(ct),
+            Wards = customer.ProvinceCode is { } provinceCode
+                ? await GetWardsAsync(provinceCode, ct)
+                : []
         };
     }
 
     public async Task<int> CreateAsync(CustomerFormViewModel form, CancellationToken ct = default)
     {
+        await EnsureAddressAsync(form, ct);
+
         // Tier, CreatedDate and IsActive are left to the database defaults and to the trigger that
         // owns the tier, so the application never invents them.
         var customer = new Customer();
@@ -232,6 +256,7 @@ public sealed class CustomerService(
         var customer = await db.Customers.FirstOrDefaultAsync(c => c.CustomerId == customerId, ct)
             ?? throw new BusinessException("Error_CustomerNotFound");
 
+        await EnsureAddressAsync(form, ct);
         Apply(form, customer);
         await SaveAsync(ct);
     }
@@ -258,6 +283,31 @@ public sealed class CustomerService(
             .OrderBy(e => e.FullName)
             .Select(e => new EmployeeOption(e.EmployeeId, e.FullName))
             .ToListAsync(ct);
+
+    public async Task<IReadOnlyList<AddressOption>> GetProvincesAsync(CancellationToken ct = default) =>
+        await db.Provinces
+            .AsNoTracking()
+            .OrderBy(p => p.ProvinceName)
+            .Select(p => new AddressOption(p.ProvinceCode, p.ProvinceName))
+            .ToListAsync(ct);
+
+    public async Task<IReadOnlyList<AddressOption>> GetWardsAsync(
+        int provinceCode, CancellationToken ct = default) =>
+        await db.Wards
+            .AsNoTracking()
+            // Inactive rows are kept for old addresses and still need to appear on the edit form.
+            .Where(w => w.ProvinceCode == provinceCode)
+            .OrderBy(w => w.WardName)
+            .Select(w => new AddressOption(w.WardCode, w.WardName))
+            .ToListAsync(ct);
+
+    public async Task PopulateAddressAsync(CustomerFormViewModel form, CancellationToken ct = default)
+    {
+        form.Provinces = await GetProvincesAsync(ct);
+        form.Wards = form.ProvinceCode is { } provinceCode
+            ? await GetWardsAsync(provinceCode, ct)
+            : [];
+    }
 
     public async Task<IReadOnlyList<CustomerSuggestion>> SuggestAsync(
         string? keyword, int count, CancellationToken ct = default)
@@ -304,6 +354,35 @@ public sealed class CustomerService(
     }
 
     /// <summary>
+    /// Checks the posted province/ward pair against the catalogue. The dropdowns already limit the
+    /// choice, but a hand-crafted POST must not be able to store a ward of another province.
+    /// </summary>
+    private async Task EnsureAddressAsync(CustomerFormViewModel form, CancellationToken ct)
+    {
+        if (form.ProvinceCode is null && form.WardCode is null)
+        {
+            return;
+        }
+
+        if (form.ProvinceCode is not { } provinceCode)
+        {
+            throw new BusinessException("Validation_CustomerWardRequiresProvince");
+        }
+
+        if (!await db.Provinces.AnyAsync(p => p.ProvinceCode == provinceCode, ct))
+        {
+            throw new BusinessException("Error_CustomerProvinceInvalid");
+        }
+
+        if (form.WardCode is { } wardCode
+            && !await db.Wards.AnyAsync(
+                w => w.WardCode == wardCode && w.ProvinceCode == provinceCode, ct))
+        {
+            throw new BusinessException("Error_CustomerWardInvalid");
+        }
+    }
+
+    /// <summary>
     /// Copies the form onto the entity. An empty optional field becomes NULL, never an empty string,
     /// and a business customer always loses its gender and date of birth, so CHK_Customer_Business
     /// can never be violated by a hand-crafted POST.
@@ -319,8 +398,26 @@ public sealed class CustomerService(
         customer.Gender = isBusiness ? null : Trimmed(form.Gender);
         customer.DateOfBirth = isBusiness ? null : form.DateOfBirth;
         customer.Address = Trimmed(form.Address);
+        customer.ProvinceCode = form.ProvinceCode;
+        customer.WardCode = form.WardCode;
         customer.Source = Trimmed(form.Source);
         customer.OwnerEmployeeId = form.OwnerEmployeeId;
+    }
+
+    /// <summary>
+    /// The address as one line: street detail first, then ward, then province. With no structured
+    /// parts it returns the stored text untouched, which is what keeps old three-level addresses
+    /// readable.
+    /// </summary>
+    private static string? ComposeAddress(string? street, string? wardName, string? provinceName)
+    {
+        var parts = new[] { street, wardName, provinceName }
+            .Where(part => !string.IsNullOrWhiteSpace(part))
+            .Select(part => part!.Trim());
+
+        var joined = string.Join(", ", parts);
+
+        return string.IsNullOrWhiteSpace(joined) ? null : joined;
     }
 
     private static string? Trimmed(string? value) =>

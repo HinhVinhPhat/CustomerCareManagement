@@ -30,7 +30,8 @@ public sealed class TestDatabase : IAsyncLifetime
                  {
                      "01_CreateTables.sql",
                      "02_Function_View_Proc_Trigger.sql",
-                     "03_SampleData.sql"
+                     "03_SampleData.sql",
+                     "05_AddressData.sql"
                  })
         {
             var script = await File.ReadAllTextAsync(Path.Combine(databaseFolder, file));

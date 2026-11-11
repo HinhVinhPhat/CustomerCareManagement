@@ -1,5 +1,5 @@
 /* =====================================================================
-   File 3/4: Sample data
+   File 3/5: Sample data
    Run AFTER 01_CreateTables.sql and 02_Function_View_Proc_Trigger.sql.
    - Contract TotalValue and customer Tier are NOT written by hand: the triggers compute
      them from CONTRACT_DETAIL.

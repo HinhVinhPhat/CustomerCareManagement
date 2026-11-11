@@ -39,7 +39,7 @@ that fits the task, but once loaded read it in full.
 
 | Skill | Apply when | Expected outcome |
 |---|---|---|
-| `ccm-database` (`.agents/skills/ccm-database/SKILL.md`) | Writing any query, Service or screen that touches data; understanding tables, views, procedures, triggers, error codes; running the 4 SQL files | Use the right DB objects, never write columns owned by triggers |
+| `ccm-database` (`.agents/skills/ccm-database/SKILL.md`) | Writing any query, Service or screen that touches data; understanding tables, views, procedures, triggers, error codes; running the 5 SQL files | Use the right DB objects, never write columns owned by triggers |
 | `ccm-mvc-architecture` (`.agents/skills/ccm-mvc-architecture/SKILL.md`) | Creating the project, scaffolding the DbContext, writing controllers, Services, entities, ViewModels, Program.cs; `SaveChanges` errors | Correct folder structure, EF database-first, audit log records the right user, SQL errors become business messages in the user's language |
 | `ccm-auth-security` (`.agents/skills/ccm-auth-security/SKILL.md`) | Login, passwords, permissions, accounts, security | Cookie auth, move SHA2 hashing to PasswordHasher, `[Authorize]` on the right roles, CSRF/XSS protection |
 | `ccm-web-ui` (`.agents/skills/ccm-web-ui/SKILL.md`) | Creating or editing `.cshtml`, `_Layout`, `site.css`; porting a page from the reference | Razor UI matching `design.md`, role-based menu, forms matching the DB constraints |
@@ -114,8 +114,8 @@ tests/CcmWeb.Tests/  xUnit
 
 ## 4. SQL and business invariants
 
-The four `database/` files run in the order `01` -> `02` -> `03` -> `04`; file 01 **drops and
-recreates** the DB. Reading the source does not mean the engine has been verified. To extend
+The five `database/` files run in the order `01` -> `02` -> `03` -> `04` -> `05`; file 01 **drops
+and recreates** the DB, file 05 (address catalogue) is safe to rerun. Reading the source does not mean the engine has been verified. To extend
 the schema, edit the SQL files, run them again, re-scaffold and update
 `ccm-database/references/schema.md`.
 

@@ -407,6 +407,30 @@
   <data name="Customer_Field_Address" xml:space="preserve">
     <value>Địa chỉ</value>
   </data>
+  <data name="Customer_Field_Province" xml:space="preserve">
+    <value>Tỉnh/Thành phố</value>
+  </data>
+  <data name="Customer_Field_Ward" xml:space="preserve">
+    <value>Phường/Xã</value>
+  </data>
+  <data name="Customer_Field_AddressDetail" xml:space="preserve">
+    <value>Số nhà, tên đường</value>
+  </data>
+  <data name="Customer_Address_SelectProvince" xml:space="preserve">
+    <value>-- Chọn tỉnh/thành phố --</value>
+  </data>
+  <data name="Customer_Address_SelectWard" xml:space="preserve">
+    <value>-- Chọn phường/xã --</value>
+  </data>
+  <data name="Customer_Address_DetailPlaceholder" xml:space="preserve">
+    <value>Ví dụ: 12 Lê Lợi</value>
+  </data>
+  <data name="Customer_Address_LegacyHint" xml:space="preserve">
+    <value>Địa chỉ cũ được giữ nguyên. Chỉ chọn tỉnh/thành phố và phường/xã khi bạn muốn cập nhật địa chỉ mới.</value>
+  </data>
+  <data name="Customer_Address_LoadError" xml:space="preserve">
+    <value>Không tải được danh sách phường/xã. Vui lòng thử lại.</value>
+  </data>
   <data name="Customer_Field_Source" xml:space="preserve">
     <value>Nguồn khách hàng</value>
   </data>
@@ -727,6 +751,15 @@
   </data>
   <data name="Validation_CustomerAddressTooLong" xml:space="preserve">
     <value>Địa chỉ tối đa 255 ký tự.</value>
+  </data>
+  <data name="Validation_CustomerWardRequiresProvince" xml:space="preserve">
+    <value>Phải chọn tỉnh/thành phố trước khi chọn phường/xã.</value>
+  </data>
+  <data name="Error_CustomerProvinceInvalid" xml:space="preserve">
+    <value>Tỉnh/thành phố không hợp lệ.</value>
+  </data>
+  <data name="Error_CustomerWardInvalid" xml:space="preserve">
+    <value>Phường/xã không thuộc tỉnh/thành phố đã chọn.</value>
   </data>
   <data name="Validation_CustomerSourceTooLong" xml:space="preserve">
     <value>Nguồn khách hàng tối đa 50 ký tự.</value>

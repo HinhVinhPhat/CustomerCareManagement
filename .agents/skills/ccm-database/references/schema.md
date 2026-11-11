@@ -2,7 +2,7 @@
 
 Contents: Tables | Relationships | Views | Stored procedures | Functions | Triggers | Error codes | SQL roles
 
-Source: `database/01` to `database/04`. If the SQL files disagree with this document, the SQL
+Source: `database/01` to `database/05`. If the SQL files disagree with this document, the SQL
 files win, and fix this document.
 
 Sample data (file 03) carries **Vietnamese** business values - names, addresses, notes, product
@@ -20,11 +20,23 @@ names, feedback text. Coded values (statuses, roles, tiers, types, channels) sta
 **ACCOUNT** (AccountID PK, Username unique, PasswordHash varchar(255), Role, EmployeeID unique FK, IsActive bit default 1)
 - Each employee has at most 1 account.
 
-**CUSTOMER** (CustomerID PK, CustomerName, CustomerType, Email null, Phone null, Gender null, DateOfBirth null, Address null, Source null, CreatedDate default today, Tier default Standard, OwnerEmployeeID null FK EMPLOYEE, IsActive bit default 1)
+**PROVINCE** (ProvinceCode PK, ProvinceName, DivisionType, IsActive bit default 1)
+- Vietnamese province/city catalogue (`tỉnh` / `thành phố trung ương`), codes from
+  provinces.open-api.vn API v2. The app only reads it; `IsActive = 0` means the source no longer
+  lists the row but old addresses may still point at it.
+
+**WARD** (WardCode PK, ProvinceCode FK PROVINCE, WardName, DivisionType, IsActive bit default 1)
+- Second level of the current two-level structure (`phường` / `xã` / `đặc khu`).
+- `IX_Ward_Province` serves the province -> ward dropdown.
+
+**CUSTOMER** (CustomerID PK, CustomerName, CustomerType, Email null, Phone null, Gender null, DateOfBirth null, Address null, ProvinceCode null FK PROVINCE, WardCode null FK WARD, Source null, CreatedDate default today, Tier default Standard, OwnerEmployeeID null FK EMPLOYEE, IsActive bit default 1)
 - `IsActive = 0` means no longer cared for (soft delete).
 - Email is unique when not NULL (many customers without email are fine). Must have an email or a phone number.
 - `DateOfBirth < CreatedDate`. A business has no Gender/DateOfBirth.
 - Source is free text; sample values: Website, Giới thiệu, Sự kiện, Facebook, Điện thoại.
+- `Address` is the street detail ("số nhà, tên đường"); a row created before the catalogue may
+  hold the whole old three-level address there. `ProvinceCode`/`WardCode` are optional and the
+  application checks that the ward belongs to the province. Never clear or rewrite the old text.
 - `Tier` is owned by a trigger; never edit it by hand.
 
 **PRODUCT_SERVICE** (ProductID PK, ProductName unique, ProductType, UnitPrice >= 0, Description null)
@@ -62,6 +74,7 @@ names, feedback text. Coded values (statuses, roles, tiers, types, channels) sta
 ## Relationships
 
 DEPARTMENT 1-N EMPLOYEE; EMPLOYEE 1-1 ACCOUNT; EMPLOYEE 1-N CUSTOMER (through OwnerEmployeeID);
+PROVINCE 1-N WARD; PROVINCE 1-N CUSTOMER, WARD 1-N CUSTOMER (optional structured address);
 CUSTOMER 1-N CONTRACT, CONTACT, CARE, FEEDBACK; EMPLOYEE 1-N CONTRACT, CONTACT, CARE, FEEDBACK,
 AUDIT_LOG, SETTINGS (personal rows); CONTRACT N-N PRODUCT_SERVICE through CONTRACT_DETAIL.
 

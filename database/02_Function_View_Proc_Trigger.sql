@@ -1,5 +1,5 @@
 /* =====================================================================
-   File 2/4: Functions, Views, Stored Procedures, Triggers, Roles
+   File 2/5: Functions, Views, Stored Procedures, Triggers, Roles
    Run after 01_CreateTables.sql and BEFORE 03_SampleData.sql. Requires SQL Server 2016+.
    Customer tier rule (total contract value, excluding "Cancelled" and "Pending"):
         >= 100 million: Diamond | >= 50 million: Gold | >= 20 million: Silver | else: Standard

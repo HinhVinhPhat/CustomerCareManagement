@@ -14,6 +14,72 @@
 
     window.ccmToast = toast;
 
+    // The customer address: choosing a province loads its wards from the local catalogue
+    // (database/address/vn-provinces.json -> 05_AddressData.sql), never from an external API.
+    // It is a separate initialiser so the address dropdown still works even if another part of
+    // the page script fails early.
+    function initCustomerAddress() {
+        var addressBlock = document.querySelector('[data-customer-address]');
+        if (!addressBlock) { return; }
+
+        var provinceSelect = addressBlock.querySelector('[data-province-select]');
+        var wardSelect = addressBlock.querySelector('[data-ward-select]');
+        if (!provinceSelect || !wardSelect) { return; }
+
+        var wardsUrl = addressBlock.getAttribute('data-wards-url');
+        var wardPlaceholder = wardSelect.getAttribute('data-placeholder') || '';
+
+        var resetWards = function () {
+            wardSelect.innerHTML = '';
+            var placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = wardPlaceholder;
+            wardSelect.appendChild(placeholder);
+        };
+
+        var loadWards = function () {
+            resetWards();
+
+            if (!provinceSelect.value) {
+                return;
+            }
+
+            wardSelect.disabled = true;
+
+            fetch(wardsUrl + '?provinceCode=' + encodeURIComponent(provinceSelect.value), {
+                headers: { 'Accept': 'application/json' },
+                credentials: 'same-origin'
+            })
+                .then(function (response) {
+                    if (!response.ok) { throw new Error('HTTP ' + response.status); }
+                    return response.json();
+                })
+                .then(function (wards) {
+                    resetWards();
+                    wards.forEach(function (ward) {
+                        var option = document.createElement('option');
+                        option.value = String(ward.code);
+                        option.textContent = ward.name;
+                        wardSelect.appendChild(option);
+                    });
+                })
+                .catch(function () {
+                    toast(addressBlock.getAttribute('data-load-error') || '');
+                })
+                .finally(function () {
+                    wardSelect.disabled = false;
+                });
+        };
+
+        provinceSelect.addEventListener('change', loadWards);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCustomerAddress);
+    } else {
+        initCustomerAddress();
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         // The result of the last action, rendered by _ActionMessage as a marker: a success becomes a
         // floating toast. A failure is not marked and stays on screen as an alert block instead.

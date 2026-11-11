@@ -301,8 +301,10 @@ Displayed by role: Sales sees more contract and revenue blocks; Support sees mor
 
 ### 6.4. Add / edit customer
 - Choose the **Customer type** first: Individual or Business. When Business is selected, **hide** Gender and Date of birth (matching the `CHK_Customer_Business` constraint).
-- Fields: Full name / Company name*, Email, Phone, Gender, Date of birth, Address, Source, Assigned staff.
-- Web-side validation: there must be at least an email or a phone number; the phone number contains digits only, 9–11 digits; the email is well-formed and not duplicated; the date of birth must be before today.
+- Fields: Full name / Company name*, Email, Phone, Gender, Date of birth, Province/City, Ward/Commune, Street address, Source, Assigned staff.
+- **Address**: Province/City and Ward/Commune come from the local Vietnamese catalogue in `database/address/vn-provinces.json` (loaded into `PROVINCE`/`WARD` by `05_AddressData.sql`, never fetched from an external API at run time). The street detail ("số nhà, tên đường") stays free text. Ward options follow the chosen province.
+- **Old addresses**: rows created before the catalogue keep their whole old three-level address in the street field, including the old district. The form shows that text unchanged and does not require the user to pick a province again; saving without touching it leaves the old data intact.
+- Web-side validation: there must be at least an email or a phone number; the phone number contains digits only, 9–11 digits; the email is well-formed and not duplicated; the date of birth must be before today; a ward requires a province and must belong to it.
 - **There is no Customer tier field**: the trigger assigns the tier from the total contract value.
 
 ### 6.5. Customer detail `/customers/{id}`
@@ -586,7 +588,7 @@ so the stack has **one** `web` service. The details below were checked on a real
 | Service | Role | Port (your machine) |
 |---|---|---|
 | `db` | SQL Server 2022, data stored in the `sqldata` volume | 1433 (dev only) |
-| `db-init` | Runs once: creates the DB from files 01-03 **only when it does not exist**, then always ensures the `app_ccm` login (file 04) | none |
+| `db-init` | Runs once: creates the DB from files 01-03 **only when it does not exist**, then always ensures the `app_ccm` login (file 04) and merges the address catalogue (file 05) | none |
 | `web` | The MVC application; debug keys in the `keys` volume, connects as `app_ccm` | 8080 |
 
 The files live in the project root:
@@ -600,6 +602,10 @@ The files live in the project root:
 │   ├── 02_Function_View_Proc_Trigger.sql
 │   ├── 03_SampleData.sql
 │   ├── 04_CreateAppUser.sql
+│   ├── 05_AddressData.sql      (generated from database/address/vn-provinces.json)
+│   ├── address/
+│   │   ├── vn-provinces.json
+│   │   └── update-address-data.ps1
 │   └── init.sh
 └── src/CcmWeb/                  (Dockerfile + .dockerignore + source)
 ```

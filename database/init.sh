@@ -62,4 +62,9 @@ if [ "$READY" != "1" ]; then
   exit 1
 fi
 
-echo "OK: app_ccm user is ready"
+# File 05 is safe to run every time: it creates the address tables only when missing and merges
+# the catalogue, so a restart on an existing database also receives the latest province/ward data.
+echo "Running 05_AddressData.sql"
+run -i /database/05_AddressData.sql
+
+echo "OK: app_ccm user and address data are ready"

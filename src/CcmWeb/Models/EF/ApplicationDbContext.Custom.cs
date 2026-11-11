@@ -10,6 +10,14 @@ namespace CcmWeb.Models.EF;
 public partial class ApplicationDbContext
 {
     /// <summary>
+    /// The Vietnamese province/ward catalogue, added here instead of in the scaffolded context so a
+    /// later scaffold does not overwrite it. The application only reads these rows.
+    /// </summary>
+    public virtual DbSet<Province> Provinces => Set<Province>();
+
+    public virtual DbSet<Ward> Wards => Set<Ward>();
+
+    /// <summary>
     /// Connection of the project database exactly as it looks in SQL Server Management Studio:
     /// instance <c>localhost\SQLEXPRESS</c>, Windows Authentication, database <c>CustomerCareDB</c>
     /// (created by <c>database/01</c>-<c>04</c>). The running application reaches the same database
@@ -54,5 +62,43 @@ public partial class ApplicationDbContext
         modelBuilder.Entity<ProductService>().ToTable(tb => tb.UseSqlOutputClause(false));
         modelBuilder.Entity<Employee>().ToTable(tb => tb.UseSqlOutputClause(false));
         modelBuilder.Entity<Account>().ToTable(tb => tb.UseSqlOutputClause(false));
+
+        // Address catalogue and the two optional columns on CUSTOMER. The relationship is
+        // configured here because the scaffolded Customer class knows nothing about them.
+        modelBuilder.Entity<Province>(entity =>
+        {
+            entity.HasKey(e => e.ProvinceCode);
+            entity.ToTable("PROVINCE");
+            entity.Property(e => e.ProvinceCode).ValueGeneratedNever();
+            entity.Property(e => e.ProvinceName).HasMaxLength(100);
+            entity.Property(e => e.DivisionType).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Ward>(entity =>
+        {
+            entity.HasKey(e => e.WardCode);
+            entity.ToTable("WARD");
+            entity.Property(e => e.WardCode).ValueGeneratedNever();
+            entity.Property(e => e.WardName).HasMaxLength(100);
+            entity.Property(e => e.DivisionType).HasMaxLength(50);
+            entity.HasIndex(e => e.ProvinceCode);
+            entity.HasOne<Province>()
+                  .WithMany()
+                  .HasForeignKey(e => e.ProvinceCode)
+                  .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<Customer>(entity =>
+        {
+            entity.HasOne<Province>()
+                  .WithMany()
+                  .HasForeignKey(e => e.ProvinceCode)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne<Ward>()
+                  .WithMany()
+                  .HasForeignKey(e => e.WardCode)
+                  .OnDelete(DeleteBehavior.Restrict);
+        });
     }
 }

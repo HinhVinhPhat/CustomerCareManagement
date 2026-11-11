@@ -9,7 +9,7 @@ database-first) on SQL Server.
 |---|---|
 | `AGENTS.md` | Guide for AI assistants (rules, skills, workflow) |
 | `.agents/skills/` | Topic skills: database, MVC architecture, auth, UI, Docker, workflow |
-| `database/` | 4 SQL files (`01` to `04`) and `init.sh` for Docker |
+| `database/` | 5 SQL files (`01` to `05`), the address catalogue in `database/address/`, and `init.sh` for Docker |
 | `docs/design.md` | Page, permission and UI specification |
 | `docs/mockups/static-mockups/` | Static UI build kept as a visual reference |
 | `CcmWeb.sln` | Solution (classic format) |
@@ -20,8 +20,9 @@ database-first) on SQL Server.
 
 ## Build the database
 
-Run `database/01` -> `02` -> `03` -> `04` in order using SSMS or `sqlcmd` (needs
-`-I -f 65001`, add `-C` in dev). File 01 drops and recreates the DB.
+Run `database/01` -> `02` -> `03` -> `04` -> `05` in order using SSMS or `sqlcmd` (needs
+`-I -f 65001`, add `-C` in dev). File 01 drops and recreates the DB; file 05 is safe to rerun on an
+existing DB and carries the province/ward catalogue.
 
 Or let Docker do it: see "Run everything with Docker" below.
 
@@ -65,7 +66,7 @@ Open <http://localhost:8080/login>. Three services run:
 | Service | Job | Port |
 |---|---|---|
 | `db` | SQL Server 2022, data in the `sqldata` volume | 1433 (dev only, remove in production) |
-| `db-init` | Runs once: loads `database/01`-`03` **only if the database does not exist**, then always ensures the `app_ccm` login (file 04) | none |
+| `db-init` | Runs once: loads `database/01`-`03` **only if the database does not exist**, then always ensures the `app_ccm` login (file 04) and refreshes the address catalogue (file 05) | none |
 | `web` | The ASP.NET Core MVC application, connecting as `app_ccm` (never `sa`) | 8080 |
 
 Things worth knowing:

@@ -1,7 +1,7 @@
 /* =====================================================================
    CUSTOMER CARE MANAGEMENT SYSTEM  -  VERSION 2
-   File 1/4: Create database + tables + indexes
-   RUN ORDER: 01_CreateTables -> 02_Function_View_Proc_Trigger -> 03_SampleData -> 04_CreateAppUser
+   File 1/5: Create database + tables + indexes
+   RUN ORDER: 01_CreateTables -> 02_Function_View_Proc_Trigger -> 03_SampleData -> 04_CreateAppUser -> 05_AddressData
    (logic is created before data so that loading the sample data fires the triggers that
     compute TotalValue and Tier)
    Safe to run repeatedly (drops the old database first).
@@ -57,7 +57,29 @@ CREATE TABLE ACCOUNT (
 );
 GO
 
--- 4. CUSTOMER
+-- 4-5. PROVINCE / WARD (Vietnamese administrative catalogue, two levels since the 2025 reform).
+-- DATA is loaded by 05_AddressData.sql, which is generated from database/address/vn-provinces.json.
+CREATE TABLE PROVINCE (
+    ProvinceCode  INT NOT NULL PRIMARY KEY,          -- official code from provinces.open-api.vn
+    ProvinceName  NVARCHAR(100) NOT NULL,
+    DivisionType  NVARCHAR(50) NOT NULL,             -- tỉnh | thành phố trung ương
+    IsActive      BIT NOT NULL DEFAULT 1             -- 0 = no longer in the source, kept for old addresses
+);
+GO
+
+CREATE TABLE WARD (
+    WardCode      INT NOT NULL PRIMARY KEY,          -- official code from provinces.open-api.vn
+    ProvinceCode  INT NOT NULL,
+    WardName      NVARCHAR(100) NOT NULL,
+    DivisionType  NVARCHAR(50) NOT NULL,             -- phường | xã | đặc khu
+    IsActive      BIT NOT NULL DEFAULT 1,
+    CONSTRAINT FK_Ward_Province FOREIGN KEY (ProvinceCode) REFERENCES PROVINCE(ProvinceCode)
+);
+GO
+CREATE INDEX IX_Ward_Province ON WARD(ProvinceCode);
+GO
+
+-- 6. CUSTOMER
 CREATE TABLE CUSTOMER (
     CustomerID          INT IDENTITY(1,1) PRIMARY KEY,
     CustomerName       NVARCHAR(100) NOT NULL,          -- personal name or company name
@@ -66,13 +88,17 @@ CREATE TABLE CUSTOMER (
     Phone          NVARCHAR(15),
     Gender      NVARCHAR(10),
     DateOfBirth      DATE,
-    Address        NVARCHAR(255),
+    Address        NVARCHAR(255),                  -- street detail ("số nhà, tên đường"); old rows keep the full 3-level text
+    ProvinceCode  INT NULL,                         -- structured address (optional); NULL on legacy rows
+    WardCode      INT NULL,
     Source       NVARCHAR(50),                    -- Website | Referral | Event | Facebook | Phone
     CreatedDate       DATE NOT NULL DEFAULT GETDATE(),
     Tier        NVARCHAR(50) NOT NULL DEFAULT N'Standard',   -- set by trigger, DO NOT edit manually
     OwnerEmployeeID  INT NULL,                        -- owning employee (powers the "my customers" screen)
     IsActive      BIT NOT NULL DEFAULT 1,          -- soft delete: 0 = no longer cared for
     CONSTRAINT FK_Customer_Owner FOREIGN KEY (OwnerEmployeeID) REFERENCES EMPLOYEE(EmployeeID),
+    CONSTRAINT FK_Customer_Province FOREIGN KEY (ProvinceCode) REFERENCES PROVINCE(ProvinceCode),
+    CONSTRAINT FK_Customer_Ward FOREIGN KEY (WardCode) REFERENCES WARD(WardCode),
     CONSTRAINT CHK_Customer_Type   CHECK (CustomerType IN (N'Individual', N'Business')),
     CONSTRAINT CHK_Customer_Gender CHECK (Gender IN (N'Male', N'Female', N'Other')),
     CONSTRAINT CHK_Customer_Tier   CHECK (Tier IN (N'Standard', N'Silver', N'Gold', N'Diamond')),
@@ -84,7 +110,7 @@ CREATE TABLE CUSTOMER (
 );
 GO
 
--- 5. PRODUCT / SERVICE
+-- 7. PRODUCT / SERVICE
 CREATE TABLE PRODUCT_SERVICE (
     ProductID      INT IDENTITY(1,1) PRIMARY KEY,
     ProductName     NVARCHAR(150) NOT NULL UNIQUE,
@@ -96,7 +122,7 @@ CREATE TABLE PRODUCT_SERVICE (
 );
 GO
 
--- 6. CONTRACT
+-- 8. CONTRACT
 CREATE TABLE CONTRACT (
     ContractID         INT IDENTITY(1,1) PRIMARY KEY,
     CustomerID         INT NOT NULL,
@@ -114,7 +140,7 @@ CREATE TABLE CONTRACT (
 );
 GO
 
--- 7. CONTRACT DETAIL
+-- 9. CONTRACT DETAIL
 CREATE TABLE CONTRACT_DETAIL (
     ContractID      INT NOT NULL,
     ProductID      INT NOT NULL,
@@ -128,7 +154,7 @@ CREATE TABLE CONTRACT_DETAIL (
 );
 GO
 
--- 8. CONTACT HISTORY
+-- 10. CONTACT HISTORY
 CREATE TABLE CONTACT (
     ContactID        INT IDENTITY(1,1) PRIMARY KEY,
     CustomerID        INT NOT NULL,
@@ -143,7 +169,7 @@ CREATE TABLE CONTACT (
 );
 GO
 
--- 9. CUSTOMER CARE
+-- 11. CUSTOMER CARE
 CREATE TABLE CARE (
     CareID         INT IDENTITY(1,1) PRIMARY KEY,
     CustomerID         INT NOT NULL,
@@ -162,7 +188,7 @@ CREATE TABLE CARE (
 );
 GO
 
--- 10. FEEDBACK / COMPLAINTS
+-- 12. FEEDBACK / COMPLAINTS
 CREATE TABLE FEEDBACK (
     FeedbackID         INT IDENTITY(1,1) PRIMARY KEY,
     CustomerID         INT NOT NULL,
@@ -187,7 +213,7 @@ CREATE TABLE FEEDBACK (
 );
 GO
 
--- 11. SYSTEM AUDIT LOG (who did what, when). The web app calls:
+-- 13. SYSTEM AUDIT LOG (who did what, when). The web app calls:
 --     EXEC sp_set_session_context N'EmployeeID', <logged-in EmployeeID>;   -- right after opening the connection
 CREATE TABLE AUDIT_LOG (
     LogID       BIGINT IDENTITY(1,1) PRIMARY KEY,
@@ -201,7 +227,7 @@ CREATE TABLE AUDIT_LOG (
 );
 GO
 
--- 12. APPLICATION SETTINGS. One row per key and scope:
+-- 14. APPLICATION SETTINGS. One row per key and scope:
 --       EmployeeID IS NULL  -> the system-wide default, changed by a Manager
 --       EmployeeID = <id>   -> that employee's own choice, which wins over the default
 --     The value a user really gets is read from vw_EffectiveSettings (file 02).
