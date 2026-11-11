@@ -41,8 +41,18 @@ public sealed class CustomerFormViewModel : IValidatableObject
     [DataType(DataType.Date)]
     public DateOnly? DateOfBirth { get; set; }
 
+    [Display(Name = "Customer_Field_Province")]
+    public int? ProvinceCode { get; set; }
+
+    [Display(Name = "Customer_Field_Ward")]
+    public int? WardCode { get; set; }
+
+    /// <summary>
+    /// Street detail ("số nhà, tên đường"). Rows created before the address catalogue existed hold
+    /// their whole old address here, including the old district, and are never rewritten.
+    /// </summary>
     [StringLength(255, ErrorMessage = "Validation_CustomerAddressTooLong")]
-    [Display(Name = "Customer_Field_Address")]
+    [Display(Name = "Customer_Field_AddressDetail")]
     public string? Address { get; set; }
 
     [StringLength(50, ErrorMessage = "Validation_CustomerSourceTooLong")]
@@ -54,6 +64,19 @@ public sealed class CustomerFormViewModel : IValidatableObject
 
     /// <summary>The employees the owner dropdown offers.</summary>
     public IReadOnlyList<EmployeeOption> Owners { get; set; } = [];
+
+    /// <summary>The provinces/cities the dropdown offers, and the wards of the chosen province.</summary>
+    public IReadOnlyList<AddressOption> Provinces { get; set; } = [];
+
+    public IReadOnlyList<AddressOption> Wards { get; set; } = [];
+
+    /// <summary>
+    /// True when the row carries an address but no structured codes, i.e. it was saved before the
+    /// catalogue existed. The form then shows the old text untouched instead of asking the user to
+    /// re-pick a province they may not know.
+    /// </summary>
+    public bool HasLegacyAddress =>
+        !string.IsNullOrWhiteSpace(Address) && ProvinceCode is null && WardCode is null;
 
     /// <summary>Suggestions for the free-text source field (business data, so it stays Vietnamese).</summary>
     public IReadOnlyList<string> SourceSuggestions { get; } = WorkConstants.CustomerSources;
@@ -101,5 +124,15 @@ public sealed class CustomerFormViewModel : IValidatableObject
         {
             yield return new ValidationResult("Validation_CustomerOwnerInvalid", [nameof(OwnerEmployeeId)]);
         }
+
+        // The ward belongs to a province; a ward without one cannot be placed on the map. The
+        // service additionally checks that the pair really exists in the catalogue.
+        if (WardCode is not null && ProvinceCode is null)
+        {
+            yield return new ValidationResult("Validation_CustomerWardRequiresProvince", [nameof(WardCode)]);
+        }
     }
 }
+
+/// <summary>One option of the province or ward dropdown.</summary>
+public sealed record AddressOption(int Code, string Name);

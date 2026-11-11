@@ -1,11 +1,11 @@
 ---
 name: ccm-docker-deploy
-description: Packaging and running the customer care management system with Docker Compose - the db service (SQL Server 2022), db-init (loads the 4 SQL files once, without wiping data on restart), web (ASP.NET Core MVC); the .env variables, connection string, healthcheck, sqlcmd with the -I and -f 65001 flags, keeping login sessions, and common problems on Windows and Apple-silicon Macs. Use this skill when writing or editing docker-compose.yml, the Dockerfile, database/init.sh or .env.example, when the db container keeps stopping, when text in the DB is garbled, when db-init reports an error, or when the user mentions Docker, compose, container, deployment or running on another machine.
+description: Packaging and running the customer care management system with Docker Compose - the db service (SQL Server 2022), db-init (loads the 5 SQL files once, without wiping data on restart), web (ASP.NET Core MVC); the .env variables, connection string, healthcheck, sqlcmd with the -I and -f 65001 flags, keeping login sessions, and common problems on Windows and Apple-silicon Macs. Use this skill when writing or editing docker-compose.yml, the Dockerfile, database/init.sh or .env.example, when the db container keeps stopping, when text in the DB is garbled, when db-init reports an error, or when the user mentions Docker, compose, container, deployment or running on another machine.
 ---
 
 # Docker for the customer care system
 
-Read `ccm-database` for the four SQL files and their run order; the app structure is in
+Read `ccm-database` for the five SQL files and their run order; the app structure is in
 `ccm-mvc-architecture`. Section 11 of `docs/design.md` describes a separate `api` + `web` model,
 which is outdated: the application is now **one** MVC project, so there is only one `web` service.
 
@@ -14,7 +14,7 @@ which is outdated: the application is now **one** MVC project, so there is only 
 | Service | Job | Notes |
 |---|---|---|
 | `db` | SQL Server 2022, data in the `sqldata` volume | Has a healthcheck. Port 1433 is dev only |
-| `db-init` | Runs once: loads `database/01` to `04` | Waits for `db` to be healthy, does not restart |
+| `db-init` | Runs once: loads `database/01` to `04`, then always merges the address catalogue `05` | Waits for `db` to be healthy, does not restart |
 | `web` | ASP.NET Core MVC | `depends_on: db-init` with `condition: service_completed_successfully` |
 
 All three services are enabled and were run for real on Windows 11 + Docker Desktop (Linux
@@ -32,6 +32,7 @@ every restart**. `init.sh` must check first:
 - DB does not exist: run 01, 02, 03.
 - DB exists: **skip** 01 to 03.
 - File 04 (creating the `app_ccm` login) uses `IF NOT EXISTS`, so it is safe to re-run and always runs.
+- File 05 (province/ward catalogue) creates missing schema and MERGEs rows, so it always runs after 04.
 
 To refresh the sample data (its dates are relative to the moment file 03 runs), use
 `docker compose down -v` and `up` again.

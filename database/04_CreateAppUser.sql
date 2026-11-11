@@ -1,5 +1,5 @@
 /* =====================================================================
-   File 4/4: Create a dedicated SQL login for the web application
+   File 4/5: Create a dedicated SQL login for the web application
    (the application must NOT use sa).
    Run by init.sh as: sqlcmd -v APP_PASSWORD="..."
    Permissions: the application checks roles itself (cookie login), so this user is added

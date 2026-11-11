@@ -406,6 +406,30 @@
   <data name="Customer_Field_Address" xml:space="preserve">
     <value>Address</value>
   </data>
+  <data name="Customer_Field_Province" xml:space="preserve">
+    <value>Province/City</value>
+  </data>
+  <data name="Customer_Field_Ward" xml:space="preserve">
+    <value>Ward/Commune</value>
+  </data>
+  <data name="Customer_Field_AddressDetail" xml:space="preserve">
+    <value>Street address</value>
+  </data>
+  <data name="Customer_Address_SelectProvince" xml:space="preserve">
+    <value>-- Select a province/city --</value>
+  </data>
+  <data name="Customer_Address_SelectWard" xml:space="preserve">
+    <value>-- Select a ward/commune --</value>
+  </data>
+  <data name="Customer_Address_DetailPlaceholder" xml:space="preserve">
+    <value>e.g. 12 Le Loi</value>
+  </data>
+  <data name="Customer_Address_LegacyHint" xml:space="preserve">
+    <value>The old address is kept as it was. Choose a province/city and ward/commune only if you want to update it.</value>
+  </data>
+  <data name="Customer_Address_LoadError" xml:space="preserve">
+    <value>Could not load the ward list. Please try again.</value>
+  </data>
   <data name="Customer_Field_Source" xml:space="preserve">
     <value>Source</value>
   </data>
@@ -726,6 +750,15 @@
   </data>
   <data name="Validation_CustomerAddressTooLong" xml:space="preserve">
     <value>The address is at most 255 characters.</value>
+  </data>
+  <data name="Validation_CustomerWardRequiresProvince" xml:space="preserve">
+    <value>Choose a province/city before choosing a ward/commune.</value>
+  </data>
+  <data name="Error_CustomerProvinceInvalid" xml:space="preserve">
+    <value>Unknown province/city.</value>
+  </data>
+  <data name="Error_CustomerWardInvalid" xml:space="preserve">
+    <value>The ward/commune does not belong to the chosen province/city.</value>
   </data>
   <data name="Validation_CustomerSourceTooLong" xml:space="preserve">
     <value>The source is at most 50 characters.</value>

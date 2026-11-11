@@ -60,10 +60,47 @@
         </div>
     </div>
 
+    @* The wrapper only groups the two selects for the cascading script; display: contents keeps
+       both fields as direct grid items. *@
+    <div class="contents" data-customer-address data-wards-url="/customers/wards"
+         data-load-error="@L["Customer_Address_LoadError"]">
+        <div>
+            <label asp-for="ProvinceCode" class="block text-sm font-semibold mb-1"></label>
+            <select asp-for="ProvinceCode" class="input" data-province-select>
+                <option value="">@L["Customer_Address_SelectProvince"]</option>
+                @foreach (var province in Model.Provinces)
+                {
+                    <option value="@province.Code">@province.Name</option>
+                }
+            </select>
+            <span asp-validation-for="ProvinceCode" class="block text-sm text-danger-ink min-h-5"></span>
+        </div>
+
+        <div>
+            <label asp-for="WardCode" class="block text-sm font-semibold mb-1"></label>
+            <select asp-for="WardCode" class="input" data-ward-select
+                    data-placeholder="@L["Customer_Address_SelectWard"]">
+                <option value="">@L["Customer_Address_SelectWard"]</option>
+                @foreach (var ward in Model.Wards)
+                {
+                    <option value="@ward.Code">@ward.Name</option>
+                }
+            </select>
+            <span asp-validation-for="WardCode" class="block text-sm text-danger-ink min-h-5"></span>
+        </div>
+    </div>
+
     <div class="md:col-span-2">
         <label asp-for="Address" class="block text-sm font-semibold mb-1"></label>
-        <input asp-for="Address" class="input" autocomplete="off" />
+        <input asp-for="Address" class="input" autocomplete="off"
+               placeholder="@L["Customer_Address_DetailPlaceholder"]" />
         <span asp-validation-for="Address" class="block text-sm text-danger-ink min-h-5"></span>
+        @if (Model.HasLegacyAddress)
+        {
+            @* An old row may hold the whole three-level address, including a district that no
+               longer exists. It is shown as it was saved and is only replaced if the user edits it. *@
+            <p class="text-xs text-muted mt-1">@L["Customer_Address_LegacyHint"]</p>
+        }
     </div>
 
     <div>

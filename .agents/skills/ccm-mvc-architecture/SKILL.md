@@ -58,7 +58,7 @@ dotnet ef dbcontext scaffold "Name=ConnectionStrings:DefaultConnection" Microsof
   --context ApplicationDbContext --context-dir Models/EF --output-dir Models/Entities --no-onconfiguring --force
 ```
 
-After a schema change, run the 4 SQL files again and re-scaffold (`--force` overwrites). Because
+After a schema change, run the 5 SQL files again and re-scaffold (`--force` overwrites). Because
 of that, **every customisation must live outside the scaffolded files**: use
 `partial void OnModelCreatingPartial(ModelBuilder)` in `ApplicationDbContext.Custom.cs` and
 partial classes for entities. EF Core 8 or later is required (for `SqlQueryRaw` with arbitrary

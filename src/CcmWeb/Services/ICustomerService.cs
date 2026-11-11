@@ -37,6 +37,18 @@ public interface ICustomerService
     /// <summary>The employees the owner filter and the owner dropdown offer.</summary>
     Task<IReadOnlyList<EmployeeOption>> GetOwnersAsync(CancellationToken ct = default);
 
+    /// <summary>The active provinces/cities, ordered by the name shown on screen.</summary>
+    Task<IReadOnlyList<AddressOption>> GetProvincesAsync(CancellationToken ct = default);
+
+    /// <summary>The active wards of one province, ordered by name.</summary>
+    Task<IReadOnlyList<AddressOption>> GetWardsAsync(int provinceCode, CancellationToken ct = default);
+
+    /// <summary>
+    /// Fills the two address dropdowns on the form. Called again after a failed POST so the user's
+    /// chosen province still shows its wards without a second round trip to the browser.
+    /// </summary>
+    Task PopulateAddressAsync(CustomerFormViewModel form, CancellationToken ct = default);
+
     /// <summary>
     /// Gợi ý cho ô tìm nhanh trên thanh trên cùng: tối đa <paramref name="count"/> khách hàng đang
     /// hoạt động, chỉ mã, tên và loại. Từ khóa ngắn hơn 2 ký tự trả về danh sách rỗng mà không hỏi

@@ -1,6 +1,6 @@
 ---
 name: ccm-database
-description: Single source of truth for the CustomerCareDB database (SQL Server, version 2) of the customer care management system - tables, columns, constraints, views, stored procedures, triggers, error codes 50001-50015, the AUDIT_LOG, and how to run the 4 SQL files. Read this skill before writing or changing any SQL, repository, Service, controller or screen that touches data - customers, contracts, contacts, care, feedback, employees, accounts, dashboard, reports. Read it even when you think you already know the schema, because the DB ships with business logic that outside code must not reimplement.
+description: Single source of truth for the CustomerCareDB database (SQL Server, version 2) of the customer care management system - tables, columns, constraints, views, stored procedures, triggers, error codes 50001-50015, the AUDIT_LOG, the local province/ward catalogue, and how to run the 5 SQL files. Read this skill before writing or changing any SQL, repository, Service, controller or screen that touches data - customers, contracts, contacts, care, feedback, employees, accounts, dashboard, reports. Read it even when you think you already know the schema, because the DB ships with business logic that outside code must not reimplement.
 ---
 
 # Database CustomerCareDB (version 2)
@@ -61,8 +61,8 @@ dropdowns) instead of scattering string literals.
 
 ## Running the database
 
-Four files in `database/`, run in order. File `01` **drops and recreates** the database, so old
-data is lost.
+Five files in `database/`, run in order. File `01` **drops and recreates** the database, so old
+data is lost. File `05` is the only one that is safe and useful on an existing database.
 
 | Order | File | Purpose |
 |---|---|---|
@@ -70,6 +70,7 @@ data is lost.
 | 2 | `02_Function_View_Proc_Trigger.sql` | Functions, views, procedures, triggers, roles (runs before the data so the triggers compute) |
 | 3 | `03_SampleData.sql` | Sample data, dates relative to today |
 | 4 | `04_CreateAppUser.sql` | The `app_ccm` login for the web app (`APP_PASSWORD` variable) |
+| 5 | `05_AddressData.sql` | Province/ward catalogue + the optional `CUSTOMER` address columns. Generated from `database/address/vn-provinces.json`; merges rows and creates missing schema, so it follows every environment update |
 
 With `sqlcmd` these flags are mandatory; without them it fails:
 
@@ -94,6 +95,10 @@ every status/type stay English (`ccm-language`). `SETTINGS` is seeded with two s
 
 ## When the schema must change
 
-Edit the files in `database/`, run all four again, then update `references/schema.md` and
+Edit the files in `database/`, run all five again, then update `references/schema.md` and
 `docs/design.md` if they are affected. Never change the schema from application code or an EF
 Core migration (this project is database-first).
+
+For a new administrative data refresh, do **not** edit `05_AddressData.sql` by hand. Run
+`database/address/update-address-data.ps1` (it downloads the source once and regenerates the SQL),
+then commit both `vn-provinces.json` and `05_AddressData.sql`.

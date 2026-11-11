@@ -101,13 +101,19 @@ public class CustomersController(
 
     [HttpGet("/customers/create")]
     [Authorize(Roles = $"{WorkConstants.Roles.Manager},{WorkConstants.Roles.Sales}")]
-    public async Task<IActionResult> Create(CancellationToken ct) =>
-        View(new CustomerFormViewModel
+    public async Task<IActionResult> Create(CancellationToken ct)
+    {
+        var model = new CustomerFormViewModel
         {
             Owners = await customers.GetOwnersAsync(ct),
             // Whoever adds the customer owns it until somebody changes the owner.
             OwnerEmployeeId = User.GetEmployeeID()
-        });
+        };
+
+        await customers.PopulateAddressAsync(model, ct);
+
+        return View(model);
+    }
 
     [HttpPost("/customers/create")]
     [Authorize(Roles = $"{WorkConstants.Roles.Manager},{WorkConstants.Roles.Sales}")]
@@ -136,6 +142,15 @@ public class CustomersController(
 
     /// <summary>The tabs of the detail page. The open one lives in the address (?tab=contracts).</summary>
     private static readonly string[] Tabs = ["overview", "contracts", "history", "feedback"];
+
+    /// <summary>
+    /// The wards of one province for the cascading address dropdown. It reads the local catalogue
+    /// loaded from database/address/vn-provinces.json, never the external API.
+    /// </summary>
+    [HttpGet("/customers/wards")]
+    [Produces("application/json")]
+    public async Task<IActionResult> Wards(int provinceCode, CancellationToken ct) =>
+        Json(await customers.GetWardsAsync(provinceCode, ct));
 
     [HttpGet("/customers/{id:int}")]
     public async Task<IActionResult> Details(int id, string? tab = null, CancellationToken ct = default)
@@ -222,6 +237,7 @@ public class CustomersController(
     private async Task<IActionResult> BackToFormAsync(CustomerFormViewModel model, CancellationToken ct)
     {
         model.Owners = await customers.GetOwnersAsync(ct);
+        await customers.PopulateAddressAsync(model, ct);
 
         return View(model);
     }
@@ -248,6 +264,9 @@ public class CustomersController(
                 "Error_CustomerPhoneInvalid" => nameof(CustomerFormViewModel.Phone),
                 "Error_CustomerBirthDateInvalid" or "Error_BusinessCustomerNoGender"
                     => nameof(CustomerFormViewModel.DateOfBirth),
+                "Validation_CustomerWardRequiresProvince" or "Error_CustomerWardInvalid"
+                    => nameof(CustomerFormViewModel.WardCode),
+                "Error_CustomerProvinceInvalid" => nameof(CustomerFormViewModel.ProvinceCode),
                 _ => string.Empty
             },
             messageKey);
